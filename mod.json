@@ -1,10 +1,10 @@
 {
 	"name" : "WOG New Age",
-	"description" : "Full WOG experience for VCMI. Extends wake-of-gods with missing classic WOG features: alternate creature upgrade paths (Santa Gremlins, Sylvan Centaurs, War Zealots, Nightmares) and more. Based on classic WOG 3.58f scripts ported to VCMI.",
+	"description" : "Full WOG experience for FCMI/VCMI. Extends wake-of-gods with missing classic WOG features: alternate creature upgrade paths (Santa Gremlins, Sylvan Centaurs, War Zealots) and weekly gold income bonus. Based on classic WOG 3.58f scripts ported to VCMI Lua.",
 	"modType" : "Expansion",
 	"author" : "Depache",
 	"contact" : "",
-	"version" : "0.3.0",
+	"version" : "0.4.0",
 	"compatibility" : {
 		"min" : "1.7.0"
 	},
@@ -13,5 +13,11 @@
 	],
 	"creatures" : [
 		"config/creatures/altUpgradesCreaturePatch.json"
-	]
+	],
+	"scripts" : {
+		"wogWeeklyIncome" : {
+			"source" : "scripts/wog_weekly_income.lua",
+			"implements" : "ANYTHING"
+		}
+	}
 }
