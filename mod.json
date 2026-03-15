@@ -1,0 +1,17 @@
+{
+	"name" : "WOG New Age",
+	"description" : "Full WOG experience for VCMI. Extends wake-of-gods with missing classic WOG features: alternate creature upgrade paths (Santa Gremlins, Sylvan Centaurs, War Zealots, Nightmares) and more. Based on classic WOG 3.58f scripts ported to VCMI.",
+	"modType" : "Expansion",
+	"author" : "Depache",
+	"contact" : "",
+	"version" : "0.3.0",
+	"compatibility" : {
+		"min" : "1.7.0"
+	},
+	"depends" : [
+		"wake-of-gods"
+	],
+	"creatures" : [
+		"config/creatures/altUpgradesCreaturePatch.json"
+	]
+}

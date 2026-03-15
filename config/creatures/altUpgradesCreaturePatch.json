@@ -1,0 +1,11 @@
+{
+	"core:masterGremlin" : {
+		"upgrades" : ["wake-of-gods.creatures:santaGremlin"]
+	},
+	"core:centaurCaptain" : {
+		"upgrades" : ["wake-of-gods.creatures:sylvanCentaur"]
+	},
+	"core:zealot" : {
+		"upgrades" : ["wake-of-gods.creatures:warZealot"]
+	}
+}
