@@ -14,9 +14,17 @@
 	"creatures" : [
 		"config/creatures/altUpgradesCreaturePatch.json"
 	],
+	"filesystem" : {
+		"" : [
+			{
+				"type" : "dir",
+				"path" : "/"
+			}
+		]
+	},
 	"scripts" : {
 		"wogWeeklyIncome" : {
-			"source" : "scripts/wog_weekly_income.lua",
+			"source" : "wog_weekly_income.lua",
 			"implements" : "ANYTHING"
 		}
 	}
