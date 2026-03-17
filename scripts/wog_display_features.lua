@@ -59,7 +59,8 @@ wogDisplayFeaturesSub = PlayerGotTurn.subscribeAfter(EVENT_BUS, function(event)
 	add(C.witchHutsEnabled,          "Advanced Witch Huts (teaches at Advanced level for 1000g)")
 	add(C.heroSpecBoostEnabled,      "Hero Specialization Boost (+1 primary skill at milestone levels)")
 	add(C.heroHiredEnabled,          "Hero Hiring Enhancement (newly hired heroes gain a fitting secondary skill)")
-	add(C.creatureRelationsEnabled,  "Creature Relationships (army synergy XP bonus)")
+	add(C.creatureRelationsEnabled,  "Creature Relationships (army synergy XP bonus; hate pairs +15% damage)")
+	add(C.protectionElementsEnabled, "Enhanced Protection from Elements (protection spells reduce elemental physical attacks by " .. (C.protectionReductionPct or 35) .. "%)")
 
 	-- Starting conditions & map rules
 	add(C.startingArmiesEnabled,     "Rebalanced Starting Armies (+" .. (C.startingBonusCount or 8) .. " tier-1 troops per hero on day 1)")

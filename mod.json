@@ -149,6 +149,10 @@
 		"wogSpecialTerrain": {
 			"source": "wog_special_terrain.lua",
 			"implements": "ANYTHING"
+		},
+		"wogProtectionElements": {
+			"source": "wog_protection_elements.lua",
+			"implements": "ANYTHING"
 		}
 	}
 }

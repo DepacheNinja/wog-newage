@@ -73,6 +73,7 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | Option | Feature | Status |
 |--------|---------|--------|
 | 47 | **Creature Relationships** | Allied pair XP done; hate pair +15% damage via ApplyDamage getAttacker/getCreatureId; morale/luck pending (needs bonus API) |
+| 61 | **Enhanced Protection from Elements** | Protection spells (protectFire/Air/Water/Earth) now reduce physical elemental attacks by 35% via ApplyDamage + hasBonusFromSpell() FCMI API |
 | 220 | **Battle Extender** | Gold refund; need retreat intercept for true rejoin mechanic |
 | 900 | **Stack Experience** | Hero-level approximation; need per-stack tracking + creature stat API |
 | 39 | **Hero Specialization Boost** | Milestone primary skill boost; true specialty scaling needs hero type API |
@@ -94,7 +95,7 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 
 | Option | Feature | Description |
 |--------|---------|-------------|
-| 61 | **Enhanced Protection from Elements** | Protection spells vs. elementals have stronger effects |
+| ~~61~~ | ~~**Enhanced Protection from Elements**~~ | Done — moved to ✅ |
 
 ### Hero & Skills
 
@@ -224,7 +225,7 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 
 | Status | Count |
 |--------|-------|
-| ✅ Done | 56 |
+| ✅ Done | 57 |
 | 🟡 Partial | 4 |
 | 🔴 Todo (Lua, doable) | ~20 |
 | 🏗️ Hard (needs engine) | 8 |

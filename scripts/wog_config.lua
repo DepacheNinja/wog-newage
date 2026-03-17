@@ -165,6 +165,14 @@ C.startingBonusCount     = 8      -- tier-1 creatures to add per hero
 C.startingBonusSlot      = 6      -- army slot to fill (0-6; slot 6 = last slot)
 
 -- =====================================================================
+-- ENHANCED PROTECTION FROM ELEMENTS (option 61)
+-- =====================================================================
+-- Extends Protection spells to reduce physical damage from opposing elementals.
+-- Fire Elementals vs protectFire, Air Elementals vs protectAir, etc.
+C.protectionElementsEnabled   = true  -- enable elemental protection damage reduction
+C.protectionReductionPct      = 35    -- % physical damage reduced when protected (35% = midpoint of basic 30% / adv 50%)
+
+-- =====================================================================
 -- DISPLAY WOGIFICATION MESSAGES (option 248)
 -- =====================================================================
 C.displayFeaturesEnabled  = true   -- show active WOG features to human players on day 1
