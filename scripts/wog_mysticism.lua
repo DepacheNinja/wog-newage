@@ -23,7 +23,7 @@ DATA.WOG = DATA.WOG or {}
 local C = DATA.WOG
 
 -- WOG: % of max SP regenerated per day per skill level [basic, advanced, expert]
-local BONUS_PCT = {10, 20, 30}
+local BONUS_PCT = C.mysticismBonusPct or {10, 20, 30}
 
 -- VCMI native flat Mysticism amounts (from config/skills.json values: 1/2/3)
 -- Subtract these so we don't double-count what the engine already gives.

@@ -31,6 +31,9 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | 210 | **Resistance Enhancement** | Magic resist: 10/20/30% (was 5/10/20%) via JSON |
 | 208 | **Navigation Enhancement** | Water movement: 60/110/165% (was 50/100/150%) via JSON |
 | 209 | **Pathfinding Enhancement** | Terrain penalty: 35/60/75% reduction via JSON |
+| 103/202 | **Eagle Eye Enhancement** | Chance 50/65/80% (was 40/50/60%), learns up to level 3/4/5 (was 2/3/4) via JSON |
+| 212 | **Scouting Enhancement** | Sight radius 2/3/5 (was 1/2/3) via JSON |
+| 218 | **Tactics Enhancement** | Deployment zone +1 row per level via JSON |
 | 39 | **Hero Specialization Boost** | +1 primary skill at milestone levels (5/10/15/20/25/30) |
 | 220 | **Battle Extender** | 1000 gold refund to losing human player; full retreat pending |
 | 47 | **Creature Relationships** | 5% synergy XP bonus post-battle; morale/attack pending |
@@ -71,12 +74,8 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 
 | Option | Feature | Description |
 |--------|---------|-------------|
-| 103 | **Eagle Eye II** | Learn higher-circle spells; counter enemy spells |
-| 202 | **Eagle Eye I** | Better Eagle Eye chance |
 | 206 | **Luck I** | Bigger damage boost on lucky strikes |
-| 211 | **Scholar I** | Share better spells |
-| 212 | **Scouting II** | Reveal more map area |
-| 218 | **Tactics I** | More pre-battle rows |
+| 211 | **Scholar I** | Share better spells (partially done via Scholar weekly research) |
 | 201 | **Artillery I (Enhanced)** | Stronger Ballista bonuses |
 | 198 | **Rebalanced Hero Abilities** | Starting skills rebalanced |
 | 194 | **Advanced Witch Huts** | Can learn higher skills; pay to upgrade |
@@ -200,9 +199,9 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 
 | Status | Count |
 |--------|-------|
-| ✅ Done | 20 |
+| ✅ Done | 23 |
 | 🟡 Partial | 5 |
-| 🔴 Todo (Lua, doable) | ~45 |
+| 🔴 Todo (Lua, doable) | ~42 |
 | 🏗️ Hard (needs engine) | 8 |
 | ⚫ Map objects | 14 |
 | ❓ Resolved unknowns | 10 |

@@ -138,24 +138,48 @@
 	},
 	"core:eagleEye": {
 		"basic": {
-			"description": "{Eagle Eye — Basic [WOG Enhanced]}\n\n40% chance to learn spells of levels 1-2 used by enemies in battle.\n\nWOG Enhancement: Can now learn level 3 spells. Chance increased to 50%."
+			"effects": {
+				"main": { "val": 50 },
+				"val2": { "val": 3 }
+			},
+			"description": "{Eagle Eye — Basic [WOG Enhanced]}\n\n50% chance to learn spells of levels 1-3 used by enemies in battle.\n\nWOG Enhancement: Can now learn level 3 spells. Chance increased to 50%."
 		},
 		"advanced": {
-			"description": "{Eagle Eye — Advanced [WOG Enhanced]}\n\n50% chance to learn spells of levels 1-3 used by enemies in battle.\n\nWOG Enhancement: Can learn level 4 spells. Chance increased to 65%."
+			"effects": {
+				"main": { "val": 65 },
+				"val2": { "val": 4 }
+			},
+			"description": "{Eagle Eye — Advanced [WOG Enhanced]}\n\n65% chance to learn spells of levels 1-4 used by enemies in battle.\n\nWOG Enhancement: Can learn level 4 spells. Chance increased to 65%."
 		},
 		"expert": {
-			"description": "{Eagle Eye — Expert [WOG Enhanced]}\n\n60% chance to learn spells of levels 1-4 used by enemies in battle.\n\nWOG Enhancement: Can learn level 5 spells (including adventure map spells)."
+			"effects": {
+				"main": { "val": 80 },
+				"val2": { "val": 5 }
+			},
+			"description": "{Eagle Eye — Expert [WOG Enhanced]}\n\n80% chance to learn spells of levels 1-5 used by enemies in battle.\n\nWOG Enhancement: Can learn level 5 spells. Chance increased to 80%."
 		}
 	},
 	"core:tactics": {
 		"basic": {
+			"effects": {
+				"main": { "val": 3 },
+				"block": { "val": 3 }
+			},
 			"description": "{Tactics — Basic [WOG Enhanced]}\n\nRearrange troops in a 3-hex-deep zone before battle (base 2).\n\nWOG Enhancement: Tactics I extends the deployment zone by 1 hex."
 		},
 		"advanced": {
-			"description": "{Tactics — Advanced [WOG Enhanced]}\n\nRearrange troops in a 4-hex-deep zone before battle (base 3).\n\nWOG Enhancement: Tactics I extends the deployment zone by 1 hex."
+			"effects": {
+				"main": { "val": 5 },
+				"block": { "val": 5 }
+			},
+			"description": "{Tactics — Advanced [WOG Enhanced]}\n\nRearrange troops in a 5-hex-deep zone before battle (base 4).\n\nWOG Enhancement: Tactics I extends the deployment zone by 1 hex."
 		},
 		"expert": {
-			"description": "{Tactics — Expert [WOG Enhanced]}\n\nRearrange troops in a 6-hex-deep zone before battle (base 5).\n\nWOG Enhancement: Expert Tactics — near-full battlefield repositioning."
+			"effects": {
+				"main": { "val": 7 },
+				"block": { "val": 7 }
+			},
+			"description": "{Tactics — Expert [WOG Enhanced]}\n\nRearrange troops in a 7-hex-deep zone before battle (base 6).\n\nWOG Enhancement: Expert Tactics — near-full battlefield repositioning."
 		}
 	},
 	"core:scholar": {
@@ -171,12 +195,21 @@
 	},
 	"core:scouting": {
 		"basic": {
+			"effects": {
+				"main": { "val": 2 }
+			},
 			"description": "{Scouting — Basic [WOG Enhanced]}\n\nIncreases hero's sight radius by 2 tiles (base 1).\n\nWOG Enhancement: Scouting II doubles the sight radius increase."
 		},
 		"advanced": {
+			"effects": {
+				"main": { "val": 3 }
+			},
 			"description": "{Scouting — Advanced [WOG Enhanced]}\n\nIncreases hero's sight radius by 3 tiles (base 2).\n\nWOG Enhancement: Scouting II provides additional vision distance."
 		},
 		"expert": {
+			"effects": {
+				"main": { "val": 5 }
+			},
 			"description": "{Scouting — Expert [WOG Enhanced]}\n\nIncreases hero's sight radius by 5 tiles (base 3).\n\nWOG Enhancement: Expert Scouting — broad map awareness."
 		}
 	},

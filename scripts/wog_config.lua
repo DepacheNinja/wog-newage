@@ -43,12 +43,11 @@ C.karmicLoserPct          = 10     -- consolation % for loser in close battle
 -- =====================================================================
 
 -- Mysticism enhancement (options 35 / 207)
--- Extra spell points regenerated per day, ON TOP of base VCMI Mysticism.
--- Base VCMI:    Basic=2, Adv=3, Expert=4 SP/day
--- WOG Enhanced: Basic=3, Adv=5, Expert=8 SP/day
--- So this adds:     +1,    +2,      +4 SP/day
+-- WOG Classic: 10%/20%/30% of max SP regenerated per day (Knowledge × 10 = max SP).
+-- VCMI base gives 1/2/3 SP/day flat; WOG formula subtracts that to avoid double-count.
+-- Example: Knowledge=20 (200 max SP) → Expert gives 60 SP/day total.
 C.mysticismEnabled        = true
-C.mysticismBonusSP        = {1, 2, 4}  -- [basic, advanced, expert] extra SP/day
+C.mysticismBonusPct       = {10, 20, 30}  -- [basic, advanced, expert] % of max SP/day
 
 -- Estates enhancement (option 203)
 -- Extra gold per day per hero with Estates, scaling with hero level.
