@@ -195,6 +195,14 @@
 		"wogArtificer": {
 			"source": "wog_artificer.lua",
 			"implements": "ANYTHING"
+		},
+		"wogMithrilAccum": {
+			"source": "wog_mithril_accumulation.lua",
+			"implements": "ANYTHING"
+		},
+		"wogMithrilSpend": {
+			"source": "wog_mithril_spending.lua",
+			"implements": "ANYTHING"
 		}
 	},
 	"settings": {

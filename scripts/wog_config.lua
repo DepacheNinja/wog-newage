@@ -303,10 +303,31 @@ C.displayFeaturesEnabled  = true   -- show active WOG features to human players 
 -- =====================================================================
 -- Map object "wogArtificer" upgrades an equipped artifact to the next tier.
 -- Up to 2 upgrades per Artificer per day; the second visit costs double.
--- Gold costs follow classic ERM script26 table (Mithril cost deferred).
+-- Gold costs follow classic ERM script26 table.
 -- Auto-selects the most expensive artifact the hero can currently afford.
 -- (Interactive dialog requires client-side dialog API not yet available in Lua.)
 C.artificerEnabled = true
+
+-- =====================================================================
+-- MITHRIL ACCUMULATION (options 170/171)
+-- =====================================================================
+-- Day 1: 1/mithrilPileFreq resource piles and campfires are seeded with Mithril.
+-- Weekly: 1/mithrilWindmillFreq windmills, water wheels, mystical gardens give Mithril.
+-- Mithril is stored in DATA.WOG.playerMithril[playerIdx] — not a real game resource.
+C.mithrilAccumEnabled  = true
+C.mithrilPileFreq      = 15    -- 1 in N resource piles contain Mithril (ERM default: 15)
+C.mithrilCampfireFreq  = 15    -- 1 in N campfires contain Mithril (ERM default: 15)
+C.mithrilWindmillFreq  = 10    -- 1 in N windmills/wheels/gardens give Mithril weekly (ERM default: 10)
+
+-- =====================================================================
+-- MITHRIL SPENDING (option 36)
+-- =====================================================================
+-- Visit a mine or windmill you own to spend Mithril for enhancements.
+-- Mine upgrade: double production for 1 week (4 Mithril; 7 for gold mines).
+-- Windmill/water wheel upgrade: double production this week (5 Mithril).
+-- More spending options (shrine reroll, dwelling upgrade, etc.) require
+-- additional FCMI APIs — added in future phases.
+C.mithrilEnabled = true
 
 -- =====================================================================
 -- DEATH CHAMBER (option 70)
