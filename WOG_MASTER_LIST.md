@@ -34,6 +34,7 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | 103/202 | **Eagle Eye Enhancement** | Chance 50/65/80% (was 40/50/60%), learns up to level 3/4/5 (was 2/3/4) via JSON |
 | 212 | **Scouting Enhancement** | Sight radius 2/3/5 (was 1/2/3) via JSON |
 | 218 | **Tactics Enhancement** | Deployment zone +1 row per level via JSON |
+| 206 | **Luck I Enhancement** | Lucky strikes deal +50% initial damage extra (total ~3× normal) via ApplyDamage |
 | 39 | **Hero Specialization Boost** | +1 primary skill at milestone levels (5/10/15/20/25/30) |
 | 220 | **Battle Extender** | 1000 gold refund to losing human player; full retreat pending |
 | 47 | **Creature Relationships** | 5% synergy XP bonus post-battle; morale/attack pending |
@@ -74,7 +75,6 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 
 | Option | Feature | Description |
 |--------|---------|-------------|
-| 206 | **Luck I** | Bigger damage boost on lucky strikes |
 | 211 | **Scholar I** | Share better spells (partially done via Scholar weekly research) |
 | 201 | **Artillery I (Enhanced)** | Stronger Ballista bonuses |
 | 198 | **Rebalanced Hero Abilities** | Starting skills rebalanced |
@@ -199,9 +199,9 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 
 | Status | Count |
 |--------|-------|
-| ✅ Done | 23 |
+| ✅ Done | 24 |
 | 🟡 Partial | 5 |
-| 🔴 Todo (Lua, doable) | ~42 |
+| 🔴 Todo (Lua, doable) | ~41 |
 | 🏗️ Hard (needs engine) | 8 |
 | ⚫ Map objects | 14 |
 | ❓ Resolved unknowns | 10 |

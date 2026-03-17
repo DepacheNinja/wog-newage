@@ -69,6 +69,12 @@ C.learningBonusXP         = {100, 200, 300}  -- XP/day per [basic, advanced, exp
 -- Expert: 60% chance for level 1-4 spell
 C.scholarEnabled          = true
 
+-- Luck I enhancement (option 206)
+-- Lucky strikes deal extra damage on top of the 2× base lucky multiplier.
+-- WOG: +50% of initial damage extra (making lucky hits ~3× normal).
+C.luckEnabled             = true
+C.luckExtraPct            = 50   -- extra % of initial damage added to lucky hits
+
 -- Treasure Chest Enhancement (option 132)
 -- After visiting a chest, hero gets extra 500 gold or XP.
 C.treasureChestsEnabled   = true
