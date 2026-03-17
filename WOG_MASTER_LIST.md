@@ -77,6 +77,8 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | 242 | **Some Level 3s → Ghosts** | 1 in 3 tier-3 neutral dwellings replaced with WOG Ghost on day 1 |
 | 195 | **Replace Objects** | WOG map objects available via wake-of-gods.mapObjects dependency |
 | 52 | **Mirror of the Home-Way** | Works via wake-of-gods.mapObjects (configurable handler, townPortal spell at expert) |
+| 75 | **Abbreviated Skill Descriptions** | All enhanced_skills.json descriptions shortened to compact 1-2 line format with actual WOG values |
+| 244 | **Summon Elementals Script** | Already implemented in VCMI core — Summon Elementals spell works natively |
 
 ---
 
@@ -169,7 +171,7 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 |--------|---------|-------------|
 | 22 | **Monster Mutterings** | Hovering shows creature thoughts |
 | 24 | **Enhanced Hint Text** | Better hover descriptions |
-| 75 | **Abbreviated Skill Descriptions** | Shorter skill tooltips |
+| ~~75~~ | ~~**Abbreviated Skill Descriptions**~~ | Done — all enhanced_skills.json descriptions shortened to compact 1-2 line format |
 | ~~248~~ | ~~**Display WoGification Messages**~~ | Done — moved to ✅ |
 | ~~230~~ | ~~**Display Map Rules**~~ | Done — moved to ✅ |
 
@@ -185,7 +187,7 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | ~~52~~ | ~~**Mirror of the Home-Way**~~ | Done via dependency — wake-of-gods.mapObjects implements it via configurable handler + townPortal spell cast |
 | 58 | **Espionage** | Hero scouting/intel system |
 | 70 | **Death Chamber** | Special hero leveling |
-| 244 | **Summon Elementals Script** | New battle spell effects |
+| ~~244~~ | ~~**Summon Elementals Script**~~ | Done — VCMI core already implements Summon Elementals spell natively |
 | 192 | **Transfer Owner** | SetObjectProperty/GiveHero APIs now available; needs map scripting trigger to be useful |
 
 ---
@@ -232,10 +234,10 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 
 | Status | Count |
 |--------|-------|
-| ✅ Done | 77 |
+| ✅ Done | 79 |
 | 🟡 Partial | 1 |
-| 🔴 Todo (Lua, doable) | ~4 |
-| 🏗️ Hard (needs engine) | 8 |
+| 🔴 Todo (Lua, doable) | ~2 |
+| 🏗️ Hard (needs engine) | 7 |
 | ⚫ Map objects | 14 |
 | ❓ Resolved unknowns | 10 |
 | **Total enabled** | **~130** |
