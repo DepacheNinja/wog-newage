@@ -1,25 +1,27 @@
 -- wog_creature_relations.lua
 -- WOG New Age — Creature Relationships (option 47)
 --
--- Some creatures have special relationships with others, granting
--- bonus XP when they fight together, plus future morale/luck effects.
+-- Some creatures have special relationships with others:
+--   Allied (same army): bonus XP to the winner for each active pair
+--   Hated (opposing armies): +15% damage when attacker targets hated creature
 --
 -- Classic WOG relationships (from script47.erm):
---   Angels ally with Archons (Paladins) → +1 morale for whole army
---   Undead with Liches → morale synergy
---   Dwarves with Elves → +1 luck (forest kin)
---   Titans vs Black Dragons → mutual +1 attack
---   Pegasi with Cavaliers → speed synergy
+--   Angels ally with Archons (Paladins) — holy bond
+--   Undead with Liches — undead synergy
+--   Dwarves with Elves — forest kin
+--   Titans vs Black Dragons — mutual rivalry
+--   Pegasi with Cavaliers — speed synergy
+--   Angels/Archangels hate Liches/Power Liches — holy vs undead conflict
+--   Tower genies hate Inferno demons
 --
--- VCMI current implementation:
+-- VCMI implementation:
 --   BattleStarted: scan hero armies, build army creature ID sets
---   BattleEnded: if both sides had relationship creatures, award synergy XP
---   Synergy XP = 5% extra to winner for each active relationship found
---
--- Future: Apply morale/attack bonuses mid-battle when battle API allows.
+--   BattleEnded: award 5% synergy XP per active allied pair in winner's army
+--   ApplyDamage: +15% damage when attacker is a hated creature type (hate pairs)
 
 local BattleStarted     = require("events.BattleStarted")
 local BattleEnded       = require("events.BattleEnded")
+local ApplyDamage       = require("events.ApplyDamage")
 local SetHeroExperience = require("netpacks.SetHeroExperience")
 
 DATA.WOG = DATA.WOG or {}
@@ -47,13 +49,34 @@ local ALLIED_PAIRS = {
 	{84, 85, "Troglodyte tribe"},              -- both troglodyte types
 }
 
--- Opposite-army hatred: {creatureIdA (attacker), creatureIdB (defender)}
--- When A's army and B's army oppose each other in battle
-local HATE_PAIRS = {
-	{14, 78, "Angels vs Liches"},    -- holy vs undead
-	{15, 79, "Archangels vs Power Liches"},
-	{50, 51, "Genie vs Genie Master vs Demon"},  -- Tower vs Inferno
+-- Opposite-army hatred: {attackerCreatureId, targetCreatureId, description}
+-- When attacker creature hits the target creature type, deal +HATE_BONUS_PCT damage.
+-- Pairs are bidirectional — both {A,B} and {B,A} are handled.
+local HATE_BONUS_PCT = 15  -- +15% damage on hate attacks
+
+-- Build a fast lookup map: hatePairs[attackerCreatureId][targetCreatureId] = true
+local hatePairDefinitions = {
+	{14, 78},   -- Angel → Lich
+	{15, 79},   -- Archangel → Power Lich
+	{78, 14},   -- Lich → Angel
+	{79, 15},   -- Power Lich → Archangel
+	{50, 56},   -- Genie → Imp (Tower vs Inferno tier 1)
+	{51, 57},   -- Master Genie → Familiar
+	{56, 50},   -- Imp → Genie
+	{57, 51},   -- Familiar → Master Genie
+	{107, 110}, -- Behemoth → Dragon (Stronghold vs Dungeon)
+	{108, 111}, -- Ancient Behemoth → Black Dragon
 }
+
+local hateLookup = {}
+for _, pair in ipairs(hatePairDefinitions) do
+	local a, b = pair[1], pair[2]
+	hateLookup[a] = hateLookup[a] or {}
+	hateLookup[a][b] = true
+end
+
+-- For backward compat, keep HATE_PAIRS for display
+local HATE_PAIRS = hatePairDefinitions
 
 -- Per-battle tracking: hero -> set of creature IDs in their army
 -- Key: battleId (using attacker+defender hero combo as string key)
@@ -150,4 +173,31 @@ wogCreatureRelationsSub = BattleEnded.subscribeAfter(EVENT_BUS, function(event)
 	pack:setValue(bonus)
 	pack:setMode(false)
 	SERVER:commitPackage(pack)
+end)
+
+-- ApplyDamage: +HATE_BONUS_PCT% damage when attacker is a hated creature of the target type
+-- Uses the new getAttacker() and getCreatureId() FCMI API additions
+wogCreatureHateSub = ApplyDamage.subscribeBefore(EVENT_BUS, function(event)
+	if not C.creatureRelationsEnabled then return end
+
+	local attacker = event:getAttacker()
+	if not attacker then return end
+	local target   = event:getTarget()
+	if not target then return end
+
+	local attackerCreatureId = attacker:getCreatureId()
+	local targetCreatureId   = target:getCreatureId()
+	if attackerCreatureId == nil or targetCreatureId == nil then return end
+
+	-- Check if attacker hates this target type
+	local attackerHates = hateLookup[attackerCreatureId]
+	if not attackerHates then return end
+	if not attackerHates[targetCreatureId] then return end
+
+	-- Apply hate damage bonus: +HATE_BONUS_PCT% of current damage
+	local current = event:getDamage()
+	if current <= 0 then return end
+	local bonus = math.floor(current * HATE_BONUS_PCT / 100)
+	if bonus < 1 then return end
+	event:setDamage(current + bonus)
 end)

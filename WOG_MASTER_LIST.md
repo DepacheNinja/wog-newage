@@ -72,7 +72,7 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 
 | Option | Feature | Status |
 |--------|---------|--------|
-| 47 | **Creature Relationships** | BattleStarted used to scan armies; synergy XP per allied pair; morale/attack effects pending |
+| 47 | **Creature Relationships** | Allied pair XP done; hate pair +15% damage via ApplyDamage getAttacker/getCreatureId; morale/luck pending (needs bonus API) |
 | 220 | **Battle Extender** | Gold refund; need retreat intercept for true rejoin mechanic |
 | 900 | **Stack Experience** | Hero-level approximation; need per-stack tracking + creature stat API |
 | 39 | **Hero Specialization Boost** | Milestone primary skill boost; true specialty scaling needs hero type API |
