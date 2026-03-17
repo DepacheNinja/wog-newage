@@ -20,10 +20,10 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | 173 | **Extended Creature Upgrades** | Alt upgrade paths (Santa Gremlins, Sylvan Centaurs, War Zealots, hellSteed→Nightmare for Inferno, Dracolich for Necropolis) |
 | Custom | **Combat Hardening** | +20% XP after every won battle |
 | Custom | **Daily Gold Bonus** | 100 gold/day per human player |
-| 40 | **First Money** | Each player receives 5000 gold on day 1 |
-| 38 | **Karmic Battles** | Close battles: winner +5% XP, loser +10% consolation XP |
+| 40 | **First Money** | Each player receives 12000 gold + 20 wood/ore + 10 mercury/sulfur/crystal/gems on day 1 (ERM-correct) |
+| 38 | **Combat Veteran Bonus** | Custom approximation — WOG option 38 summons extra creatures in neutral battles based on per-hero Karmic Counter, requiring FCMI battle manipulation API not yet available. Implemented as: close battles: winner +5% XP, loser +10% consolation XP |
 | 203/191 | **Estates Enhancement** | Extra gold per day = heroLevel × multiplier |
-| 35/207 | **Mysticism Enhancement** | +2/3/5 extra SP/day at basic/adv/expert on top of base |
+| 35/207 | **Mysticism Enhancement** | 10/20/30% of max SP/day; Intelligence skill multiplies effective mana (Basic ×1.25, Advanced ×1.5, Expert ×2.0) — ERM-correct |
 | 205/217 | **Learning Enhancement** | Passive 100/200/300 XP/day per skill level |
 | 211 | **Scholar Enhancement** | Weekly 40%/50%/60% chance to research new spell (level 1-4) |
 | 23/213 | **Sorcery Enhancement** | Spell damage: 10/20/30% (was 5/10/15%) via JSON |
@@ -35,15 +35,15 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | 212 | **Scouting Enhancement** | Sight radius 2/3/5 (was 1/2/3) via JSON |
 | 218 | **Tactics Enhancement** | Deployment zone +1 row per level via JSON |
 | 206 | **Luck I Enhancement** | Lucky strikes deal +50% initial damage extra (total ~3× normal) via ApplyDamage |
-| 201 | **Artillery I Enhanced** | Ballista double-damage hits: +25/50/75% extra per skill level via ApplyDamage |
+| 201/54 | **Artillery I Enhanced** | ERM formula: (artilleryLevel + heroLevel) × 20 − 20 % extra on ballista double-hit; falls back to +25/50/75% if hero:getLevel() unavailable |
 | 194 | **Advanced Witch Huts** | Witch Huts teach at Advanced level; deducts 1000g from player |
 | 39 | **Hero Specialization Boost** | +1 primary skill at milestone levels (5/10/15/20/25/30); getHeroTypeId() API now available for further enhancement |
 | 220 | **Battle Extender** | Escape/surrender: 1000g refund (getBattleResult() correctly distinguishes from normal defeat) |
 | 135 | **Wandering Monsters** | Surviving neutral stacks move 1-2 tiles/week (ChangeObjPos netpack; 33% chance per stack/week) |
-| 47 | **Creature Relationships** | Allied pairs: +1 morale (SetStackEffect) + 5% synergy XP; hate pairs: +15% damage |
+| 47 | **Creature Relationships** | Hate pairs: daily intra-army conflict (ERM formula: (14−2×Dip)×moraleMult%, 10−luck% HP loss); Allied pairs: +1 morale + 5% synergy XP (upgrade mechanic requires ChangeCreatureType API not yet in FCMI) |
 | 900 | **Stack Experience (approx.)** | Army XP tracked; +1 primary stat per 5000 XP milestone |
 | 71 | **Enhanced Artifacts** | Conjuring set adds spell damage; Pendant of Death gives undead +5 ATT/DEF |
-| 20 | **Week of Monsters** | +2 ATK/+2 DEF/+1 growth via EntitiesChanged; creature type updateFrom now works (engine fix); announces WOM creature each week |
+| 20 | **Week of Monsters** | ERM-correct: +33% ATK/DEF/Speed/HP/Damage (floor, min +1), +50% growth; week 1 always skipped; war machines (catapult/ballista/firstAidTent) get HP+DEF only; Speed/HP/Damage via pcall (graceful fallback if FCMI API unavailable) |
 | 245 | **Level 7+ Creatures XP Reduction** | BattleStarted tracks tier 7 presence; BattleEnded deducts 50% XP if loser had tier 7 |
 | 45 | **Castle Town Income** | +250g/day per town with City Hall, +500g/day with Capitol (approx. Gold Reserve feature) |
 | 248 | **Display WoGification Messages** | Shows list of active WOG features to human players on day 1 |

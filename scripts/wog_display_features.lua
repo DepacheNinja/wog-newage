@@ -38,13 +38,13 @@ wogDisplayFeaturesSub = PlayerGotTurn.subscribeAfter(EVENT_BUS, function(event)
 	end
 
 	-- Economy
-	add(C.firstMoneyEnabled,        "First Money (+" .. (C.firstMoneyAmount or 5000) .. " gold on day 1)")
+	add(C.firstMoneyEnabled,        "First Money (+" .. (C.firstMoneyAmount or 12000) .. " gold + resources on day 1)")
 	add(C.weeklyIncomeEnabled,       "Daily Gold Bonus (+" .. (C.weeklyIncomeAmount or 100) .. "g/day)")
 	add(C.castleIncomeEnabled,       "Castle Town Income (City Hall +250g, Capitol +500g/day)")
 
 	-- Combat
 	add(C.battleAcademyEnabled,      "Combat Hardening (+" .. (C.battleAcademyBonusPct or 20) .. "% XP per won battle)")
-	add(C.karmicEnabled,             "Karmic Battles (close fights: +5% winner, +10% loser XP)")
+	add(C.karmicEnabled,             "Combat Veteran Bonus (custom: close fights: +5% winner, +10% loser XP)")
 	add(C.level7XPEnabled,           "Level 7+ Creatures XP Reduction (-" .. (C.level7XPReductionPct or 50) .. "% XP vs tier-7 armies)")
 	add(C.luckEnabled,               "Luck Enhancement (lucky hits deal +" .. (C.luckExtraPct or 50) .. "% extra damage)")
 	add(C.artilleryEnabled,          "Artillery Enhancement (Ballista double-hits +25/50/75% extra)")
@@ -60,7 +60,7 @@ wogDisplayFeaturesSub = PlayerGotTurn.subscribeAfter(EVENT_BUS, function(event)
 	add(C.espionageEnabled,          "Espionage (Adv. Scouting: enemy hero count/week; Expert: positions)")
 	add(C.heroSpecBoostEnabled,      "Hero Specialization Boost (+1 primary skill at milestone levels)")
 	add(C.heroHiredEnabled,          "Hero Hiring Enhancement (newly hired heroes gain a fitting secondary skill)")
-	add(C.creatureRelationsEnabled,  "Creature Relationships (allied pairs: +1 morale + synergy XP; hate pairs: +15% damage)")
+	add(C.creatureRelationsEnabled,  "Creature Relationships (hate pairs: daily intra-army conflict; allied pairs: +1 morale + synergy XP)")
 	add(C.protectionElementsEnabled, "Enhanced Protection from Elements (protection spells reduce elemental physical attacks by " .. (C.protectionReductionPct or 35) .. "%)")
 
 	-- Starting conditions & map rules
@@ -76,7 +76,7 @@ wogDisplayFeaturesSub = PlayerGotTurn.subscribeAfter(EVENT_BUS, function(event)
 	add(C.enhancedMonstersEnabled,   "Enhanced Monsters (neutral stacks grow +" .. (C.monsterWeeklyGrowthPct or 10) .. "%/week, cap " .. (C.monsterMaxMultiplier or 3) .. "×)")
 	add(C.neutralStackExpEnabled,    "Neutral Stack Experience (neutral stacks grow +" .. (C.neutralVictoryGrowthPct or 20) .. "% when they defeat a hero)")
 	add(C.neutralUnitsEnabled,       "Neutral Units (wandering monster stacks scaled to " .. (C.neutralSizeMultPct or 150) .. "% on day 1)")
-	add(C.weekOfMonstersEnabled,     "Week of Monsters (+2 ATK/+2 DEF/+1 growth to weekly creature)")
+	add(C.weekOfMonstersEnabled,     "Week of Monsters (+33% ATK/DEF/Speed/HP/Dmg, +50% growth; week 1 skipped)")
 	add(C.wanderingMonstersEnabled,  "Wandering Monsters (surviving stacks move " .. (C.wanderingMonstersMaxRange or 2) .. " tiles/week, " .. (C.wanderingMonstersChancePct or 33) .. "% chance)")
 	add(C.buildingBonusesEnabled,    "Building Bonuses (rewards for Mage Guild 5, Castle, Capitol)")
 

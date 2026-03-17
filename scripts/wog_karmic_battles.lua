@@ -1,13 +1,29 @@
 -- wog_karmic_battles.lua
--- WOG New Age — Karmic Battles (option 38)
+-- WOG New Age — Custom: Combat Veteran Bonus
 --
--- Classic WOG: "Close battles award 5% extra XP" (to winner).
--- Also: losing hero gets consolation XP in close battles (karma).
+-- ╔══════════════════════════════════════════════════════════════════════════════╗
+-- ║ IMPORTANT: This is NOT the actual WOG option 38 mechanic.                  ║
+-- ║                                                                             ║
+-- ║ WOG option 38 "Karmic Battles" (ERM script38 by Dieter Averbeck):          ║
+-- ║   Spawns extra creature stacks alongside neutral monsters in battle,        ║
+-- ║   based on a per-hero Karmic Battle Counter. The counter starts at 2 and   ║
+-- ║   increments each battle. Extra stacks range from 6 random stacks (at low  ║
+-- ║   counts) to 2 calculated stacks (at high counts), with creature types and  ║
+-- ║   quantities scaling with the Karmic Counter.                               ║
+-- ║                                                                             ║
+-- ║   This mechanic requires battle creature manipulation API (BU:S in ERM =    ║
+-- ║   "Battle Unit: Summon") that does not exist in FCMI Lua yet.               ║
+-- ║                                                                             ║
+-- ║ This script implements a custom "Combat Veteran Bonus" instead:             ║
+-- ║   In close battles (armies within 50% AI value ratio), the winner gets      ║
+-- ║   +5% bonus XP and the loser gets 10% consolation XP. This is a good      ║
+-- ║   balance feature and is kept with correct labeling.                        ║
+-- ╚══════════════════════════════════════════════════════════════════════════════╝
 --
 -- VCMI implementation:
 -- At BattleStarted: compute both sides' total AI value to judge army strength ratio.
--- At BattleEnded: if armies were within CLOSE_RATIO of each other, apply karma:
---   1. Winner gets +5% of XP awarded as a karmic bonus
+-- At BattleEnded: if armies were within CLOSE_RATIO of each other, apply bonus:
+--   1. Winner gets +5% of XP awarded as a combat veteran bonus
 --   2. Loser (if hero exists) gets 10% of winner's XP as consolation
 --
 -- Close battle: weaker army had >= CLOSE_RATIO (default 50%) of stronger army's AI value.

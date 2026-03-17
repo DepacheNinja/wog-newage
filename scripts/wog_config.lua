@@ -20,14 +20,14 @@ C.castleIncomeCityHall   = 250    -- gold/day per town with City Hall
 C.castleIncomeCapitol    = 500    -- gold/day per town with Capitol
 
 C.firstMoneyEnabled       = true   -- option 40: Starting gold bonus
-C.firstMoneyAmount        = 5000   -- gold given to each player on day 1 (WoG default: 12000)
-C.firstMoneyResources     = false  -- set true to also give classic WoG starting resources
-C.firstMoneyWood          = 20     -- wood bonus if firstMoneyResources=true
-C.firstMoneyOre           = 20     -- ore bonus if firstMoneyResources=true
-C.firstMoneyMercury       = 10     -- mercury bonus if firstMoneyResources=true
-C.firstMoneySulfur        = 10     -- sulfur bonus if firstMoneyResources=true
-C.firstMoneyCrystal       = 10     -- crystal bonus if firstMoneyResources=true
-C.firstMoneyGems          = 10     -- gems bonus if firstMoneyResources=true
+C.firstMoneyAmount        = 12000  -- gold given to each player on day 1 (WoG classic: 12000)
+C.firstMoneyResources     = true   -- classic WoG gives resources unconditionally alongside gold
+C.firstMoneyWood          = 20     -- wood bonus (ERM: +20 unconditional)
+C.firstMoneyOre           = 20     -- ore bonus (ERM: +20 unconditional)
+C.firstMoneyMercury       = 10     -- mercury bonus (ERM: +10 unconditional)
+C.firstMoneySulfur        = 10     -- sulfur bonus (ERM: +10 unconditional)
+C.firstMoneyCrystal       = 10     -- crystal bonus (ERM: +10 unconditional)
+C.firstMoneyGems          = 10     -- gems bonus (ERM: +10 unconditional)
 
 C.weeklyIncomeEnabled     = true   -- custom: daily 100g for human players
 C.weeklyIncomeAmount      = 100    -- gold per day per human player
@@ -38,9 +38,11 @@ C.weeklyIncomeAmount      = 100    -- gold per day per human player
 C.battleAcademyEnabled    = true   -- custom: Combat Hardening (post-battle XP)
 C.battleAcademyBonusPct   = 20     -- percent bonus XP after each won battle
 
--- Karmic Battles (option 38)
--- Close battle threshold (XP below this = close fight)
--- Winner gets +5%, loser gets consolation 10% of winner XP
+-- Custom: Combat Veteran Bonus (option 38 label — see wog_karmic_battles.lua for full note)
+-- NOTE: WOG option 38 actual mechanic = summons extra creature stacks in neutral battles based
+--   on a per-hero Karmic Battle Counter. That requires battle creature manipulation API not yet
+--   available in FCMI. This is a custom "close battle XP bonus" feature — NOT the real WOG 38.
+-- Winner gets +5%, loser gets consolation 10% of winner XP in close battles.
 C.karmicEnabled           = true
 C.karmicCloseXP           = 2000   -- fallback XP threshold (when army data unavailable)
 C.karmicCloseRatio        = 0.5    -- armies within 50% strength ratio = close battle
@@ -55,8 +57,15 @@ C.karmicLoserPct          = 10     -- consolation % for loser in close battle
 -- WOG Classic: 10%/20%/30% of max SP regenerated per day (Knowledge × 10 = max SP).
 -- VCMI base gives 1/2/3 SP/day flat; WOG formula subtracts that to avoid double-count.
 -- Example: Knowledge=20 (200 max SP) → Expert gives 60 SP/day total.
+-- ERM script35: Intelligence secondary skill multiplies max mana for regen calculation:
+--   Expert Intelligence: max mana × 2.0
+--   Advanced Intelligence: max mana × 1.5
+--   Basic Intelligence: max mana × 1.25
+--   No Intelligence: max mana × 1.0
+-- Note: AI heroes get double Mysticism regen in ERM (not applied here — human-only turns).
 C.mysticismEnabled        = true
 C.mysticismBonusPct       = {10, 20, 30}  -- [basic, advanced, expert] % of max SP/day
+C.intelligenceMultiplier  = {1.25, 1.5, 2.0}  -- Intelligence [basic, advanced, expert] mana multiplier
 
 -- Estates enhancement (option 203)
 -- Extra gold per day per hero with Estates, scaling with hero level.
@@ -86,11 +95,14 @@ C.scholarMaxSpellLevel    = {2, 3, 4}     -- max spell level to learn per [basic
 C.luckEnabled             = true
 C.luckExtraPct            = 50   -- extra % of initial damage added to lucky hits
 
--- Artillery I Enhanced (option 201)
--- Ballista double-damage hits get extra bonus scaling with Artillery skill.
--- Basic: +25%, Advanced: +50%, Expert: +75% of initial damage.
-C.artilleryEnabled        = true
-C.artilleryExtraPct       = {25, 50, 75}  -- [basic, advanced, expert]
+-- Artillery I Enhanced (option 201/54)
+-- ERM script54 formula: extra damage % = (artilleryLevel + heroLevel) * 20 - 20
+--   Example: Basic (lvl 1) + hero level 10: (1+10)*20-20 = 200% extra → 3× total
+-- artilleryHeroLevelScaling: when true, uses ERM formula (requires hero:getLevel() API)
+-- artilleryExtraPct: used as fallback if hero level unavailable (flat % per skill level)
+C.artilleryEnabled             = true
+C.artilleryHeroLevelScaling    = true   -- use (skillLevel + heroLevel) * 20 - 20 formula
+C.artilleryExtraPct            = {25, 50, 75}  -- [basic, advanced, expert] fallback if hero level unavailable
 
 -- Advanced Witch Huts (option 194)
 -- Witch Huts teach skills at Advanced level automatically (costs gold).
@@ -107,10 +119,21 @@ C.chestBonusAmount        = 500   -- gold or XP bonus per chest visit
 
 -- =====================================================================
 -- CREATURE RELATIONSHIPS (option 47)
+-- ERM script47 actual mechanics (from FU13522/FU13525):
+--   HATE (intra-army conflict): Each day, if BOTH hate creatures are in the SAME hero's army,
+--     conflict chance = (14 - 2×Diplomacy) × max(1, |negative_morale| + 1) percent
+--     Losses = 10% of opposing faction HP, reduced 1% per hero luck level (min 1 creature)
+--     This is implemented via PlayerGotTurn (daily, human players only)
+--   ALLIED (upgrade chance): Daily chance to upgrade one creature from allied pair to next tier
+--     Requires creature type change API — currently approximated as morale+XP bonus
 -- =====================================================================
-C.creatureRelationsEnabled = true  -- allied pair morale/XP bonuses; hate pair damage bonus
+C.creatureRelationsEnabled = true  -- allied pair morale/XP bonuses; hate pair daily conflict
 C.synergyBonusPct         = 5     -- % extra XP per active allied pair in winner's army
-C.hateDamagePct           = 15    -- % extra damage when attacker hits its hated creature type
+C.hateConflictBase        = 14    -- base % chance per day of intra-army conflict (ERM: 14)
+C.hateDiplomacyFactor     = 2     -- diplomacy reduces chance by this × diplomacy level (ERM: 2)
+C.hateLossPct             = 10    -- % of opposing faction's total HP lost per conflict (ERM: 10%)
+-- NOTE: C.hateDamagePct kept for backward compat in display, but hate mechanic is now daily conflict
+C.hateDamagePct           = 15    -- (legacy — was used for ApplyDamage bonus; ERM mechanic is intra-army conflict)
 
 -- =====================================================================
 -- COMBINED WARFARE SKILLS (option 193)
@@ -129,12 +152,14 @@ C.level7XPReductionPct    = 50     -- percent XP reduction when fighting tier-7 
 
 -- =====================================================================
 -- WEEK OF MONSTERS (option 20)
--- Each week a random creature type gets a stat bonus
+-- Each week a random creature type gets a stat bonus (ERM script20 v1.7)
+-- All stats: +33% of base (floor, min +1); Growth: +50% of base (floor, min +1)
+-- Week 1 is always skipped (no WOM on week 1)
+-- War machines (catapult=145, ballista=146, firstAidTent=147): HP+DEF only, no ATK/Speed/Damage
 -- =====================================================================
 C.weekOfMonstersEnabled      = true   -- uses EntitiesChanged to boost creature stats each week
-C.weekOfMonstersAtkBonus     = 2      -- attack bonus for week's creature (+2 = WOG classic)
-C.weekOfMonstersDefBonus     = 2      -- defense bonus for week's creature (+2 = WOG classic)
-C.weekOfMonstersGrowthBonus  = 1      -- extra weekly dwelling growth for the chosen creature
+C.weekOfMonstersStatPct      = 33     -- % bonus to ATK/DEF/Speed/HP/Damage (ERM: floor(base*33/100), min 1)
+C.weekOfMonstersGrowthPct    = 50     -- % bonus to Growth (ERM: floor(base*50/100), min 1)
 
 -- =====================================================================
 -- HERO SPECIALIZATION BOOST (option 39)

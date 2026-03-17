@@ -2,11 +2,13 @@
 -- WOG New Age — First Money (option 40)
 --
 -- On the very first day of the game, ALL players (including AI) receive:
---   Gold: configurable (default 5000 in wog_config.lua)
---   Resources: 20 wood, 20 ore, 10 of each rare resource (classic WoG default)
+--   Gold: 12000 (ERM script40: +12000 gold — unconditional)
+--   Resources: +20 wood, +20 ore, +10 mercury, +10 sulfur, +10 crystal, +10 gems
+--              (ERM script40: all resources given unconditionally, same packet as gold)
 --
--- Classic WoG default: 12000 gold + 20 wood + 20 ore + 10 mercury/sulfur/crystal/gems
--- We use configurable gold amount (default 5000) and configurable resource bonus.
+-- ERM script40 by Alexis Koz: Uses OW:R (owner resources) to add to each resource type.
+-- Resource type order in ERM: 6=gold, 0=wood, 1=mercury, 2=ore, 3=sulfur, 4=crystal, 5=gems
+-- ERM: +12000 gold, +20 wood, +20 ore, +10 mercury, +10 sulfur, +10 crystal, +10 gems
 --
 -- Only fires once: when total game day == 1.
 
