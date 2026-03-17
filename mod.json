@@ -4,7 +4,7 @@
 	"modType": "Expansion",
 	"author": "Depache",
 	"contact": "",
-	"version": "1.0.0",
+	"version": "1.0.5",
 	"compatibility": {
 		"min": "1.7.0"
 	},
@@ -165,6 +165,27 @@
 		"wogNeutralStackExp": {
 			"source": "wog_neutral_stack_exp.lua",
 			"implements": "ANYTHING"
+		},
+		"wogUpgradedDwellings": {
+			"source": "wog_upgraded_dwellings.lua",
+			"implements": "ANYTHING"
+		},
+		"wogRefugeeCampSync": {
+			"source": "wog_refugee_camp_sync.lua",
+			"implements": "ANYTHING"
+		},
+		"wogReplaceDragonFly": {
+			"source": "wog_replace_dragon_fly.lua",
+			"implements": "ANYTHING"
+		},
+		"wogGhostSpawns": {
+			"source": "wog_ghost_spawns.lua",
+			"implements": "ANYTHING"
+		}
+	},
+	"settings": {
+		"towns": {
+			"buildingsPerTurnCap": 2
 		}
 	}
 }

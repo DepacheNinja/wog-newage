@@ -7,5 +7,11 @@
 	},
 	"core:zealot" : {
 		"upgrades" : ["wake-of-gods.creatures:warZealot"]
+	},
+	"core:efreet" : {
+		"upgrades" : ["wake-of-gods.creatures:hellSteed"]
+	},
+	"core:ghostDragon" : {
+		"upgrades" : ["wake-of-gods.creatures:dracolich"]
 	}
 }

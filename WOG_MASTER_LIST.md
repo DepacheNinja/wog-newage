@@ -17,7 +17,7 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | Option | Feature | Notes |
 |--------|---------|-------|
 | 193 | **Combined Warfare Skills** | Ballistics + Artillery + First Aid synced as one |
-| 173 | **Extended Creature Upgrades** | Alt upgrade paths (Santa Gremlins, Sylvan Centaurs, War Zealots) |
+| 173 | **Extended Creature Upgrades** | Alt upgrade paths (Santa Gremlins, Sylvan Centaurs, War Zealots, hellSteed→Nightmare for Inferno, Dracolich for Necropolis) |
 | Custom | **Combat Hardening** | +20% XP after every won battle |
 | Custom | **Daily Gold Bonus** | 100 gold/day per human player |
 | 40 | **First Money** | Each player receives 5000 gold on day 1 |
@@ -65,6 +65,17 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | 66 | **Commander Witch Huts** | Commanders learn skills from Witch Huts via wake-of-gods.Commanders |
 | 76 | **Commander Sanctuary** | Commander recovery/rest location via wake-of-gods.Commanders |
 | 219 | **Commander Artifacts** | Full commander artifact equip system via wake-of-gods.Commanders |
+| 176 | **Magic Wand** | Upgrades tier-7 creatures to level-8 (supremeArchangel, diamondDragon, etc.) via wake-of-gods.level8Units dependency |
+| 173/174 | **Extended/Universal Creature Upgrades** | Alt paths: Santa Gremlin, Sylvan Centaur, War Zealot, hellSteed→Nightmare (Inferno), Dracolich (Necropolis) |
+| 228 | **Build Twice a Day** | Towns can construct 2 buildings per day via game settings override in mod.json |
+| 229 | **AI Stack Experience Level** | Stack experience enabled via wake-of-gods.stackExperience dependency (modules.stackExperience = true) |
+| 134 | **Resource Piles** | Vanilla VCMI correctly implements H3 resource pile objects |
+| 133 | **Upgraded Dwellings** | Starting towns receive upgraded creature dwellings on day 1 (via NewStructures netpack) |
+| 200 | **Refugee Camp Sync** | All Refugee Camps synced to same creature weekly (SetAvailableCreatures + getDwellingCreatureId APIs) |
+| 165 | **Replace Dragon Fly** | Dragon Fly/Fire Dragon Fly dwellings → Wyvern on day 1 (getCreatureIdByIdentifier + SetAvailableCreatures) |
+| 242 | **Some Level 3s → Ghosts** | 1 in 3 tier-3 neutral dwellings replaced with WOG Ghost on day 1 |
+| 195 | **Replace Objects** | WOG map objects available via wake-of-gods.mapObjects dependency |
+| 52 | **Mirror of the Home-Way** | Works via wake-of-gods.mapObjects (configurable handler, townPortal spell at expert) |
 
 ---
 
@@ -92,7 +103,7 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | ~~45~~ | ~~**Castle Upgrading / Town Income**~~ | Done — moved to ✅ |
 | ~~132~~ | ~~**Upgrading Treasure Chests**~~ | Done — moved to ✅ |
 | ~~Custom~~ | ~~**Building Construction Bonuses**~~ | Done — moved to ✅ |
-| 228 | **Build Twice a Day** | Towns can build two buildings per day |
+| ~~228~~ | ~~**Build Twice a Day**~~ | Done — mod.json "settings": {"towns": {"buildingsPerTurnCap": 2}} |
 
 ### Combat & Battle
 
@@ -116,9 +127,9 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | ~~50~~ | ~~**Enhanced Monsters**~~ | Done — moved to ✅ |
 | ~~57~~ | ~~**Neutral Units**~~ | Done — moved to ✅ |
 | ~~231~~ | ~~**Neutral Stack Experience**~~ | Done — moved to ✅ |
-| 165 | **Replace Dragon Fly** | Dragon Flies replaced |
-| 242 | **Some Level 3s → Ghosts** | Some level 3 spawns replaced by Ghosts |
-| 229 | **AI Stack Experience Level** | AI difficulty level 7 |
+| ~~165~~ | ~~**Replace Dragon Fly**~~ | Done — getDwellingCreatureId + SetAvailableCreatures: serpentFly/fireDragonFly dwellings → wyvern on day 1 |
+| ~~242~~ | ~~**Some Level 3s → Ghosts**~~ | Done — replaces 1 in 3 tier-3 neutral dwellings with WOG Ghost on day 1 |
+| ~~229~~ | ~~**AI Stack Experience Level**~~ | Done via dependency — wake-of-gods.stackExperience enables modules.stackExperience |
 
 ### Spells & Artifacts
 
@@ -126,7 +137,7 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 |--------|---------|-------------|
 | 26 | **Artificer** | Combine or upgrade artifacts (complex UI mechanic, not yet impl.) |
 | ~~143~~ | ~~**New Artifacts**~~ | Done via dependency — moved to ✅ |
-| 176 | **Magic Wand** | New artifact that extends spell effects |
+| ~~176~~ | ~~**Magic Wand**~~ | Done via dependency — wake-of-gods.level8Units defines Magic Wand (upgrades tier-7 creatures to level-8) |
 | ~~178~~ | ~~**Combination Artifacts**~~ | Done via dependency — moved to ✅ |
 | ~~196~~ | ~~**Power Stones**~~ | Done — moved to ✅ |
 | ~~237~~ | ~~**Barbarian Lord's Axe**~~ | Done via dependency — moved to ✅ |
@@ -137,16 +148,15 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 
 | Option | Feature | Description |
 |--------|---------|-------------|
-| 133 | **Upgraded Dwellings** | Start with upgraded creatures |
+| ~~133~~ | ~~**Upgraded Dwellings**~~ | Done — NewStructures netpack adds upgraded dwellings to starting towns on day 1 |
 | 135 | **Wandering Monsters** | Moving monster groups on map |
 | 170 | **Mithril in Resource Stacks** | 1 in 15 piles contains Mithril |
 | 171 | **Mithril in Windmills/Gardens** | 1 in 10 windmills have Mithril |
-| 134 | **Resource Piles** | Resource piles work normally |
-| 174 | **Universal Upgrading** | All creatures upgradeable |
+| ~~134~~ | ~~**Resource Piles**~~ | Done — vanilla VCMI already implements H3 resource piles correctly |
+| ~~174~~ | ~~**Universal Upgrading**~~ | Done — hellSteed/Nightmare (Inferno alt) + Dracolich (Necropolis alt) added via creature patch |
 | ~~199~~ | ~~**Rebalanced Starting Armies**~~ | Done — moved to ✅ |
-| 195 | **Replace Objects** | WOG alternative map objects |
-| 200 | **Refugee Camp Sync** | Consistent creature types across players |
-| 132 | **Upgrading Treasure Chests** | Better chest rewards |
+| ~~195~~ | ~~**Replace Objects**~~ | Done via dependency — wake-of-gods.mapObjects adds arcaneTower, junkMerchant, mushrooms, sphinx, fountains, etc. |
+| ~~200~~ | ~~**Refugee Camp Sync**~~ | Done — SetAvailableCreatures + getDwellingCreatureId FCMI APIs; weekly sync of all camps |
 | ~~142~~ | ~~**Special Terrain**~~ | Done — moved to ✅ |
 
 ### Commanders
@@ -178,7 +188,7 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | 54 | **Enhanced War Machines I** | Needs battle creature manipulation API |
 | 36 | **Mithril Enhancements** | Needs 8th resource type in engine |
 | 149 | **Mithril Display** | Depends on Mithril resource |
-| 52 | **Mirror of the Home-Way** | Complex teleport mechanic |
+| ~~52~~ | ~~**Mirror of the Home-Way**~~ | Done via dependency — wake-of-gods.mapObjects implements it via configurable handler + townPortal spell cast |
 | 58 | **Espionage** | Hero scouting/intel system |
 | 70 | **Death Chamber** | Special hero leveling |
 | 244 | **Summon Elementals Script** | New battle spell effects |
@@ -228,9 +238,9 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 
 | Status | Count |
 |--------|-------|
-| ✅ Done | 60 |
+| ✅ Done | 73 |
 | 🟡 Partial | 4 |
-| 🔴 Todo (Lua, doable) | ~20 |
+| 🔴 Todo (Lua, doable) | ~6 |
 | 🏗️ Hard (needs engine) | 8 |
 | ⚫ Map objects | 14 |
 | ❓ Resolved unknowns | 10 |

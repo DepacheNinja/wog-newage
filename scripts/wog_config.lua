@@ -201,6 +201,35 @@ C.protectionElementsEnabled   = true  -- enable elemental protection damage redu
 C.protectionReductionPct      = 35    -- % physical damage reduced when protected (35% = midpoint of basic 30% / adv 50%)
 
 -- =====================================================================
+-- REPLACE DRAGON FLY (option 165)
+-- =====================================================================
+-- On day 1, adventure-map dwellings that contain Dragon Fly or Fire Dragon Fly
+-- are replaced with Wyvern dwellings.
+C.replaceDragonFlyEnabled = true   -- replace dragon fly dwellings with wyvernId on day 1
+
+-- =====================================================================
+-- GHOST SPAWNS — SOME LEVEL 3S → GHOSTS (option 242)
+-- =====================================================================
+-- On day 1, approximately 1 in ghostSpawnFraction tier-3 creature dwellings
+-- on the adventure map are replaced with WOG Ghost dwellings.
+C.ghostSpawnsEnabled   = true   -- replace some tier-3 dwellings with ghosts on day 1
+C.ghostSpawnFraction   = 3      -- replace 1 in N tier-3 neutral dwellings (3 = ~33%)
+
+-- =====================================================================
+-- REFUGEE CAMP SYNC (option 200)
+-- =====================================================================
+-- Synchronizes all Refugee Camps weekly to offer the same creature type.
+-- Uses the first camp's creature as the reference for all others.
+C.refugeeCampSyncEnabled = true   -- sync all refugee camps to same creature type each week
+
+-- =====================================================================
+-- UPGRADED DWELLINGS (option 133)
+-- =====================================================================
+-- On day 1, starting towns automatically receive the upgraded version of
+-- any basic dwelling already built (e.g., Imp Crucible → Brimstone Stalls).
+C.upgradedDwellingsEnabled = true   -- give starting towns upgraded dwellings on day 1
+
+-- =====================================================================
 -- DISPLAY WOGIFICATION MESSAGES (option 248)
 -- =====================================================================
 C.displayFeaturesEnabled  = true   -- show active WOG features to human players on day 1

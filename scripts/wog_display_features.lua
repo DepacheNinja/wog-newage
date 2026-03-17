@@ -63,6 +63,7 @@ wogDisplayFeaturesSub = PlayerGotTurn.subscribeAfter(EVENT_BUS, function(event)
 	add(C.protectionElementsEnabled, "Enhanced Protection from Elements (protection spells reduce elemental physical attacks by " .. (C.protectionReductionPct or 35) .. "%)")
 
 	-- Starting conditions & map rules
+	add(C.upgradedDwellingsEnabled,  "Upgraded Dwellings (starting towns receive upgraded creature dwellings on day 1)")
 	add(C.startingArmiesEnabled,     "Rebalanced Starting Armies (+" .. (C.startingBonusCount or 8) .. " tier-1 troops per hero on day 1)")
 	add(C.specialTerrainEnabled,     "Special Terrain Effects (Magic Plains/Lucid Pools: +" .. (C.magicPlainsManaRegen or 10) .. "% mana/day; Evil Fog: -10% mana/day)")
 	add(C.displayMapRulesEnabled,    "Display Map Rules (shows active map-level rules on day 1)")
