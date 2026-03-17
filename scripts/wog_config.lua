@@ -165,6 +165,15 @@ C.startingBonusCount     = 8      -- tier-1 creatures to add per hero
 C.startingBonusSlot      = 6      -- army slot to fill (0-6; slot 6 = last slot)
 
 -- =====================================================================
+-- NEUTRAL UNITS (option 57)
+-- =====================================================================
+-- Controls wandering monster stack sizes at game start.
+-- neutralSizeMultPct: percent multiplier applied to all Obj::MONSTER stack counts.
+--   100 = unchanged (vanilla), 150 = +50% more monsters (WOG default).
+C.neutralUnitsEnabled  = true   -- scale neutral wandering monster stacks on day 1
+C.neutralSizeMultPct   = 150    -- % of base count (150 = 1.5x stack size; WOG classic: +50%)
+
+-- =====================================================================
 -- ENHANCED PROTECTION FROM ELEMENTS (option 61)
 -- =====================================================================
 -- Extends Protection spells to reduce physical damage from opposing elementals.

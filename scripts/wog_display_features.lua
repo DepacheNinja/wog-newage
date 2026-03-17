@@ -68,6 +68,7 @@ wogDisplayFeaturesSub = PlayerGotTurn.subscribeAfter(EVENT_BUS, function(event)
 	add(C.displayMapRulesEnabled,    "Display Map Rules (shows active map-level rules on day 1)")
 
 	-- Creatures
+	add(C.neutralUnitsEnabled,       "Neutral Units (wandering monster stacks scaled to " .. (C.neutralSizeMultPct or 150) .. "% on day 1)")
 	add(C.weekOfMonstersEnabled,     "Week of Monsters (+2 ATK/+2 DEF/+1 growth to weekly creature)")
 	add(C.buildingBonusesEnabled,    "Building Bonuses (rewards for Mage Guild 5, Castle, Capitol)")
 

@@ -153,6 +153,10 @@
 		"wogProtectionElements": {
 			"source": "wog_protection_elements.lua",
 			"implements": "ANYTHING"
+		},
+		"wogNeutralUnits": {
+			"source": "wog_neutral_units.lua",
+			"implements": "ANYTHING"
 		}
 	}
 }
