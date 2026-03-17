@@ -21,13 +21,14 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | Custom | **Combat Hardening** | +20% XP after every won battle |
 | Custom | **Daily Gold Bonus** | 100 gold/day per human player |
 | 40 | **First Money** | Each player receives 5000 gold on day 1 |
-| 38 | **Karmic Battles** | Close battles award 5% extra XP; full fairness pending BattleStart API |
+| 38 | **Karmic Battles** | Close battles: winner +5% XP, loser +10% consolation XP |
 | 203/191 | **Estates Enhancement** | Extra gold per day = heroLevel × multiplier |
 | 35/207 | **Mysticism Enhancement** | +2/3/5 extra SP/day at basic/adv/expert on top of base |
 | 205/217 | **Learning Enhancement** | Passive 100/200/300 XP/day per skill level |
-| 23/213 | **Sorcery Enhancement** | Spell damage doubled: 10/20/35% (was 5/10/15%) via JSON |
-| 214 | **Armorer Enhancement** | Damage reduction: 8/13/20% (was 5/10/15%) via JSON |
-| 210 | **Resistance Enhancement** | Magic resist: 10/15/30% (was 5/10/20%) via JSON |
+| 211 | **Scholar Enhancement** | Weekly 40%/50%/60% chance to research new spell (level 1-4) |
+| 23/213 | **Sorcery Enhancement** | Spell damage: 10/20/30% (was 5/10/15%) via JSON |
+| 214 | **Armorer Enhancement** | Damage reduction: 10/15/20% (was 5/10/15%) via JSON |
+| 210 | **Resistance Enhancement** | Magic resist: 10/20/30% (was 5/10/20%) via JSON |
 | 208 | **Navigation Enhancement** | Water movement: 60/110/165% (was 50/100/150%) via JSON |
 | 209 | **Pathfinding Enhancement** | Terrain penalty: 35/60/75% reduction via JSON |
 | 39 | **Hero Specialization Boost** | +1 primary skill at milestone levels (5/10/15/20/25/30) |

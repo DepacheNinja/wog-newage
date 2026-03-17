@@ -23,6 +23,14 @@ C.weeklyIncomeAmount      = 100    -- gold per day per human player
 C.battleAcademyEnabled    = true   -- custom: Combat Hardening (post-battle XP)
 C.battleAcademyBonusPct   = 20     -- percent bonus XP after each won battle
 
+-- Karmic Battles (option 38)
+-- Close battle threshold (XP below this = close fight)
+-- Winner gets +5%, loser gets consolation 10% of winner XP
+C.karmicEnabled           = true
+C.karmicCloseXP           = 2000   -- XP threshold for "close" battle
+C.karmicWinnerPct         = 5      -- bonus % for winner in close battle
+C.karmicLoserPct          = 10     -- consolation % for loser in close battle
+
 -- =====================================================================
 -- HERO SKILLS — ENHANCED SECONDARY SKILLS
 -- =====================================================================
