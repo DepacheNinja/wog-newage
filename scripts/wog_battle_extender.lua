@@ -1,21 +1,17 @@
 -- wog_battle_extender.lua
 -- WOG New Age — Battle Extender (option 220)
 --
--- Classic WOG: When a hero retreats from battle and has sufficient gold,
--- they can choose to immediately rejoin the battle with their remaining
--- forces. The cost scales with army strength and battle progress.
+-- Classic WOG: When a hero retreats or surrenders from battle, they receive
+-- a gold refund representing the cost to reconvene forces. In classic WOG,
+-- the hero could also choose to immediately rejoin the battle, but that
+-- requires engine-level retreat interception not yet available.
 --
--- VCMI LIMITATION: Intercepting retreat/flee actions and offering a
--- "rejoin" option requires:
---   1. A BattleRetreating event (not yet in FCMI)
---   2. UI hooks to show the choice dialog
+-- Implementation:
+--   On BattleEnded: if battle result is ESCAPE (1) or SURRENDER (2),
+--   the losing human player receives a gold refund. NORMAL defeat (0)
+--   gives no refund — the hero lost the battle outright.
 --
--- Approximation: When a hero loses a battle (is the loser in BattleEnded),
--- they receive a small gold refund (25% of estimated army value) to help
--- rebuild faster. This softens the penalty of losing a battle.
---
--- The refund is 1000 gold flat as a minimal survival aid.
--- Full feature requires engine-level retreat/flee interception.
+-- getBattleResult() values: 0=NORMAL, 1=ESCAPE, 2=SURRENDER
 
 local BattleEnded  = require("events.BattleEnded")
 local SetResources = require("netpacks.SetResources")
@@ -24,15 +20,20 @@ DATA.WOG = DATA.WOG or {}
 local C = DATA.WOG
 
 C.battleExtenderEnabled = C.battleExtenderEnabled ~= false
-local REFUND_GOLD = 1000
+
+local RESULT_NORMAL    = 0
+local RESULT_ESCAPE    = 1
+local RESULT_SURRENDER = 2
 local GOLD = 6
+
+local REFUND_GOLD = C.battleExtenderRefundGold or 1000
 
 wogBattleExtenderSub = BattleEnded.subscribeAfter(EVENT_BUS, function(event)
 	if not C.battleExtenderEnabled then return end
 
-	local exp = event:getExpAwarded()
-	-- Only apply when a proper battle happened (exp > 0 means real combat)
-	if exp <= 0 then return end
+	local result = event:getBattleResult()
+	-- Only refund when hero escaped or surrendered (not a normal battle defeat)
+	if result ~= RESULT_ESCAPE and result ~= RESULT_SURRENDER then return end
 
 	local loserIdx = event:getLoser()
 	-- Only refund to human players

@@ -230,6 +230,23 @@ C.refugeeCampSyncEnabled = true   -- sync all refugee camps to same creature typ
 C.upgradedDwellingsEnabled = true   -- give starting towns upgraded dwellings on day 1
 
 -- =====================================================================
+-- WANDERING MONSTERS (option 135)
+-- =====================================================================
+-- Surviving neutral monster stacks move 1-2 tiles each week, making the map
+-- feel more alive. Movement is random with passability checks.
+-- wanderingMonstersChancePct: % chance each stack moves per week
+-- wanderingMonstersMaxRange: max tiles moved per step (1 or 2)
+C.wanderingMonstersEnabled   = true  -- enable weekly monster wandering
+C.wanderingMonstersChancePct = 33    -- % chance each surviving stack moves per week
+C.wanderingMonstersMaxRange  = 2     -- max tiles of movement per step
+
+-- =====================================================================
+-- BATTLE EXTENDER (option 220)
+-- =====================================================================
+C.battleExtenderEnabled    = true   -- give gold refund to losers who escape/surrender
+C.battleExtenderRefundGold = 1000   -- gold refunded when hero retreats or surrenders
+
+-- =====================================================================
 -- DISPLAY WOGIFICATION MESSAGES (option 248)
 -- =====================================================================
 C.displayFeaturesEnabled  = true   -- show active WOG features to human players on day 1

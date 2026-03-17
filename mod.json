@@ -4,7 +4,7 @@
 	"modType": "Expansion",
 	"author": "Depache",
 	"contact": "",
-	"version": "1.0.6",
+	"version": "1.0.7",
 	"compatibility": {
 		"min": "1.7.0"
 	},
@@ -180,6 +180,10 @@
 		},
 		"wogGhostSpawns": {
 			"source": "wog_ghost_spawns.lua",
+			"implements": "ANYTHING"
+		},
+		"wogWanderingMonsters": {
+			"source": "wog_wandering_monsters.lua",
 			"implements": "ANYTHING"
 		}
 	},

@@ -48,7 +48,7 @@ wogDisplayFeaturesSub = PlayerGotTurn.subscribeAfter(EVENT_BUS, function(event)
 	add(C.level7XPEnabled,           "Level 7+ Creatures XP Reduction (-" .. (C.level7XPReductionPct or 50) .. "% XP vs tier-7 armies)")
 	add(C.luckEnabled,               "Luck Enhancement (lucky hits deal +" .. (C.luckExtraPct or 50) .. "% extra damage)")
 	add(C.artilleryEnabled,          "Artillery Enhancement (Ballista double-hits +25/50/75% extra)")
-	add(C.battleExtenderEnabled,     "Battle Extender (loser gets 1000 gold refund)")
+	add(C.battleExtenderEnabled,     "Battle Extender (escape/surrender: " .. (C.battleExtenderRefundGold or 1000) .. " gold refund)")
 	add(C.combinedWarfareEnabled,    "Combined Warfare Skills (Ballistics+Artillery+FirstAid synced)")
 
 	-- Hero Skills
@@ -76,6 +76,7 @@ wogDisplayFeaturesSub = PlayerGotTurn.subscribeAfter(EVENT_BUS, function(event)
 	add(C.neutralStackExpEnabled,    "Neutral Stack Experience (neutral stacks grow +" .. (C.neutralVictoryGrowthPct or 20) .. "% when they defeat a hero)")
 	add(C.neutralUnitsEnabled,       "Neutral Units (wandering monster stacks scaled to " .. (C.neutralSizeMultPct or 150) .. "% on day 1)")
 	add(C.weekOfMonstersEnabled,     "Week of Monsters (+2 ATK/+2 DEF/+1 growth to weekly creature)")
+	add(C.wanderingMonstersEnabled,  "Wandering Monsters (surviving stacks move " .. (C.wanderingMonstersMaxRange or 2) .. " tiles/week, " .. (C.wanderingMonstersChancePct or 33) .. "% chance)")
 	add(C.buildingBonusesEnabled,    "Building Bonuses (rewards for Mage Guild 5, Castle, Capitol)")
 
 	-- Treasure

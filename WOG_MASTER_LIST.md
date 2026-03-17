@@ -37,8 +37,9 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | 206 | **Luck I Enhancement** | Lucky strikes deal +50% initial damage extra (total ~3× normal) via ApplyDamage |
 | 201 | **Artillery I Enhanced** | Ballista double-damage hits: +25/50/75% extra per skill level via ApplyDamage |
 | 194 | **Advanced Witch Huts** | Witch Huts teach at Advanced level; deducts 1000g from player |
-| 39 | **Hero Specialization Boost** | +1 primary skill at milestone levels (5/10/15/20/25/30) |
-| 220 | **Battle Extender** | 1000 gold refund to losing human player; full retreat pending |
+| 39 | **Hero Specialization Boost** | +1 primary skill at milestone levels (5/10/15/20/25/30); getHeroTypeId() API now available for further enhancement |
+| 220 | **Battle Extender** | Escape/surrender: 1000g refund (getBattleResult() correctly distinguishes from normal defeat) |
+| 135 | **Wandering Monsters** | Surviving neutral stacks move 1-2 tiles/week (ChangeObjPos netpack; 33% chance per stack/week) |
 | 47 | **Creature Relationships** | Allied pairs: +1 morale (SetStackEffect) + 5% synergy XP; hate pairs: +15% damage |
 | 900 | **Stack Experience (approx.)** | Army XP tracked; +1 primary stat per 5000 XP milestone |
 | 71 | **Enhanced Artifacts** | Conjuring set adds spell damage; Pendant of Death gives undead +5 ATT/DEF |
@@ -83,9 +84,7 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 
 | Option | Feature | Status |
 |--------|---------|--------|
-| 220 | **Battle Extender** | Gold refund done; true retreat-and-rejoin mechanic pending (needs retreat event) |
 | 900 | **Stack Experience** | Hero-level approximation (wog_stack_experience.lua disabled); real engine module active via dependency |
-| 39 | **Hero Specialization Boost** | Milestone primary skill boost done; true specialty scaling needs hero type API |
 
 ---
 
@@ -144,7 +143,7 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | Option | Feature | Description |
 |--------|---------|-------------|
 | ~~133~~ | ~~**Upgraded Dwellings**~~ | Done — NewStructures netpack adds upgraded dwellings to starting towns on day 1 |
-| 135 | **Wandering Monsters** | Moving monster groups on map |
+| ~~135~~ | ~~**Wandering Monsters**~~ | Done — ChangeObjPos: monsters move 1-2 tiles/week; moved to ✅ |
 | 170 | **Mithril in Resource Stacks** | 1 in 15 piles contains Mithril |
 | 171 | **Mithril in Windmills/Gardens** | 1 in 10 windmills have Mithril |
 | ~~134~~ | ~~**Resource Piles**~~ | Done — vanilla VCMI already implements H3 resource piles correctly |
@@ -187,7 +186,7 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | 58 | **Espionage** | Hero scouting/intel system |
 | 70 | **Death Chamber** | Special hero leveling |
 | 244 | **Summon Elementals Script** | New battle spell effects |
-| 192 | **Transfer Owner** | Transfer towns/heroes/mines mid-game |
+| 192 | **Transfer Owner** | SetObjectProperty/GiveHero APIs now available; needs map scripting trigger to be useful |
 
 ---
 
@@ -233,9 +232,9 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 
 | Status | Count |
 |--------|-------|
-| ✅ Done | 74 |
-| 🟡 Partial | 3 |
-| 🔴 Todo (Lua, doable) | ~6 |
+| ✅ Done | 77 |
+| 🟡 Partial | 1 |
+| 🔴 Todo (Lua, doable) | ~4 |
 | 🏗️ Hard (needs engine) | 8 |
 | ⚫ Map objects | 14 |
 | ❓ Resolved unknowns | 10 |
