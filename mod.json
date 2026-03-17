@@ -15,6 +15,9 @@
 	"creatures" : [
 		"config/creatures/altUpgradesCreaturePatch.json"
 	],
+	"artifacts" : [
+		"config/artifacts/wog_enhanced_artifacts.json"
+	],
 	"skills" : [
 		"config/skills/warfare_skills.json",
 		"config/skills/enhanced_skills.json"
@@ -82,6 +85,10 @@
 		},
 		"wogBattleExtender" : {
 			"source" : "wog_battle_extender.lua",
+			"implements" : "ANYTHING"
+		},
+		"wogStackExperience" : {
+			"source" : "wog_stack_experience.lua",
 			"implements" : "ANYTHING"
 		}
 	}

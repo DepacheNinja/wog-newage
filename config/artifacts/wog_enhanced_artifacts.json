@@ -1,0 +1,103 @@
+{
+	"core:collarOfConjuring" : {
+		"bonuses" : {
+			"wogSpellDamage" : {
+				"type" : "SPELL_DAMAGE",
+				"subtype" : "spellSchool.any",
+				"val" : 5,
+				"valueType" : "BASE_NUMBER"
+			}
+		},
+		"description" : "Increases the duration of spells cast by 1 combat round.\n[WOG] Also increases all spell damage by 5%."
+	},
+
+	"core:ringOfConjuring" : {
+		"bonuses" : {
+			"wogSpellDamage" : {
+				"type" : "SPELL_DAMAGE",
+				"subtype" : "spellSchool.any",
+				"val" : 10,
+				"valueType" : "BASE_NUMBER"
+			}
+		},
+		"description" : "Increases the duration of spells cast by 2 combat rounds.\n[WOG] Also increases all spell damage by 10%."
+	},
+
+	"core:capeOfConjuring" : {
+		"bonuses" : {
+			"wogSpellDamage" : {
+				"type" : "SPELL_DAMAGE",
+				"subtype" : "spellSchool.any",
+				"val" : 15,
+				"valueType" : "BASE_NUMBER"
+			}
+		},
+		"description" : "Increases the duration of spells cast by 3 combat rounds.\n[WOG] Also increases all spell damage by 15%."
+	},
+
+	"core:ringOfTheMagi" : {
+		"bonuses" : {
+			"wogSpellDamage" : {
+				"type" : "SPELL_DAMAGE",
+				"subtype" : "spellSchool.any",
+				"val" : 20,
+				"valueType" : "BASE_NUMBER"
+			}
+		},
+		"description" : "Increases the duration of spells by 50 combat rounds (effectively indefinite).\n[WOG] Also increases all spell damage by 20%. The complete Conjuring set grants 50% total spell damage bonus."
+	},
+
+	"core:pendantOfDeath" : {
+		"bonuses" : {
+			"wogUndeadAttack" : {
+				"type" : "PRIMARY_SKILL",
+				"subtype" : "primarySkill.attack",
+				"val" : 5,
+				"valueType" : "BASE_NUMBER",
+				"limiters" : ["IS_UNDEAD"]
+			},
+			"wogUndeadDefense" : {
+				"type" : "PRIMARY_SKILL",
+				"subtype" : "primarySkill.defense",
+				"val" : 5,
+				"valueType" : "BASE_NUMBER",
+				"limiters" : ["IS_UNDEAD"]
+			}
+		},
+		"description" : "Protects undead troops from the Destroy Undead spell.\n[WOG] Also grants all undead in army +5 Attack and +5 Defense."
+	},
+
+	"core:deadMansBoots" : {
+		"bonuses" : {
+			"wogExtraNecromancy" : {
+				"type" : "UNDEAD_RAISE_PERCENTAGE",
+				"val" : 5,
+				"valueType" : "ADDITIVE_VALUE"
+			}
+		},
+		"description" : "Increases the hero's Necromancy skill by 15%.\n[WOG] Also provides an additional +5% Necromancy bonus and may cause Skeleton stacks to upgrade."
+	},
+
+	"core:statesmansMedal" : {
+		"bonuses" : {
+			"wogDiplomacy" : {
+				"type" : "SURRENDER_DISCOUNT",
+				"val" : 5,
+				"valueType" : "BASE_NUMBER"
+			}
+		},
+		"description" : "Reduces the aggression of neutral creatures.\n[WOG] Also provides a 5% discount on army surrender costs."
+	},
+
+	"core:sphereOfPermanence" : {
+		"bonuses" : {
+			"wogNonLivingHP" : {
+				"type" : "STACK_HEALTH",
+				"val" : 10,
+				"valueType" : "BASE_NUMBER",
+				"limiters" : ["IS_UNDEAD"]
+			}
+		},
+		"description" : "Protects friendly spells from being dispelled.\n[WOG] Also grants +10 HP to undead troops in the army."
+	}
+}
