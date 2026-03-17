@@ -185,6 +185,10 @@
 		"wogWanderingMonsters": {
 			"source": "wog_wandering_monsters.lua",
 			"implements": "ANYTHING"
+		},
+		"wogEspionage": {
+			"source": "wog_espionage.lua",
+			"implements": "ANYTHING"
 		}
 	},
 	"settings": {

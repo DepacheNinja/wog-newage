@@ -79,6 +79,7 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | 52 | **Mirror of the Home-Way** | Works via wake-of-gods.mapObjects (configurable handler, townPortal spell at expert) |
 | 75 | **Abbreviated Skill Descriptions** | All enhanced_skills.json descriptions shortened to compact 1-2 line format with actual WOG values |
 | 244 | **Summon Elementals Script** | Already implemented in VCMI core — Summon Elementals spell works natively |
+| 58 | **Espionage** | Adv. Scouting: weekly enemy hero count; Expert Scouting: enemy x,y positions (via InfoWindow) |
 
 ---
 
@@ -185,7 +186,7 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | 36 | **Mithril Enhancements** | Needs 8th resource type in engine |
 | 149 | **Mithril Display** | Depends on Mithril resource |
 | ~~52~~ | ~~**Mirror of the Home-Way**~~ | Done via dependency — wake-of-gods.mapObjects implements it via configurable handler + townPortal spell cast |
-| 58 | **Espionage** | Hero scouting/intel system |
+| ~~58~~ | ~~**Espionage**~~ | Done — Adv. Scouting: weekly enemy hero count; Expert: x,y positions (wog_espionage.lua) |
 | 70 | **Death Chamber** | Special hero leveling |
 | ~~244~~ | ~~**Summon Elementals Script**~~ | Done — VCMI core already implements Summon Elementals spell natively |
 | 192 | **Transfer Owner** | SetObjectProperty/GiveHero APIs now available; needs map scripting trigger to be useful |
@@ -234,10 +235,10 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 
 | Status | Count |
 |--------|-------|
-| ✅ Done | 79 |
+| ✅ Done | 80 |
 | 🟡 Partial | 1 |
 | 🔴 Todo (Lua, doable) | ~2 |
-| 🏗️ Hard (needs engine) | 7 |
+| 🏗️ Hard (needs engine) | 6 |
 | ⚫ Map objects | 14 |
 | ❓ Resolved unknowns | 10 |
 | **Total enabled** | **~130** |

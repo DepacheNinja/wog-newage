@@ -230,6 +230,13 @@ C.refugeeCampSyncEnabled = true   -- sync all refugee camps to same creature typ
 C.upgradedDwellingsEnabled = true   -- give starting towns upgraded dwellings on day 1
 
 -- =====================================================================
+-- ESPIONAGE (option 58)
+-- =====================================================================
+-- Heroes with Advanced/Expert Scouting generate weekly intelligence reports
+-- about enemy hero locations. Advanced: count only; Expert: positions (x, y).
+C.espionageEnabled = true   -- enable weekly scouting intelligence reports
+
+-- =====================================================================
 -- WANDERING MONSTERS (option 135)
 -- =====================================================================
 -- Surviving neutral monster stacks move 1-2 tiles each week, making the map
