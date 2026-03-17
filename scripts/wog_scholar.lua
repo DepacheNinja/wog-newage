@@ -17,8 +17,9 @@ DATA.WOG = DATA.WOG or {}
 local C = DATA.WOG
 
 -- Chance and max level per skill level [basic, advanced, expert]
-local LEARN_CHANCE  = {40, 50, 60}  -- percent
-local MAX_SPELL_LVL = {2, 3, 4}
+-- Values come from config; these are the fallback defaults.
+local LEARN_CHANCE  = C.scholarLearnChance   or {40, 50, 60}  -- percent
+local MAX_SPELL_LVL = C.scholarMaxSpellLevel or {2, 3, 4}
 
 local SCHOLAR_SKILL = C.SKILL and C.SKILL.SCHOLAR or 18
 

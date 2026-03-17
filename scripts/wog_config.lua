@@ -77,6 +77,8 @@ C.learningBonusXP         = {100, 200, 300}  -- XP/day per [basic, advanced, exp
 -- Advanced: 50% chance for level 1-3 spell
 -- Expert: 60% chance for level 1-4 spell
 C.scholarEnabled          = true
+C.scholarLearnChance      = {40, 50, 60}  -- % chance to learn per [basic, advanced, expert]
+C.scholarMaxSpellLevel    = {2, 3, 4}     -- max spell level to learn per [basic, advanced, expert]
 
 -- Luck I enhancement (option 206)
 -- Lucky strikes deal extra damage on top of the 2× base lucky multiplier.
@@ -102,6 +104,13 @@ C.witchHutUpgradeCost     = {1000, 2000}  -- [to_advanced, to_expert]
 -- After visiting a chest, hero gets extra 500 gold or XP.
 C.treasureChestsEnabled   = true
 C.chestBonusAmount        = 500   -- gold or XP bonus per chest visit
+
+-- =====================================================================
+-- CREATURE RELATIONSHIPS (option 47)
+-- =====================================================================
+C.creatureRelationsEnabled = true  -- allied pair morale/XP bonuses; hate pair damage bonus
+C.synergyBonusPct         = 5     -- % extra XP per active allied pair in winner's army
+C.hateDamagePct           = 15    -- % extra damage when attacker hits its hated creature type
 
 -- =====================================================================
 -- COMBINED WARFARE SKILLS (option 193)
@@ -142,6 +151,11 @@ C.heroHiredEnabled        = true   -- give newly hired heroes a fitting secondar
 -- BUILDING CONSTRUCTION BONUSES
 -- =====================================================================
 C.buildingBonusesEnabled  = true   -- reward players for constructing key buildings (Mage Guild 5, Castle, Capitol)
+C.buildingBonusGuildGold    = 500   -- gold for Mage Guild 5
+C.buildingBonusGuildCrystal = 3     -- crystals for Mage Guild 5
+C.buildingBonusCastleGold   = 1000  -- gold for Castle
+C.buildingBonusCapitolGold  = 2000  -- gold for Capitol
+C.buildingBonusCapitolRare  = 5     -- quantity of each rare resource (mercury/sulfur/crystal/gems) for Capitol
 
 -- =====================================================================
 -- SPECIAL TERRAIN EFFECTS (option 142)
@@ -151,6 +165,7 @@ C.magicPlainsManaRegen   = 10     -- % of max mana regenerated/day on Magic Plai
 C.lucidPoolsManaRegen    = 10     -- % of max mana regenerated/day on Lucid Pools
 C.evilFogManaDrain       = 10     -- % of current mana drained/day in Evil Fog
 C.rockLandXPBonus        = 50     -- flat XP bonus/day on Rock Land terrain
+C.holyGroundManaPct      = 5      -- % mana regen for non-Necro heroes / drain for Necro heroes on Holy Ground
 
 -- =====================================================================
 -- DISPLAY MAP RULES (option 230)

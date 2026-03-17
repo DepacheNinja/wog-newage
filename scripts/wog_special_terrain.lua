@@ -114,10 +114,11 @@ wogSpecialTerrainSub = PlayerGotTurn.subscribeAfter(EVENT_BUS, function(event)
 
 					elseif terrain == "holyGround" then
 						-- Holy Ground: benefit only non-Necropolis heroes
+						local holyPct = C.holyGroundManaPct or 5
 						local factionId = hero:getFactionId()
 						if factionId ~= NECROPOLIS_FACTION then
 							-- Small mana regen bonus (holy blessing)
-							local bonus = math.floor(maxMana * 5 / 100)
+							local bonus = math.floor(maxMana * holyPct / 100)
 							if bonus > 0 then
 								local toAdd = clamp(bonus, 0, maxMana - curMana)
 								if toAdd > 0 then
@@ -126,7 +127,7 @@ wogSpecialTerrainSub = PlayerGotTurn.subscribeAfter(EVENT_BUS, function(event)
 							end
 						else
 							-- Necropolis heroes: mana drain on Holy Ground
-							local drain = math.floor(curMana * 5 / 100)
+							local drain = math.floor(curMana * holyPct / 100)
 							if drain > 0 then
 								giveMana(heroId, -drain)
 							end

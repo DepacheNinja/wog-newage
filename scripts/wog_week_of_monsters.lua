@@ -134,8 +134,11 @@ wogWeekOfMonstersAnnounceSub = PlayerGotTurn.subscribeAfter(EVENT_BUS, function(
 	local playerIdx = event:getPlayer()
 	if not GAME:isPlayerHuman(playerIdx) then return end
 
+	local atk    = C.weekOfMonstersAtkBonus    or 2
+	local def    = C.weekOfMonstersDefBonus    or 2
+	local growth = C.weekOfMonstersGrowthBonus or 1
 	local msg = "Week of Monsters: " .. C.weekMonsterName
-		.. " are stronger (+2 ATK/+2 DEF) and more numerous (+1 growth) this week!"
+		.. string.format(" are stronger (+%d ATK/+%d DEF) and more numerous (+%d growth) this week!", atk, def, growth)
 
 	local pack = InfoWindow.new()
 	pack:setPlayer(playerIdx)

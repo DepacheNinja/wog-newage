@@ -63,20 +63,25 @@ wogBuildingBonusesSub = BuildingBuilt.subscribeAfter(EVENT_BUS, function(event)
 
 	if buildingId == MAGES_GUILD_5 then
 		-- Mage Guild 5: magical research bonus
-		giveBonus(playerIdx, {{GOLD, 500}, {CRYSTAL, 3}})
+		local gold    = C.buildingBonusGuildGold    or 500
+		local crystal = C.buildingBonusGuildCrystal or 3
+		giveBonus(playerIdx, {{GOLD, gold}, {CRYSTAL, crystal}})
 
 	elseif buildingId == CASTLE then
 		-- Castle completed: military bonus
-		giveBonus(playerIdx, {{GOLD, 1000}})
+		local gold = C.buildingBonusCastleGold or 1000
+		giveBonus(playerIdx, {{GOLD, gold}})
 
 	elseif buildingId == CAPITOL then
 		-- Capitol: major economic milestone
+		local gold = C.buildingBonusCapitolGold or 2000
+		local rare = C.buildingBonusCapitolRare or 5
 		giveBonus(playerIdx, {
-			{GOLD,    2000},
-			{MERCURY, 5},
-			{SULFUR,  5},
-			{CRYSTAL, 5},
-			{GEMS,    5},
+			{GOLD,    gold},
+			{MERCURY, rare},
+			{SULFUR,  rare},
+			{CRYSTAL, rare},
+			{GEMS,    rare},
 		})
 	end
 end)

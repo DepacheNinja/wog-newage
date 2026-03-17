@@ -30,8 +30,8 @@ local C = DATA.WOG
 
 C.creatureRelationsEnabled = C.creatureRelationsEnabled ~= false
 
--- Post-battle synergy XP bonus: 5% extra per active relationship
-local SYNERGY_BONUS_PCT = 5
+-- Post-battle synergy XP bonus: configurable % extra per active relationship
+local SYNERGY_BONUS_PCT = C.synergyBonusPct or 5
 
 -- Creature relationships: {creatureIdA, creatureIdB, description}
 -- Relationship triggers when BOTH creatures are in the SAME army
@@ -53,7 +53,7 @@ local ALLIED_PAIRS = {
 -- Opposite-army hatred: {attackerCreatureId, targetCreatureId, description}
 -- When attacker creature hits the target creature type, deal +HATE_BONUS_PCT damage.
 -- Pairs are bidirectional — both {A,B} and {B,A} are handled.
-local HATE_BONUS_PCT = 15  -- +15% damage on hate attacks
+local HATE_BONUS_PCT = C.hateDamagePct or 15  -- extra % damage on hate attacks
 
 -- Build a fast lookup map: hatePairs[attackerCreatureId][targetCreatureId] = true
 local hatePairDefinitions = {
