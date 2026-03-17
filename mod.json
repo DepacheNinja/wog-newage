@@ -71,6 +71,18 @@
 		"wogLevel7XP" : {
 			"source" : "wog_level7_xp.lua",
 			"implements" : "ANYTHING"
+		},
+		"wogCreatureRelations" : {
+			"source" : "wog_creature_relations.lua",
+			"implements" : "ANYTHING"
+		},
+		"wogHeroSpecBoost" : {
+			"source" : "wog_hero_spec_boost.lua",
+			"implements" : "ANYTHING"
+		},
+		"wogBattleExtender" : {
+			"source" : "wog_battle_extender.lua",
+			"implements" : "ANYTHING"
 		}
 	}
 }
