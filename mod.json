@@ -28,7 +28,8 @@
 	],
 	"objects": [
 		"config/objects/wog_power_stones.json",
-		"config/objects/wog_death_chamber.json"
+		"config/objects/wog_death_chamber.json",
+		"config/objects/wog_artificer.json"
 	],
 	"skills": [
 		"config/skills/warfare_skills.json",
@@ -189,6 +190,10 @@
 		},
 		"wogEspionage": {
 			"source": "wog_espionage.lua",
+			"implements": "ANYTHING"
+		},
+		"wogArtificer": {
+			"source": "wog_artificer.lua",
 			"implements": "ANYTHING"
 		}
 	},

@@ -134,7 +134,7 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 
 | Option | Feature | Description |
 |--------|---------|-------------|
-| 26 | **Artificer** | Combine or upgrade artifacts (complex UI mechanic, not yet impl.) |
+| ~~26~~ | ~~**Artificer**~~ | Done — map object "wogArtificer" (sprite zobj012) upgrades one equipped artifact per visit; up to 2/day, second costs 2×. Auto-selects most-expensive affordable artifact. Gold costs from ERM script26 table. (Interactive selection and Mithril cost deferred.) |
 | ~~143~~ | ~~**New Artifacts**~~ | Done via dependency — moved to ✅ |
 | ~~176~~ | ~~**Magic Wand**~~ | Done via dependency — wake-of-gods.level8Units defines Magic Wand (upgrades tier-7 creatures to level-8) |
 | ~~178~~ | ~~**Combination Artifacts**~~ | Done via dependency — moved to ✅ |

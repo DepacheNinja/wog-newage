@@ -1,0 +1,47 @@
+{
+    /// WOG New Age — Artificer (option 26)
+    /// Classic WOG (script26.erm by Perfecto): map object 63/52.
+    /// A skilled smith who upgrades one of the hero's equipped artifacts to the
+    /// next tier. Up to 2 upgrades per Artificer per day; the second costs double.
+    /// All logic is handled by scripts/wog_artificer.lua via ObjectVisitStarted.
+    ///
+    /// Sprite: mapObjects/zobj012 from wake-of-gods.mapObjects.
+
+    "wogArtificer" : {
+        "name"    : "Artificer",
+        "handler" : "configurable",
+        "base" : {
+            "sounds" : {
+                "visit" : ["GAZEBO"]
+            }
+        },
+        "types" : {
+            "wogArtificer" : {
+                "name"        : "Artificer",
+                "description" : "A skilled Artificer who can upgrade your equipped artifacts to the next tier for a gold fee.",
+                "aiValue"     : 4000,
+                "rmg" : {
+                    "value"     : 4000,
+                    "rarity"    : 30,
+                    "zoneLimit" : 1
+                },
+                "templates" : {
+                    "wogArtificerTemplate" : {
+                        "animation"     : "mapObjects/zobj012",
+                        "mask"          : [
+                            "VVV",
+                            "VAV"
+                        ],
+                        "visitableFrom" : [
+                            "---",
+                            "+++"
+                        ]
+                    }
+                },
+                "visitMode"  : "unlimited",
+                "selectMode" : "selectFirst",
+                "rewards"    : []
+            }
+        }
+    }
+}

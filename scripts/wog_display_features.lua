@@ -86,6 +86,7 @@ wogDisplayFeaturesSub = PlayerGotTurn.subscribeAfter(EVENT_BUS, function(event)
 	-- War Machines & Map Objects
 	add(C.warMachinesEnabled,        "Enhanced War Machines I (Ballista attacks twice at Basic, 3× at Expert; First Aid heals double)")
 	add(C.deathChamberEnabled,       "Death Chamber (map object — hero visits to gain 1 level; must be placed by mapmaker)")
+	add(C.artificerEnabled,          "Artificer (option 26: upgrades equipped artifacts, auto-selects most expensive affordable; 2/day, 2nd costs double)")
 
 	local msg = table.concat(lines, "\n")
 

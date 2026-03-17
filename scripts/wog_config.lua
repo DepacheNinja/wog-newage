@@ -299,6 +299,16 @@ C.battleExtenderRefundGold = 1000   -- gold refunded when hero retreats or surre
 C.displayFeaturesEnabled  = true   -- show active WOG features to human players on day 1
 
 -- =====================================================================
+-- ARTIFICER (option 26)
+-- =====================================================================
+-- Map object "wogArtificer" upgrades an equipped artifact to the next tier.
+-- Up to 2 upgrades per Artificer per day; the second visit costs double.
+-- Gold costs follow classic ERM script26 table (Mithril cost deferred).
+-- Auto-selects the most expensive artifact the hero can currently afford.
+-- (Interactive dialog requires client-side dialog API not yet available in Lua.)
+C.artificerEnabled = true
+
+-- =====================================================================
 -- DEATH CHAMBER (option 70)
 -- =====================================================================
 -- Creature bank guarded by the Undead King (Power Liches + Dread Knights +
