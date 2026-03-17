@@ -12,7 +12,14 @@ local C = DATA.WOG
 -- ECONOMY & RESOURCES
 -- =====================================================================
 C.firstMoneyEnabled       = true   -- option 40: Starting gold bonus
-C.firstMoneyAmount        = 5000   -- gold given to each hero on day 1
+C.firstMoneyAmount        = 5000   -- gold given to each player on day 1 (WoG default: 12000)
+C.firstMoneyResources     = false  -- set true to also give classic WoG starting resources
+C.firstMoneyWood          = 20     -- wood bonus if firstMoneyResources=true
+C.firstMoneyOre           = 20     -- ore bonus if firstMoneyResources=true
+C.firstMoneyMercury       = 10     -- mercury bonus if firstMoneyResources=true
+C.firstMoneySulfur        = 10     -- sulfur bonus if firstMoneyResources=true
+C.firstMoneyCrystal       = 10     -- crystal bonus if firstMoneyResources=true
+C.firstMoneyGems          = 10     -- gems bonus if firstMoneyResources=true
 
 C.weeklyIncomeEnabled     = true   -- custom: daily 100g for human players
 C.weeklyIncomeAmount      = 100    -- gold per day per human player
