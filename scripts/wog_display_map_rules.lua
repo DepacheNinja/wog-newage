@@ -62,6 +62,10 @@ wogDisplayMapRulesSub = PlayerGotTurn.subscribeAfter(EVENT_BUS, function(event)
 	add(C.witchHutsEnabled,
 		"Advanced Witch Huts: Witch Huts teach at Advanced level for 1000g")
 
+	-- Special terrain
+	add(C.specialTerrainEnabled,
+		"Special Terrain: Magic Plains/Lucid Pools +" .. (C.magicPlainsManaRegen or 10) .. "% mana/day; Evil Fog -" .. (C.evilFogManaDrain or 10) .. "% mana/day")
+
 	if #lines == 2 then
 		lines[3] = "  (none — all map rules disabled)"
 	end
