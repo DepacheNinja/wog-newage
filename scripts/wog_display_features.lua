@@ -83,6 +83,10 @@ wogDisplayFeaturesSub = PlayerGotTurn.subscribeAfter(EVENT_BUS, function(event)
 	-- Treasure
 	add(C.treasureChestsEnabled,     "Upgrading Treasure Chests (extra 500 gold or XP per chest)")
 
+	-- War Machines & Map Objects
+	add(C.warMachinesEnabled,        "Enhanced War Machines I (Ballista attacks twice at Basic, 3× at Expert; First Aid heals double)")
+	add(C.deathChamberEnabled,       "Death Chamber (map object — hero visits to gain 1 level; must be placed by mapmaker)")
+
 	local msg = table.concat(lines, "\n")
 
 	local pack = InfoWindow.new()

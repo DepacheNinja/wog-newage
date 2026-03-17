@@ -1,0 +1,61 @@
+{
+	/// WOG New Age — Death Chamber (option 70)
+	/// A dark chamber on the adventure map where a hero can sacrifice creatures
+	/// to gain an immediate level-up. The chamber accepts the sacrifice and grants
+	/// the hero exactly 1 level of experience.
+	///
+	/// Classic WOG behavior: hero pays creatures based on XP needed for next level.
+	/// VCMI approximation: heroLevel reward gives exactly 1 level; the sacrifice is
+	/// described in the message (thematic). Hero must have army to visit.
+	///
+	/// Sprite: uses zobj007.def (dark tower) from wake-of-gods.mapObjects dependency.
+
+	"wogDeathChamber" : {
+		"name" : "Death Chamber",
+		"handler" : "configurable",
+		"base" : {
+			"sounds" : {
+				"ambient" : ["LOOPCAMP"],
+				"visit"   : ["MYSTERY"]
+			}
+		},
+		"types" : {
+			"wogDeathChamber" : {
+				"name" : "Death Chamber",
+				"description" : "A dark stone chamber where heroes may sacrifice their creatures for rapid advancement.",
+				"aiValue" : 5000,
+				"rmg" : {
+					"value"     : 5000,
+					"rarity"    : 40,
+					"zoneLimit" : 1
+				},
+				"templates" : {
+					"zobj007" : {
+						"animation" : "mapObjects/zobj007",
+						"mask" : [
+							"VVV",
+							"VVV",
+							"VVV",
+							"VAV"
+						],
+						"visitableFrom" : [
+							"---",
+							"+++",
+							"+++"
+						]
+					}
+				},
+				"visitMode"  : "hero",
+				"selectMode" : "selectFirst",
+				"onVisitedMessage" : "{Death Chamber}\n\nYou have already sacrificed here. The Chamber will not grant another level.",
+				"rewards" : [
+					{
+						"appearChance" : { "min" : 0, "max" : 100 },
+						"message"      : "{Death Chamber}\n\nThe chamber reeks of death and dark magic. A spectral voice fills the air:\n\n\"Sacrifice your warriors and gain power beyond mortal measure!\"\n\nYour soldiers march willingly into the dark ritual. As the last one falls, a surge of experience floods your body — you have grown stronger!\n\nYou have gained one hero level!",
+						"heroLevel"    : 1
+					}
+				]
+			}
+		}
+	}
+}

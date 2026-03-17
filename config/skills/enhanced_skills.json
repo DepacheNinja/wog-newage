@@ -258,5 +258,45 @@
 		"expert": {
 			"description": "{Luck — Expert [WOG]}\n\n+3 Luck. Lucky hits deal +50% extra damage (total ~3× normal)."
 		}
+	},
+	"core:artillery": {
+		"basic": {
+			"effects": {
+				"val2": { "val": 1 }
+			},
+			"description": "{Artillery — Basic [WOG Enhanced]}\n\nHero controls ballista. 50% double-damage chance. Attacks twice per round."
+		},
+		"advanced": {
+			"effects": {
+				"val2": { "val": 1 }
+			},
+			"description": "{Artillery — Advanced [WOG Enhanced]}\n\nHero controls ballista. 75% double-damage chance. Attacks twice per round."
+		},
+		"expert": {
+			"effects": {
+				"val2": { "val": 2 }
+			},
+			"description": "{Artillery — Expert [WOG Enhanced]}\n\nHero controls ballista. 100% double-damage. Attacks three times per round."
+		}
+	},
+	"core:firstAid": {
+		"basic": {
+			"effects": {
+				"main": { "val": 100 }
+			},
+			"description": "{First Aid — Basic [WOG Enhanced]}\n\nHero controls First Aid Tent. Heals up to 100 HP per turn (was 50)."
+		},
+		"advanced": {
+			"effects": {
+				"main": { "val": 150 }
+			},
+			"description": "{First Aid — Advanced [WOG Enhanced]}\n\nHero controls First Aid Tent. Heals up to 150 HP per turn (was 75)."
+		},
+		"expert": {
+			"effects": {
+				"main": { "val": 200 }
+			},
+			"description": "{First Aid — Expert [WOG Enhanced]}\n\nHero controls First Aid Tent. Heals up to 200 HP per turn (was 100). Can revive fallen units."
+		}
 	}
 }

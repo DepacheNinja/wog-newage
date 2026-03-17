@@ -1,37 +1,37 @@
 {
 	"core:ballistics" : {
 		"basic" : {
-			"description" : "{Warfare — Basic}\n\nThese three skills are permanently linked. Learning or leveling any one of them automatically raises all three to the same level.\n\nBallistics (Catapult)\nHero takes control of the catapult. Scores 1 extra hit on walls per combat turn during sieges.\n\nArtillery (Ballista)\nHero takes control of the ballista. Ballista has a 50% chance to deal double damage on each shot.\n\nFirst Aid (First Aid Tent)\nHero takes control of the first aid tent. Restores up to 50 hit points to one friendly unit stack per turn."
+			"description" : "{Warfare — Basic [WOG Enhanced]}\n\nThese three skills are permanently linked.\n\nBallistics (Catapult): 1 extra wall hit/turn.\nArtillery (Ballista): 50% double-damage; attacks twice per round.\nFirst Aid Tent: Heals up to 100 HP per turn."
 		},
 		"advanced" : {
-			"description" : "{Warfare — Advanced}\n\nThese three skills are permanently linked. Learning or leveling any one of them automatically raises all three to the same level.\n\nBallistics (Catapult)\nHero takes control of the catapult. Scores 2 extra hits on walls per combat turn during sieges.\n\nArtillery (Ballista)\nHero takes control of the ballista. Ballista has a 75% chance to deal double damage. Attacks twice per round.\n\nFirst Aid (First Aid Tent)\nHero takes control of the first aid tent. Restores up to 75 hit points to one friendly unit stack per turn."
+			"description" : "{Warfare — Advanced [WOG Enhanced]}\n\nThese three skills are permanently linked.\n\nBallistics (Catapult): 2 extra wall hits/turn.\nArtillery (Ballista): 75% double-damage; attacks twice per round.\nFirst Aid Tent: Heals up to 150 HP per turn."
 		},
 		"expert" : {
-			"description" : "{Warfare — Expert}\n\nThese three skills are permanently linked. Learning or leveling any one of them automatically raises all three to the same level.\n\nBallistics (Catapult)\nHero takes control of the catapult. Scores 3 extra hits per turn. Catapult can target any wall section.\n\nArtillery (Ballista)\nHero takes control of the ballista. Ballista never misses. Always deals double damage. Attacks twice per round.\n\nFirst Aid (First Aid Tent)\nHero takes control of the first aid tent. Restores up to 100 hit points per turn. Can resurrect fallen units."
+			"description" : "{Warfare — Expert [WOG Enhanced]}\n\nThese three skills are permanently linked.\n\nBallistics (Catapult): 3 extra wall hits; can target any section.\nArtillery (Ballista): Always double damage; attacks three times per round.\nFirst Aid Tent: Heals up to 200 HP per turn; can revive fallen units."
 		}
 	},
 
 	"core:artillery" : {
 		"basic" : {
-			"description" : "{Warfare — Basic}\n\nThese three skills are permanently linked. Learning or leveling any one of them automatically raises all three to the same level.\n\nArtillery (Ballista)\nHero takes control of the ballista. Ballista has a 50% chance to deal double damage on each shot.\n\nBallistics (Catapult)\nHero takes control of the catapult. Scores 1 extra hit on walls per combat turn during sieges.\n\nFirst Aid (First Aid Tent)\nHero takes control of the first aid tent. Restores up to 50 hit points to one friendly unit stack per turn."
+			"description" : "{Warfare — Basic [WOG Enhanced]}\n\nThese three skills are permanently linked.\n\nArtillery (Ballista): 50% double-damage; attacks twice per round.\nBallistics (Catapult): 1 extra wall hit/turn.\nFirst Aid Tent: Heals up to 100 HP per turn."
 		},
 		"advanced" : {
-			"description" : "{Warfare — Advanced}\n\nThese three skills are permanently linked. Learning or leveling any one of them automatically raises all three to the same level.\n\nArtillery (Ballista)\nHero takes control of the ballista. Ballista has a 75% chance to deal double damage. Attacks twice per round.\n\nBallistics (Catapult)\nHero takes control of the catapult. Scores 2 extra hits on walls per combat turn during sieges.\n\nFirst Aid (First Aid Tent)\nHero takes control of the first aid tent. Restores up to 75 hit points to one friendly unit stack per turn."
+			"description" : "{Warfare — Advanced [WOG Enhanced]}\n\nThese three skills are permanently linked.\n\nArtillery (Ballista): 75% double-damage; attacks twice per round.\nBallistics (Catapult): 2 extra wall hits/turn.\nFirst Aid Tent: Heals up to 150 HP per turn."
 		},
 		"expert" : {
-			"description" : "{Warfare — Expert}\n\nThese three skills are permanently linked. Learning or leveling any one of them automatically raises all three to the same level.\n\nArtillery (Ballista)\nHero takes control of the ballista. Ballista never misses. Always deals double damage. Attacks twice per round.\n\nBallistics (Catapult)\nHero takes control of the catapult. Scores 3 extra hits per turn. Catapult can target any wall section.\n\nFirst Aid (First Aid Tent)\nHero takes control of the first aid tent. Restores up to 100 hit points per turn. Can resurrect fallen units."
+			"description" : "{Warfare — Expert [WOG Enhanced]}\n\nThese three skills are permanently linked.\n\nArtillery (Ballista): Always double damage; attacks three times per round.\nBallistics (Catapult): 3 extra wall hits; can target any section.\nFirst Aid Tent: Heals up to 200 HP per turn; can revive fallen units."
 		}
 	},
 
 	"core:firstAid" : {
 		"basic" : {
-			"description" : "{Warfare — Basic}\n\nThese three skills are permanently linked. Learning or leveling any one of them automatically raises all three to the same level.\n\nFirst Aid (First Aid Tent)\nHero takes control of the first aid tent. Restores up to 50 hit points to one friendly unit stack per turn.\n\nArtillery (Ballista)\nHero takes control of the ballista. Ballista has a 50% chance to deal double damage on each shot.\n\nBallistics (Catapult)\nHero takes control of the catapult. Scores 1 extra hit on walls per combat turn during sieges."
+			"description" : "{Warfare — Basic [WOG Enhanced]}\n\nThese three skills are permanently linked.\n\nFirst Aid Tent: Heals up to 100 HP per turn (was 50).\nArtillery (Ballista): 50% double-damage; attacks twice per round.\nBallistics (Catapult): 1 extra wall hit/turn."
 		},
 		"advanced" : {
-			"description" : "{Warfare — Advanced}\n\nThese three skills are permanently linked. Learning or leveling any one of them automatically raises all three to the same level.\n\nFirst Aid (First Aid Tent)\nHero takes control of the first aid tent. Restores up to 75 hit points to one friendly unit stack per turn.\n\nArtillery (Ballista)\nHero takes control of the ballista. Ballista has a 75% chance to deal double damage. Attacks twice per round.\n\nBallistics (Catapult)\nHero takes control of the catapult. Scores 2 extra hits on walls per combat turn during sieges."
+			"description" : "{Warfare — Advanced [WOG Enhanced]}\n\nThese three skills are permanently linked.\n\nFirst Aid Tent: Heals up to 150 HP per turn (was 75).\nArtillery (Ballista): 75% double-damage; attacks twice per round.\nBallistics (Catapult): 2 extra wall hits/turn."
 		},
 		"expert" : {
-			"description" : "{Warfare — Expert}\n\nThese three skills are permanently linked. Learning or leveling any one of them automatically raises all three to the same level.\n\nFirst Aid (First Aid Tent)\nHero takes control of the first aid tent. Restores up to 100 hit points per turn. Can resurrect fallen units.\n\nArtillery (Ballista)\nHero takes control of the ballista. Ballista never misses. Always deals double damage. Attacks twice per round.\n\nBallistics (Catapult)\nHero takes control of the catapult. Scores 3 extra hits per turn. Catapult can target any wall section."
+			"description" : "{Warfare — Expert [WOG Enhanced]}\n\nThese three skills are permanently linked.\n\nFirst Aid Tent: Heals up to 200 HP per turn (was 100); can revive fallen units.\nArtillery (Ballista): Always double damage; attacks three times per round.\nBallistics (Catapult): 3 extra wall hits; can target any section."
 		}
 	}
 }

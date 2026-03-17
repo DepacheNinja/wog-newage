@@ -274,6 +274,25 @@ C.battleExtenderRefundGold = 1000   -- gold refunded when hero retreats or surre
 C.displayFeaturesEnabled  = true   -- show active WOG features to human players on day 1
 
 -- =====================================================================
+-- DEATH CHAMBER (option 70)
+-- =====================================================================
+-- The Death Chamber is a special map object that grants the visiting hero
+-- exactly 1 level-up. The sacrifice of creatures is described thematically
+-- in the visit message. Map must contain the object for this to trigger.
+-- (This option is ⚫ map-object only — the wog-newage Death Chamber object
+--  must be placed on the map by a mapmaker. No automatic spawning.)
+C.deathChamberEnabled = true   -- tracked for display purposes
+
+-- =====================================================================
+-- ENHANCED WAR MACHINES I (option 54)
+-- =====================================================================
+-- Ballista attacks twice at Basic level (Advanced/Expert already did);
+-- Expert ballista attacks 3 times. First Aid heals double the vanilla amount.
+-- Ammo Cart: already provides unlimited ammo to all shooters in vanilla VCMI.
+-- All changes are in config/skills/enhanced_skills.json (JSON bonus overrides).
+C.warMachinesEnabled = true   -- tracked for display; actual effects are in JSON
+
+-- =====================================================================
 -- SKILL IDs (SecondarySkill enum values from VCMI engine)
 -- Used by skill enhancement scripts.
 -- =====================================================================

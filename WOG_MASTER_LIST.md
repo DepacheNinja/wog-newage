@@ -80,6 +80,8 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | 75 | **Abbreviated Skill Descriptions** | All enhanced_skills.json descriptions shortened to compact 1-2 line format with actual WOG values |
 | 244 | **Summon Elementals Script** | Already implemented in VCMI core — Summon Elementals spell works natively |
 | 58 | **Espionage** | Adv. Scouting: weekly enemy hero count; Expert Scouting: enemy x,y positions (via InfoWindow) |
+| 54 | **Enhanced War Machines I** | Ballista attacks twice at Basic (3× at Expert); First Aid heals 100/150/200 HP (was 50/75/100); Ammo Cart already unlimited in VCMI — all via JSON skill overrides in enhanced_skills.json |
+| 70 | **Death Chamber** | Map object (wogDeathChamber) — hero visits to gain exactly 1 level; uses zobj007 sprite from wake-of-gods.mapObjects; configurable JSON object with heroLevel reward |
 
 ---
 
@@ -170,8 +172,8 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 
 | Option | Feature | Description |
 |--------|---------|-------------|
-| 22 | **Monster Mutterings** | Hovering shows creature thoughts |
-| 24 | **Enhanced Hint Text** | Better hover descriptions |
+| 22 | **Monster Mutterings** | Blocked — requires client-side tooltip/hover UI hook; server-side Lua only |
+| 24 | **Enhanced Hint Text** | Blocked — requires client-side UI, not achievable via server Lua scripting |
 | ~~75~~ | ~~**Abbreviated Skill Descriptions**~~ | Done — all enhanced_skills.json descriptions shortened to compact 1-2 line format |
 | ~~248~~ | ~~**Display WoGification Messages**~~ | Done — moved to ✅ |
 | ~~230~~ | ~~**Display Map Rules**~~ | Done — moved to ✅ |
@@ -182,12 +184,12 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 
 | Option | Feature | Why It's Hard |
 |--------|---------|--------------:|
-| 54 | **Enhanced War Machines I** | Needs battle creature manipulation API |
+| ~~54~~ | ~~**Enhanced War Machines I**~~ | Done — JSON skill overrides; ballista attacks 2× (Basic) or 3× (Expert); first aid heals doubled |
 | 36 | **Mithril Enhancements** | Needs 8th resource type in engine |
 | 149 | **Mithril Display** | Depends on Mithril resource |
 | ~~52~~ | ~~**Mirror of the Home-Way**~~ | Done via dependency — wake-of-gods.mapObjects implements it via configurable handler + townPortal spell cast |
 | ~~58~~ | ~~**Espionage**~~ | Done — Adv. Scouting: weekly enemy hero count; Expert: x,y positions (wog_espionage.lua) |
-| 70 | **Death Chamber** | Special hero leveling |
+| ~~70~~ | ~~**Death Chamber**~~ | Done — configurable map object (wogDeathChamber) gives exactly 1 level on visit; uses zobj007 sprite |
 | ~~244~~ | ~~**Summon Elementals Script**~~ | Done — VCMI core already implements Summon Elementals spell natively |
 | 192 | **Transfer Owner** | SetObjectProperty/GiveHero APIs now available; needs map scripting trigger to be useful |
 
@@ -235,10 +237,10 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 
 | Status | Count |
 |--------|-------|
-| ✅ Done | 80 |
+| ✅ Done | 82 |
 | 🟡 Partial | 1 |
-| 🔴 Todo (Lua, doable) | ~2 |
-| 🏗️ Hard (needs engine) | 6 |
+| ⛔ Blocked (client-side only) | 2 |
+| 🏗️ Hard (needs engine) | 4 |
 | ⚫ Map objects | 14 |
 | ❓ Resolved unknowns | 10 |
 | **Total enabled** | **~130** |
