@@ -26,6 +26,7 @@ local PlayerGotTurn    = require("events.PlayerGotTurn")
 local Metatype         = require("core:Metatype")
 local EntitiesChanged  = require("netpacks.EntitiesChanged")
 local InfoWindow       = require("netpacks.InfoWindow")
+local SetResources     = require("netpacks.SetResources")
 
 DATA.WOG = DATA.WOG or {}
 local C = DATA.WOG
@@ -77,6 +78,21 @@ local ELIGIBLE_CREATURES = {
 	138, 139, 140, 144,      -- Halfling, Peasant, Boar, Troll
 }
 
+-- ═══════════════════════════════════════════════════════════════════════════════
+-- RESOURCE WEEK DATA — ERM script20 v1.2+
+-- v180 negative = resource week: -1=Wood, -2=Mercury, -3=Ore, -4=Sulfur,
+--   -5=Crystal, -6=Gems, -7=Gold
+-- Each day, mine owners of that resource type get double production.
+-- Resource type indices: 0=wood, 1=mercury, 2=ore, 3=sulfur, 4=crystal, 5=gems, 6=gold
+-- Mine daily output: wood=2, mercury=1, ore=2, sulfur=1, crystal=1, gems=1, gold=1000
+-- ═══════════════════════════════════════════════════════════════════════════════
+local RESOURCE_NAMES = {"Wood", "Mercury", "Ore", "Sulfur", "Crystal", "Gems", "Gold"}
+local MINE_DAILY_OUTPUT = {2, 1, 2, 1, 1, 1, 1000}  -- indexed 1-7 (matching resType+1)
+-- Mine object type in VCMI: Obj::MINE = 53
+local OBJ_MINE = 53
+-- Chance of resource week vs creature week: ~1 in 10 weeks per ERM weighting
+local RESOURCE_WEEK_CHANCE = C.resourceWeekChance or 10  -- % chance per week
+
 -- Internal state: previous week's creature and its original stats
 C.weekMonster              = nil
 C.weekMonsterOrigAtk       = nil
@@ -87,6 +103,10 @@ C.weekMonsterOrigHP        = nil
 C.weekMonsterOrigDmgMin    = nil
 C.weekMonsterOrigDmgMax    = nil
 C.weekMonsterName          = nil  -- cached creature name for announcements
+
+-- Resource week state: nil if creature week, 0-6 if resource week (resource type index)
+C.weekResourceType         = nil
+C.weekResourceName         = nil
 
 -- Helper: calculate bonus = floor(base * pct / 100), minimum 1
 local function pctBonus(base, pct)
@@ -161,6 +181,13 @@ local function weekRandom(seed)
 	return (h % #ELIGIBLE_CREATURES) + 1
 end
 
+-- Helper: deterministic hash for resource week type selection
+local function resourceWeekRandom(seed)
+	local h = seed * 48271 + 65537
+	h = h % 2147483648
+	return (h % 7)  -- returns 0-6 (resource type index)
+end
+
 wogWeekOfMonstersSub = TurnStarted.subscribeAfter(EVENT_BUS, function(event)
 	if not (C.weekOfMonstersEnabled ~= false) then return end
 
@@ -171,12 +198,14 @@ wogWeekOfMonstersSub = TurnStarted.subscribeAfter(EVENT_BUS, function(event)
 	local totalDay = GAME:getDate(0)
 	if totalDay == 1 then
 		-- It's week 1, day 1: clear any leftover state and do nothing
-		C.weekMonster    = nil
-		C.weekMonsterName = nil
+		C.weekMonster       = nil
+		C.weekMonsterName   = nil
+		C.weekResourceType  = nil
+		C.weekResourceName  = nil
 		return
 	end
 
-	-- Step 1: Restore previous creature to original stats
+	-- Step 1: Restore previous creature to original stats (if creature week)
 	if C.weekMonster ~= nil and C.weekMonsterOrigAtk ~= nil then
 		restoreCreature(C.weekMonster, {
 			atk    = C.weekMonsterOrigAtk,
@@ -189,11 +218,39 @@ wogWeekOfMonstersSub = TurnStarted.subscribeAfter(EVENT_BUS, function(event)
 		})
 	end
 
-	-- Step 2: Pick this week's creature
+	-- Step 2: Decide if this is a resource week or creature week
+	-- Use deterministic hash: if (hash % 100) < RESOURCE_WEEK_CHANCE, it's a resource week
+	local weekHash = (totalDay * 1103515245 + 12345) % 2147483648
+	local isResourceWeek = ((weekHash % 100) < RESOURCE_WEEK_CHANCE)
+
+	if isResourceWeek then
+		-- Resource week: pick a resource type (0-6)
+		local resType = resourceWeekRandom(totalDay)
+		C.weekResourceType = resType
+		C.weekResourceName = RESOURCE_NAMES[resType + 1] or "Unknown"
+		-- Clear creature week state
+		C.weekMonster     = nil
+		C.weekMonsterName = nil
+		C.weekMonsterOrigAtk    = nil
+		C.weekMonsterOrigDef    = nil
+		C.weekMonsterOrigGrowth = nil
+		C.weekMonsterOrigSpeed  = nil
+		C.weekMonsterOrigHP     = nil
+		C.weekMonsterOrigDmgMin = nil
+		C.weekMonsterOrigDmgMax = nil
+		C.weekMonsterIsWarMachine = nil
+		return
+	end
+
+	-- Creature week: clear resource week state
+	C.weekResourceType = nil
+	C.weekResourceName = nil
+
+	-- Step 3: Pick this week's creature
 	local idx        = weekRandom(totalDay)
 	local creatureId = ELIGIBLE_CREATURES[idx]
 
-	-- Step 3: Read current stats via creature service
+	-- Step 4: Read current stats via creature service
 	local creatures  = SERVICES:creatures()
 	local creature   = creatures:getByIndex(creatureId)
 	if not creature then
@@ -222,7 +279,7 @@ wogWeekOfMonstersSub = TurnStarted.subscribeAfter(EVENT_BUS, function(event)
 
 	local isWarMachine = WAR_MACHINE_IDS[creatureId] or false
 
-	-- Step 4: Apply percentage-based stat + growth boost
+	-- Step 5: Apply percentage-based stat + growth boost
 	applyCreatureBoost(creatureId, {
 		atk    = origAtk,
 		def    = origDef,
@@ -246,10 +303,50 @@ wogWeekOfMonstersSub = TurnStarted.subscribeAfter(EVENT_BUS, function(event)
 	C.weekMonsterIsWarMachine  = isWarMachine
 end)
 
--- Announce the Week of Monsters creature to each human player
+-- ═══════════════════════════════════════════════════════════════════════════════
+-- RESOURCE WEEK DAILY BONUS — fires each day via PlayerGotTurn
+-- During a resource week, each player owning mines of the bonus resource type
+-- gets double production (extra daily output added via SetResources).
+-- ═══════════════════════════════════════════════════════════════════════════════
+wogWeekResourceDailySub = PlayerGotTurn.subscribeAfter(EVENT_BUS, function(event)
+	if not (C.weekOfMonstersEnabled ~= false) then return end
+	if C.weekResourceType == nil then return end
+
+	local playerIdx = event:getPlayer()
+	local resType = C.weekResourceType  -- 0-6
+
+	-- Get all mines on the map (Obj::MINE = 53)
+	local mineIds = GAME:getMapObjectIds(OBJ_MINE)
+	if not mineIds then return end
+
+	-- Count mines of this resource type owned by the current player
+	local mineCount = 0
+	for _, mineId in ipairs(mineIds) do
+		local mineRes = GAME:getMineResource(mineId)
+		if mineRes == resType then
+			local owner = GAME:getObjectOwner(mineId)
+			if owner == playerIdx then
+				mineCount = mineCount + 1
+			end
+		end
+	end
+
+	if mineCount <= 0 then return end
+
+	-- Give bonus resources: mineCount * daily output for this resource type
+	local dailyOutput = MINE_DAILY_OUTPUT[resType + 1] or 1
+	local bonus = mineCount * dailyOutput
+
+	local pack = SetResources.new()
+	pack:setPlayer(playerIdx)
+	pack:setAmount(resType, bonus)
+	pack:setAbs(false)  -- relative: add to existing resources
+	SERVER:commitPackage(pack)
+end)
+
+-- Announce the week type to each human player (creature week or resource week)
 wogWeekOfMonstersAnnounceSub = PlayerGotTurn.subscribeAfter(EVENT_BUS, function(event)
 	if not (C.weekOfMonstersEnabled ~= false) then return end
-	if not C.weekMonsterName then return end
 
 	local dayOfWeek = GAME:getDate(1)
 	if dayOfWeek ~= 1 then return end
@@ -261,17 +358,30 @@ wogWeekOfMonstersAnnounceSub = PlayerGotTurn.subscribeAfter(EVENT_BUS, function(
 	local playerIdx = event:getPlayer()
 	if not GAME:isPlayerHuman(playerIdx) then return end
 
-	local statPct   = STAT_PCT
-	local growthPct = GROWTH_PCT
-	local wmNote    = C.weekMonsterIsWarMachine
-		and " (war machine: HP/DEF only)"
-		or string.format(" (+%d%% ATK/DEF/Speed/HP/Dmg, +%d%% growth)", statPct, growthPct)
+	local msg = nil
 
-	local msg = "Week of Monsters: " .. C.weekMonsterName
-		.. wmNote .. " this week!"
+	if C.weekResourceName then
+		-- Resource week announcement
+		local dailyOutput = MINE_DAILY_OUTPUT[(C.weekResourceType or 0) + 1] or 1
+		msg = "Week of " .. C.weekResourceName .. "! All "
+			.. C.weekResourceName .. " mines produce double output (+"
+			.. tostring(dailyOutput) .. "/day per mine) this week!"
+	elseif C.weekMonsterName then
+		-- Creature week announcement
+		local statPct   = STAT_PCT
+		local growthPct = GROWTH_PCT
+		local wmNote    = C.weekMonsterIsWarMachine
+			and " (war machine: HP/DEF only)"
+			or string.format(" (+%d%% ATK/DEF/Speed/HP/Dmg, +%d%% growth)", statPct, growthPct)
 
-	local pack = InfoWindow.new()
-	pack:setPlayer(playerIdx)
-	pack:addText(msg)
-	SERVER:commitPackage(pack)
+		msg = "Week of Monsters: " .. C.weekMonsterName
+			.. wmNote .. " this week!"
+	end
+
+	if msg then
+		local pack = InfoWindow.new()
+		pack:setPlayer(playerIdx)
+		pack:addText(msg)
+		SERVER:commitPackage(pack)
+	end
 end)

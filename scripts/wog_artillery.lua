@@ -18,7 +18,10 @@
 -- Note: getDamage() at subscribeAfter already includes the ballista 2× roll.
 -- We add an extra % of getInitialDamage() on top.
 
-local ApplyDamage = require("events.ApplyDamage")
+local ApplyDamage        = require("events.ApplyDamage")
+local BattleRoundStarted = require("events.BattleRoundStarted")
+local BattleStarted      = require("events.BattleStarted")
+local SetMana            = require("netpacks.SetMana")
 
 DATA.WOG = DATA.WOG or {}
 local C = DATA.WOG
@@ -87,4 +90,84 @@ wogArtillerySub = ApplyDamage.subscribeAfter(EVENT_BUS, function(event)
 	if extra <= 0 then return end
 
 	event:setDamage(event:getDamage() + extra)
+end)
+
+-- ═══════════════════════════════════════════════════════════════════════════════
+-- AMMO CART SPELL POINT RECOVERY — ERM script54 FU907 (BRound trigger)
+-- Each combat round, if hero has an Ammo Cart (creature 148), restore mana.
+-- ERM: y9 = w83 + 1 (ammo cart level +1); hero gains (knowledge) mana per round,
+-- capped at maxMana. Since war machine leveling is not yet implemented, we use
+-- a fixed +knowledge mana per round as a reasonable approximation.
+-- ═══════════════════════════════════════════════════════════════════════════════
+local AMMO_CART_ID = 148
+
+-- Track which battleId has which hero IDs from BattleStarted
+C.artilleryBattleHeroes = C.artilleryBattleHeroes or {}
+
+wogAmmoCartBattleStartSub = BattleStarted.subscribeAfter(EVENT_BUS, function(event)
+	if not (C.artilleryEnabled ~= false) then return end
+	local battleId = event:getBattleId()
+	if battleId < 0 then return end
+	C.artilleryBattleHeroes[battleId] = {
+		attackerHeroId = event:getAttackerHeroId(),
+		defenderHeroId = event:getDefenderHeroId(),
+	}
+end)
+
+wogAmmoCartRoundSub = BattleRoundStarted.subscribeAfter(EVENT_BUS, function(event)
+	if not (C.artilleryEnabled ~= false) then return end
+
+	local battleId = event:getBattleId()
+	if battleId < 0 then return end
+
+	local battleData = C.artilleryBattleHeroes[battleId]
+	if not battleData then return end
+
+	-- Check both attacker and defender heroes for ammo cart
+	local heroIds = {}
+	if battleData.attackerHeroId and battleData.attackerHeroId >= 0 then
+		table.insert(heroIds, battleData.attackerHeroId)
+	end
+	if battleData.defenderHeroId and battleData.defenderHeroId >= 0 then
+		table.insert(heroIds, battleData.defenderHeroId)
+	end
+
+	for _, heroId in ipairs(heroIds) do
+		local hero = GAME:getHero(heroId)
+		if hero then
+			-- Check if hero has ammo cart in army (creature type 148)
+			local hasAmmoCart = false
+			for slot = 0, 6 do
+				local stack = hero:getStack(slot)
+				if stack then
+					local creatureType = stack:getType()
+					if creatureType and creatureType:getIndex() == AMMO_CART_ID then
+						hasAmmoCart = true
+						break
+					end
+				end
+			end
+
+			if hasAmmoCart then
+				local knowledge = hero:getKnowledge()
+				if knowledge and knowledge > 0 then
+					local currentMana = hero:getMana()
+					local maxMana = hero:getManaMax()
+					if currentMana < maxMana then
+						local restore = knowledge
+						if currentMana + restore > maxMana then
+							restore = maxMana - currentMana
+						end
+						if restore > 0 then
+							local pack = SetMana.new()
+							pack:setHeroId(heroId)
+							pack:setValue(restore)
+							pack:setMode(false)  -- relative: add to current
+							SERVER:commitPackage(pack)
+						end
+					end
+				end
+			end
+		end
+	end
 end)

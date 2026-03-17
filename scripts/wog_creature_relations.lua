@@ -20,11 +20,10 @@
 --   Upgrade: Mage→Archmage, Monk→Zealot, Archer→Marksman, Elf→Grand Elf,
 --            Griffin→Royal Griffin, Efreet→Efreet Sultan, Fire Elem→Energy Elem.
 --
---   LIMITATION: Creature type change API (equivalent to HE:C in ERM) is not
---   currently available in FCMI Lua. The upgrade mechanic is approximated as:
---     +1 morale to battle stacks with allied pairs in their army (BattleStarted)
---     +5% synergy XP after won battle per allied pair (BattleEnded)
---   A comment marks where the upgrade API call would go when it becomes available.
+--   Implementation: SetStackType netpack (equivalent to ERM HE:C) changes
+--   creature type in a hero's army slot. Daily upgrade roll via PlayerGotTurn.
+--   Additionally: +1 morale to battle stacks with allied pairs (BattleStarted)
+--   and +5% synergy XP after won battle per allied pair (BattleEnded).
 -- ═══════════════════════════════════════════════════════════════════════════════
 --
 -- VCMI creature indices verified from fcmi/config/creatures/*.json:
@@ -49,6 +48,7 @@ local PlayerGotTurn     = require("events.PlayerGotTurn")
 local SetHeroExperience = require("netpacks.SetHeroExperience")
 local SetStackEffect    = require("netpacks.SetStackEffect")
 local ChangeStackCount  = require("netpacks.ChangeStackCount")
+local SetStackType      = require("netpacks.SetStackType")
 
 DATA.WOG = DATA.WOG or {}
 local C = DATA.WOG
@@ -119,35 +119,62 @@ local HATE_PAIRS = {
 -- ═══════════════════════════════════════════════════════════════════════════════
 -- ALLIED PAIRS — from ERM script47 FU13521 calls to FU13526
 -- Each entry: {upgradeA = {from, to}, upgradeB = {from, to}, supporters = {ids...}}
--- Current VCMI approx: morale bonus + synergy XP (full upgrade requires creature type API)
 -- ═══════════════════════════════════════════════════════════════════════════════
--- NOTE on ERM upgrade mechanic: When FCMI adds a "ChangeCreatureType" or equivalent
--- netpack (HE:C in ERM = modify hero creature slot type), the correct implementation
--- would be: each day, roll a random number 0-99; if roll < min(25, 5 × sideB_HP/sideA_HP),
--- upgrade one creature of type upgradeA.from to upgradeA.to in the hero's army.
--- For now, we keep the morale+XP approximation.
+-- UPGRADE GROUPS: ERM FU13526/FU13527 — daily % chance to upgrade one creature
+-- to next tier when both sides of an allied pair are in the same hero's army.
+-- Chance = min(25, floor(5 * supporter_totalHP / upgradable_totalHP))
+-- Each group has upgradeA (one side) and upgradeB (other side), plus supporter IDs.
+local ALLIED_UPGRADE_GROUPS = {
+	-- Mage/Monk: enchanter(136) supports mage→archmage; warZealot(169) supports monk→zealot
+	{
+		upgradeA = {from = 34, to = 35},  -- mage→archMage
+		upgradeB = {from = 8,  to = 9},   -- monk→zealot
+		supportersA = {136},              -- enchanter supports mage side
+		supportersB = {169},              -- warZealot supports monk side (WOG creature)
+		desc = "Mage/Monk alliance",
+	},
+	-- Archer/Elf: sharpshooter(137) supports both
+	{
+		upgradeA = {from = 2,  to = 3},   -- archer→marksman
+		upgradeB = {from = 18, to = 19},  -- woodElf→grandElf
+		supportersA = {137},              -- sharpshooter
+		supportersB = {137},              -- sharpshooter
+		desc = "Archer/Elf alliance",
+	},
+	-- Griffin/Roc: firebird(130)/phoenix(131) support both
+	{
+		upgradeA = {from = 4,  to = 5},   -- griffin→royalGriffin
+		upgradeB = {from = 92, to = 93},  -- roc→thunderbird
+		supportersA = {130, 131},         -- firebird, phoenix
+		supportersB = {130, 131},         -- firebird, phoenix
+		desc = "Griffin/Roc alliance",
+	},
+	-- Efreet/Fire Elemental: fireMessenger(164) supports both
+	{
+		upgradeA = {from = 52,  to = 53},  -- efreet→efreetSultan
+		upgradeB = {from = 114, to = 129}, -- fireElemental→energyElemental
+		supportersA = {164},              -- fireMessenger (WOG creature)
+		supportersB = {164},              -- fireMessenger (WOG creature)
+		desc = "Efreet/Fire Elemental alliance",
+	},
+}
 
 -- For morale and XP purposes, allied pairs are expressed as flat {creatureIdA, creatureIdB}
+-- This includes all pairs from upgrade groups plus cross-type pairs.
 local ALLIED_PAIRS = {
-	-- Mage/Monk with Enchanters/War Zealots
-	-- ERM: FU13526:Px1/34/35/136/-2/-2/-2/-2/8/9/169/-2/-2/-2/-2;
-	-- upgrade mage(34)→archMage(35), supported by enchanter(136)
-	-- upgrade monk(8)→zealot(9), supported by warZealot(169, WOG-only)
+	-- Mage/Monk synergy (all creature types that are allies)
 	{34, 8,  "Mage/Monk synergy"},         -- mage and monk together
 	{34, 35, "Mage/ArchMage pair"},         -- both mage types
 	{8,  9,  "Monk/Zealot pair"},           -- both monk types
-	-- Archers/Elves (all sharpshooter types help both)
-	-- ERM: Px1/2/3/137/170/171/-2/-2/18/19/137/170/171/-2/-2
+	-- Archers/Elves
 	{2,  18, "Archer/Elf alliance"},        -- archer and woodElf together
 	{2,  3,  "Archer/Marksman pair"},       -- both archer types
 	{18, 19, "Elf/Grand Elf pair"},         -- both elf types
-	-- Griffins/Rocs — Firebirds/Phoenixes support both
-	-- ERM: Px1/4/5/130/131/158/-2/-2/92/93/130/131/158/-2/-2
+	-- Griffins/Rocs
 	{4,  92, "Griffin/Roc alliance"},       -- griffin and roc together
 	{4,  5,  "Griffin/Royal Griffin pair"}, -- both griffin types
 	{92, 93, "Roc/Thunderbird pair"},       -- both roc types
 	-- Efreets/Fire Elementals
-	-- ERM: Px1/52/53/164/-2/-2/-2/-2/114/129/164/-2/-2/-2/-2
 	{52, 114, "Efreet/Fire Elemental alliance"},
 	{52, 53,  "Efreet/Sultan pair"},        -- both efreet types
 	{114, 112, "Fire/Air Elemental pair"},  -- elemental synergy
@@ -386,6 +413,149 @@ wogCreatureRelationsHateSub = PlayerGotTurn.subscribeAfter(EVENT_BUS, function(e
 end)
 
 -- ═══════════════════════════════════════════════════════════════════════════════
+-- ALLIED DAILY UPGRADE — ERM FU13526/FU13527: daily % chance to upgrade creature
+-- Fires each day for human-owned heroes via PlayerGotTurn.
+-- Uses SetStackType netpack (equivalent to ERM HE:C).
+-- ═══════════════════════════════════════════════════════════════════════════════
+wogCreatureRelationsUpgradeSub = PlayerGotTurn.subscribeAfter(EVENT_BUS, function(event)
+	if not C.creatureRelationsEnabled then return end
+
+	local playerIdx = event:getPlayer()
+	if not GAME:isPlayerHuman(playerIdx) then return end
+
+	local heroIds = GAME:getPlayerHeroes(playerIdx)
+	if not heroIds then return end
+
+	local totalDay = GAME:getDate(0)
+
+	for _, heroId in ipairs(heroIds) do
+		local hero = GAME:getHero(heroId)
+		if hero then
+			-- Collect army data: slot -> {id, count, hp}
+			local armyCreatures = {}
+			local slotData = {}
+			for slot = 0, 6 do
+				local stack = hero:getStack(slot)
+				if stack then
+					local creatureType = stack:getType()
+					local count = stack:getCount()
+					if creatureType and count and count > 0 then
+						local idx = creatureType:getIndex()
+						if idx ~= nil then
+							armyCreatures[idx] = true
+							local hp = 1
+							local okHp
+							okHp, hp = pcall(function() return creatureType:getBaseHitPoints() end)
+							if not okHp then hp = 1 end
+							hp = (hp and hp > 0) and hp or 1
+							slotData[slot] = {id = idx, count = count, hp = hp}
+						end
+					end
+				end
+			end
+
+			-- Check each upgrade group
+			for groupIdx, group in ipairs(ALLIED_UPGRADE_GROUPS) do
+				-- Check if both sides have creatures present
+				local hasUpgradeA = armyCreatures[group.upgradeA.from] or false
+				local hasUpgradeB = armyCreatures[group.upgradeB.from] or false
+				local hasSupportA = false
+				local hasSupportB = false
+				for _, sid in ipairs(group.supportersA) do
+					if armyCreatures[sid] then hasSupportA = true; break end
+				end
+				for _, sid in ipairs(group.supportersB) do
+					if armyCreatures[sid] then hasSupportB = true; break end
+				end
+
+				-- Upgrade sideA (e.g. mage→archMage) if sideB supporters are present
+				if hasUpgradeA and (hasSupportB or armyCreatures[group.upgradeB.from] or armyCreatures[group.upgradeB.to]) then
+					-- Calculate supporter HP total (sideB creatures + supporters)
+					local supportHP = 0
+					local upgradableHP = 0
+					for slot, data in pairs(slotData) do
+						if data.id == group.upgradeA.from then
+							upgradableHP = upgradableHP + data.count * data.hp
+						end
+						-- Supporters for sideA upgrade: sideB creatures and their supporters
+						if data.id == group.upgradeB.from or data.id == group.upgradeB.to then
+							supportHP = supportHP + data.count * data.hp
+						end
+						for _, sid in ipairs(group.supportersA) do
+							if data.id == sid then
+								supportHP = supportHP + data.count * data.hp
+								break
+							end
+						end
+					end
+
+					if upgradableHP > 0 then
+						local chance = math.min(25, math.floor(5 * supportHP / upgradableHP))
+						local roll = dailyHash(heroId * 1000 + groupIdx * 10, totalDay)
+						if roll <= chance then
+							-- Upgrade one creature from upgradeA.from to upgradeA.to
+							-- Find the first slot with upgradeA.from
+							for slot, data in pairs(slotData) do
+								if data.id == group.upgradeA.from then
+									local pack = SetStackType.new()
+									pack:setArmyId(heroId)
+									pack:setSlot(slot)
+									pack:setCreatureId(group.upgradeA.to)
+									SERVER:commitPackage(pack)
+									-- Update local tracking
+									data.id = group.upgradeA.to
+									armyCreatures[group.upgradeA.to] = true
+									break
+								end
+							end
+						end
+					end
+				end
+
+				-- Upgrade sideB (e.g. monk→zealot) if sideA supporters are present
+				if hasUpgradeB and (hasSupportA or armyCreatures[group.upgradeA.from] or armyCreatures[group.upgradeA.to]) then
+					local supportHP = 0
+					local upgradableHP = 0
+					for slot, data in pairs(slotData) do
+						if data.id == group.upgradeB.from then
+							upgradableHP = upgradableHP + data.count * data.hp
+						end
+						if data.id == group.upgradeA.from or data.id == group.upgradeA.to then
+							supportHP = supportHP + data.count * data.hp
+						end
+						for _, sid in ipairs(group.supportersB) do
+							if data.id == sid then
+								supportHP = supportHP + data.count * data.hp
+								break
+							end
+						end
+					end
+
+					if upgradableHP > 0 then
+						local chance = math.min(25, math.floor(5 * supportHP / upgradableHP))
+						local roll = dailyHash(heroId * 1000 + groupIdx * 10 + 1, totalDay)
+						if roll <= chance then
+							for slot, data in pairs(slotData) do
+								if data.id == group.upgradeB.from then
+									local pack = SetStackType.new()
+									pack:setArmyId(heroId)
+									pack:setSlot(slot)
+									pack:setCreatureId(group.upgradeB.to)
+									SERVER:commitPackage(pack)
+									data.id = group.upgradeB.to
+									armyCreatures[group.upgradeB.to] = true
+									break
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+end)
+
+-- ═══════════════════════════════════════════════════════════════════════════════
 -- BATTLE START — capture army composition, apply +1 morale to allied stacks
 -- ═══════════════════════════════════════════════════════════════════════════════
 wogCreatureRelationsBattleStartSub = BattleStarted.subscribeAfter(EVENT_BUS, function(event)
@@ -440,12 +610,9 @@ end)
 
 -- ═══════════════════════════════════════════════════════════════════════════════
 -- BATTLE END — award synergy XP based on army composition
--- NOTE on upgrade mechanic: ERM FU13527 performs HE:C (change creature slot) to
--- upgrade e.g. Mage→ArchMage. This requires a ChangeCreatureType netpack that
--- does not currently exist in FCMI Lua. When available, implement here:
---   if roll < min(25, 5 * sideB_HP / sideA_upgradable_HP) then
---     use ChangeCreatureType(heroId, slot, newCreatureId)
--- For now, synergy XP is the approximation.
+-- The daily upgrade mechanic (ERM FU13527) is now implemented above via
+-- SetStackType netpack in the wogCreatureRelationsUpgradeSub handler.
+-- This handler continues to award bonus synergy XP after won battles.
 -- ═══════════════════════════════════════════════════════════════════════════════
 wogCreatureRelationsSub = BattleEnded.subscribeAfter(EVENT_BUS, function(event)
 	if not C.creatureRelationsEnabled then return end
