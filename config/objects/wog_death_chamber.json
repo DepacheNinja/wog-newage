@@ -1,14 +1,15 @@
 {
 	/// WOG New Age — Death Chamber (option 70)
-	/// A dark chamber on the adventure map where a hero can sacrifice creatures
-	/// to gain an immediate level-up. The chamber accepts the sacrifice and grants
-	/// the hero exactly 1 level of experience.
+	/// Classic WOG (script70.erm by Rich Reed): a map object guarded by the
+	/// "Undead King" — a stack of Power Liches supported by Dread Knights,
+	/// Wraiths, and Ghosts. Defeating them rewards the hero with gold.
+	/// (Original WOG also rewarded Mithril and offered Ghosts to join the army;
+	/// Mithril is deferred until the Mithril system is implemented.)
 	///
-	/// Classic WOG behavior: hero pays creatures based on XP needed for next level.
-	/// VCMI approximation: heroLevel reward gives exactly 1 level; the sacrifice is
-	/// described in the message (thematic). Hero must have army to visit.
+	/// This is a ⚫ map-object feature: a mapmaker must place the Death Chamber
+	/// on the map. The object can only be cleared once per map instance.
 	///
-	/// Sprite: uses zobj007.def (dark tower) from wake-of-gods.mapObjects dependency.
+	/// Sprite: uses mapObjects/zobj007.def from wake-of-gods.mapObjects.
 
 	"wogDeathChamber" : {
 		"name" : "Death Chamber",
@@ -21,18 +22,18 @@
 		},
 		"types" : {
 			"wogDeathChamber" : {
-				"name" : "Death Chamber",
-				"description" : "A dark stone chamber where heroes may sacrifice their creatures for rapid advancement.",
-				"aiValue" : 5000,
+				"name"        : "Death Chamber",
+				"description" : "A dark stone chamber ruled by the Undead King. Defeat him and his minions for great rewards.",
+				"aiValue"     : 6000,
 				"rmg" : {
-					"value"     : 5000,
+					"value"     : 6000,
 					"rarity"    : 40,
 					"zoneLimit" : 1
 				},
 				"templates" : {
 					"zobj007" : {
-						"animation" : "mapObjects/zobj007",
-						"mask" : [
+						"animation"     : "mapObjects/zobj007",
+						"mask"          : [
 							"VVV",
 							"VVV",
 							"VVV",
@@ -45,14 +46,47 @@
 						]
 					}
 				},
-				"visitMode"  : "hero",
-				"selectMode" : "selectFirst",
-				"onVisitedMessage" : "{Death Chamber}\n\nYou have already sacrificed here. The Chamber will not grant another level.",
+				"visitMode"        : "once",
+				"selectMode"       : "selectFirst",
+				"guardsLayout"     : "creatureBankWide",
+				"onGuardedMessage" : "{Death Chamber}\n\nThe Undead King still rules within. The stench of death is overwhelming — but great treasures surely await those strong enough to prevail.",
+				"onVisitedMessage" : "{Death Chamber}\n\nThe Undead King has already fallen here. The chamber is silent now.",
 				"rewards" : [
 					{
-						"appearChance" : { "min" : 0, "max" : 100 },
-						"message"      : "{Death Chamber}\n\nThe chamber reeks of death and dark magic. A spectral voice fills the air:\n\n\"Sacrifice your warriors and gain power beyond mortal measure!\"\n\nYour soldiers march willingly into the dark ritual. As the last one falls, a surge of experience floods your body — you have grown stronger!\n\nYou have gained one hero level!",
-						"heroLevel"    : 1
+						"message"      : "{Death Chamber}\n\nThe Undead King roars as he falls before you!\n\n\"You have proven your worth, mortal!\"\n\nYou search the chamber and claim its gold.",
+						"mapDice"      : 0,
+						"appearChance" : { "min" : 0, "max" : 34 },
+						"guards"       : [
+							{ "amount" :  5, "type" : "powerLich"  },
+							{ "amount" : 10, "type" : "dreadKnight" },
+							{ "amount" : 20, "type" : "wraith"      },
+							{ "amount" : 30, "type" : "ghost"       }
+						],
+						"resources"    : { "gold" : 5000 }
+					},
+					{
+						"message"      : "{Death Chamber}\n\nThe Undead King crumbles before your might!\n\nYou claim the chamber's greater treasures.",
+						"mapDice"      : 1,
+						"appearChance" : { "min" : 34, "max" : 67 },
+						"guards"       : [
+							{ "amount" :  8, "type" : "powerLich"  },
+							{ "amount" : 16, "type" : "dreadKnight" },
+							{ "amount" : 30, "type" : "wraith"      },
+							{ "amount" : 50, "type" : "ghost"       }
+						],
+						"resources"    : { "gold" : 8000 }
+					},
+					{
+						"message"      : "{Death Chamber}\n\nThe ancient Undead King falls at last! His armies scatter.\n\nYou claim the death chamber's greatest hoard.",
+						"mapDice"      : 2,
+						"appearChance" : { "min" : 67, "max" : 100 },
+						"guards"       : [
+							{ "amount" : 12, "type" : "powerLich"  },
+							{ "amount" : 20, "type" : "dreadKnight" },
+							{ "amount" : 40, "type" : "wraith"      },
+							{ "amount" : 80, "type" : "ghost"       }
+						],
+						"resources"    : { "gold" : 12000 }
 					}
 				]
 			}

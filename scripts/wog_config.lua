@@ -276,11 +276,11 @@ C.displayFeaturesEnabled  = true   -- show active WOG features to human players 
 -- =====================================================================
 -- DEATH CHAMBER (option 70)
 -- =====================================================================
--- The Death Chamber is a special map object that grants the visiting hero
--- exactly 1 level-up. The sacrifice of creatures is described thematically
--- in the visit message. Map must contain the object for this to trigger.
--- (This option is ⚫ map-object only — the wog-newage Death Chamber object
---  must be placed on the map by a mapmaker. No automatic spawning.)
+-- Creature bank guarded by the Undead King (Power Liches + Dread Knights +
+-- Wraiths + Ghosts). Defeating them rewards gold. Originally also rewarded
+-- Mithril and offered Ghosts to join — Mithril deferred until that system
+-- is implemented. Map must have the wogDeathChamber object placed on it.
+-- (⚫ map-object only — mapmaker must place the object; no automatic spawning.)
 C.deathChamberEnabled = true   -- tracked for display purposes
 
 -- =====================================================================
