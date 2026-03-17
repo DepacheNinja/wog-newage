@@ -145,6 +145,10 @@
 		"wogDisplayMapRules": {
 			"source": "wog_display_map_rules.lua",
 			"implements": "ANYTHING"
+		},
+		"wogSpecialTerrain": {
+			"source": "wog_special_terrain.lua",
+			"implements": "ANYTHING"
 		}
 	}
 }

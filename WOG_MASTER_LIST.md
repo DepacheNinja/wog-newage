@@ -54,6 +54,7 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | Custom | **Building Construction Bonuses** | Gold + rare resources rewarded when building Mage Guild 5, Castle, Capitol |
 | 230 | **Display Map Rules** | Shows active map-level rules (starting armies, income, buildings, chests) to human players on day 1 |
 | 211 | **Scholar I — Enhanced Sharing** | JSON effects raise max spell-sharing level: Basic→3, Advanced→4, Expert→5 (was 2/3/4) |
+| 142 | **Special Terrain Effects** | Magic Plains/Lucid Pools: +10% max mana/day; Evil Fog: -10% current mana/day; Holy Ground: mana bonus/drain based on faction; Rock Land: +50 XP/day |
 | 143 | **New Artifacts** | 17 new WOG artifacts (Dragonheart, Crimson Shield, etc.) via wake-of-gods.artifacts dependency |
 | 178 | **Combination Artifacts** | Assembled relic sets (Barbarian Lord's Axe = 4 components) via wake-of-gods.artifacts |
 | 237 | **Barbarian Lord's Axe** | Extra strike for non-shooters; relic combo of 4 artifacts via wake-of-gods.artifacts |
@@ -142,7 +143,7 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | 195 | **Replace Objects** | WOG alternative map objects |
 | 200 | **Refugee Camp Sync** | Consistent creature types across players |
 | 132 | **Upgrading Treasure Chests** | Better chest rewards |
-| 142 | **Special Terrain** | Enhanced terrain effects |
+| ~~142~~ | ~~**Special Terrain**~~ | Done — moved to ✅ |
 
 ### Commanders
 
@@ -223,7 +224,7 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 
 | Status | Count |
 |--------|-------|
-| ✅ Done | 55 |
+| ✅ Done | 56 |
 | 🟡 Partial | 4 |
 | 🔴 Todo (Lua, doable) | ~20 |
 | 🏗️ Hard (needs engine) | 8 |

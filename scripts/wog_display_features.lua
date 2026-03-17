@@ -63,6 +63,7 @@ wogDisplayFeaturesSub = PlayerGotTurn.subscribeAfter(EVENT_BUS, function(event)
 
 	-- Starting conditions & map rules
 	add(C.startingArmiesEnabled,     "Rebalanced Starting Armies (+" .. (C.startingBonusCount or 8) .. " tier-1 troops per hero on day 1)")
+	add(C.specialTerrainEnabled,     "Special Terrain Effects (Magic Plains/Lucid Pools: +" .. (C.magicPlainsManaRegen or 10) .. "% mana/day; Evil Fog: -10% mana/day)")
 	add(C.displayMapRulesEnabled,    "Display Map Rules (shows active map-level rules on day 1)")
 
 	-- Creatures

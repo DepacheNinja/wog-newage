@@ -144,6 +144,15 @@ C.heroHiredEnabled        = true   -- give newly hired heroes a fitting secondar
 C.buildingBonusesEnabled  = true   -- reward players for constructing key buildings (Mage Guild 5, Castle, Capitol)
 
 -- =====================================================================
+-- SPECIAL TERRAIN EFFECTS (option 142)
+-- =====================================================================
+C.specialTerrainEnabled  = true   -- enable WOG special terrain daily effects
+C.magicPlainsManaRegen   = 10     -- % of max mana regenerated/day on Magic Plains
+C.lucidPoolsManaRegen    = 10     -- % of max mana regenerated/day on Lucid Pools
+C.evilFogManaDrain       = 10     -- % of current mana drained/day in Evil Fog
+C.rockLandXPBonus        = 50     -- flat XP bonus/day on Rock Land terrain
+
+-- =====================================================================
 -- DISPLAY MAP RULES (option 230)
 -- =====================================================================
 C.displayMapRulesEnabled  = true   -- show active map rules to human players on day 1
