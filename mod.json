@@ -15,6 +15,9 @@
 	"creatures" : [
 		"config/creatures/altUpgradesCreaturePatch.json"
 	],
+	"skills" : [
+		"config/skills/warfare_skills.json"
+	],
 	"filesystem" : {
 		"" : [
 			{
@@ -26,6 +29,14 @@
 	"scripts" : {
 		"wogWeeklyIncome" : {
 			"source" : "wog_weekly_income.lua",
+			"implements" : "ANYTHING"
+		},
+		"wogCombinedWarfareSkills" : {
+			"source" : "wog_combined_warfare_skills.lua",
+			"implements" : "ANYTHING"
+		},
+		"wogBattleAcademy" : {
+			"source" : "wog_battle_academy.lua",
 			"implements" : "ANYTHING"
 		}
 	}
