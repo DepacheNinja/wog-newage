@@ -35,18 +35,22 @@ local IMPASSABLE_TERRAIN = {
 	rock  = true,
 }
 
--- 4-directional movement deltas
+-- 4-directional movement deltas (ordered: E, W, S, N)
 local DIRECTIONS = { {1,0}, {-1,0}, {0,1}, {0,-1} }
 
--- Simple deterministic "shuffle" using an objectId + week seed
--- Returns a shuffled copy of DIRECTIONS
-local function shuffledDirections(seed)
-	local dirs = { DIRECTIONS[1], DIRECTIONS[2], DIRECTIONS[3], DIRECTIONS[4] }
-	-- Fisher-Yates using seed-based math.random
-	math.randomseed(seed)
-	for i = 4, 2, -1 do
-		local j = math.random(1, i)
-		dirs[i], dirs[j] = dirs[j], dirs[i]
+-- Simple deterministic hash: maps (objectId, week) → a pseudo-random direction index
+-- Avoids touching global math.randomseed (which would affect all scripts).
+local function deterministicDirIdx(objectId, week, extra)
+	local h = (objectId * 1000003 + week * 997 + (extra or 0)) % 4
+	return h + 1  -- 1-based index
+end
+
+-- Returns directions array rotated by a deterministic offset
+local function shuffledDirections(objectId, week)
+	local offset = deterministicDirIdx(objectId, week, 0)
+	local dirs = {}
+	for i = 1, 4 do
+		dirs[i] = DIRECTIONS[((offset + i - 2) % 4) + 1]
 	end
 	return dirs
 end
@@ -86,17 +90,17 @@ wogWanderingMonstersSub = TurnStarted.subscribeAfter(EVENT_BUS, function(event)
 		local count = GAME:getMonsterCount(objectId)
 		if not count or count <= 0 then goto continue end
 
-		-- Roll for movement using object + week as seed (deterministic but varied)
-		math.randomseed(objectId * 31 + week * 997)
-		if math.random(1, 100) > chance then goto continue end
+		-- Roll for movement using deterministic hash (no global RNG mutation)
+		local roll = (objectId * 7919 + week * 1009) % 100 + 1
+		if roll > chance then goto continue end
 
 		-- Get current position
 		local x, y, z = GAME:getObjectPosition(objectId)
 		if not x then goto continue end
 
-		-- Try each direction in shuffled order; use random range 1..maxRange
-		local dirs = shuffledDirections(objectId * 7 + week * 13)
-		local dist = math.random(1, maxRange)
+		-- Try each direction in shuffled order; pick deterministic distance 1..maxRange
+		local dirs = shuffledDirections(objectId, week)
+		local dist = (objectId * 1301 + week * 503) % maxRange + 1
 		local moved = false
 		for _, dir in ipairs(dirs) do
 			local nx, ny, nz = tryMove(x, y, z, dir[1], dir[2], dist)
