@@ -16,6 +16,9 @@ local C = DATA.WOG
 wogBattleAcademySub = BattleEnded.subscribeAfter(EVENT_BUS, function(event)
 	if not (C.battleAcademyEnabled ~= false) then return end
 
+	-- Combat Hardening bonus only applies to real battles (NORMAL=0)
+	if event:getBattleResult() ~= 0 then return end
+
 	local expAwarded = event:getExpAwarded()
 	if expAwarded <= 0 then return end
 

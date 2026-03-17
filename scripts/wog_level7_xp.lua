@@ -66,6 +66,9 @@ end)
 wogLevel7XPBattleEndSub = BattleEnded.subscribeAfter(EVENT_BUS, function(event)
 	if not C.level7XPEnabled then return end
 
+	-- Only apply XP reduction on real combat (NORMAL=0), not retreats/surrenders
+	if event:getBattleResult() ~= 0 then return end
+
 	local exp = event:getExpAwarded()
 	if exp <= 0 then return end
 
