@@ -13,7 +13,12 @@
 		"wake-of-gods.creatures",
 		"wake-of-gods.stackExperience",
 		"wake-of-gods.artifacts",
-		"wake-of-gods.level8Units"
+		"wake-of-gods.level8Units",
+		"wake-of-gods.Commanders",
+		"wake-of-gods.stackArtifacts",
+		"wake-of-gods.warMachinesOnMap",
+		"wake-of-gods.mapObjects",
+		"wake-of-gods.creatureBanks"
 	],
 	"creatures" : [
 		"config/creatures/altUpgradesCreaturePatch.json"
