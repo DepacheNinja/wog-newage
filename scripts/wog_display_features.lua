@@ -59,7 +59,7 @@ wogDisplayFeaturesSub = PlayerGotTurn.subscribeAfter(EVENT_BUS, function(event)
 	add(C.witchHutsEnabled,          "Advanced Witch Huts (teaches at Advanced level for 1000g)")
 	add(C.heroSpecBoostEnabled,      "Hero Specialization Boost (+1 primary skill at milestone levels)")
 	add(C.heroHiredEnabled,          "Hero Hiring Enhancement (newly hired heroes gain a fitting secondary skill)")
-	add(C.creatureRelationsEnabled,  "Creature Relationships (army synergy XP bonus; hate pairs +15% damage)")
+	add(C.creatureRelationsEnabled,  "Creature Relationships (allied pairs: +1 morale + synergy XP; hate pairs: +15% damage)")
 	add(C.protectionElementsEnabled, "Enhanced Protection from Elements (protection spells reduce elemental physical attacks by " .. (C.protectionReductionPct or 35) .. "%)")
 
 	-- Starting conditions & map rules
@@ -67,6 +67,9 @@ wogDisplayFeaturesSub = PlayerGotTurn.subscribeAfter(EVENT_BUS, function(event)
 	add(C.startingArmiesEnabled,     "Rebalanced Starting Armies (+" .. (C.startingBonusCount or 8) .. " tier-1 troops per hero on day 1)")
 	add(C.specialTerrainEnabled,     "Special Terrain Effects (Magic Plains/Lucid Pools: +" .. (C.magicPlainsManaRegen or 10) .. "% mana/day; Evil Fog: -10% mana/day)")
 	add(C.displayMapRulesEnabled,    "Display Map Rules (shows active map-level rules on day 1)")
+	add(C.replaceDragonFlyEnabled,   "Replace Dragon Fly (dragon fly dwellings → wyvern on day 1)")
+	add(C.ghostSpawnsEnabled,        "Ghost Spawns (1 in " .. (C.ghostSpawnFraction or 3) .. " tier-3 neutral dwellings → Ghost on day 1)")
+	add(C.refugeeCampSyncEnabled,    "Refugee Camp Sync (all refugee camps offer same creature each week)")
 
 	-- Creatures
 	add(C.enhancedMonstersEnabled,   "Enhanced Monsters (neutral stacks grow +" .. (C.monsterWeeklyGrowthPct or 10) .. "%/week, cap " .. (C.monsterMaxMultiplier or 3) .. "×)")

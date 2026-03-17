@@ -2,7 +2,7 @@
 -- WOG New Age — Creature Relationships (option 47)
 --
 -- Some creatures have special relationships with others:
---   Allied (same army): bonus XP to the winner for each active pair
+--   Allied (same army): bonus XP + +1 morale to the winner for each active pair
 --   Hated (opposing armies): +15% damage when attacker targets hated creature
 --
 -- Classic WOG relationships (from script47.erm):
@@ -15,7 +15,7 @@
 --   Tower genies hate Inferno demons
 --
 -- VCMI implementation:
---   BattleStarted: scan hero armies, build army creature ID sets
+--   BattleStarted: scan armies, apply +1 morale to stacks with allied pairs
 --   BattleEnded: award 5% synergy XP per active allied pair in winner's army
 --   ApplyDamage: +15% damage when attacker is a hated creature type (hate pairs)
 
@@ -23,6 +23,7 @@ local BattleStarted     = require("events.BattleStarted")
 local BattleEnded       = require("events.BattleEnded")
 local ApplyDamage       = require("events.ApplyDamage")
 local SetHeroExperience = require("netpacks.SetHeroExperience")
+local SetStackEffect    = require("netpacks.SetStackEffect")
 
 DATA.WOG = DATA.WOG or {}
 local C = DATA.WOG
@@ -117,19 +118,60 @@ local function battleKey(attackerHeroId, defenderHeroId)
 	return tostring(attackerHeroId) .. "_" .. tostring(defenderHeroId)
 end
 
--- At battle start: capture army composition for later XP calculation
+-- BonusType constants (from VCMI BonusEnum.h ordinal positions)
+local BONUS_MORALE = 4  -- BonusType::MORALE
+
+-- At battle start: capture army composition and apply morale bonus to allied pairs
 wogCreatureRelationsBattleStartSub = BattleStarted.subscribeAfter(EVENT_BUS, function(event)
 	if not C.creatureRelationsEnabled then return end
 
 	local attackerHeroId = event:getAttackerHeroId()
 	local defenderHeroId = event:getDefenderHeroId()
+	local battleId = event:getBattleId()
 
 	local key = battleKey(attackerHeroId, defenderHeroId)
 
+	local attackerCreatures = getHeroCreatureSet(attackerHeroId)
+	local defenderCreatures = getHeroCreatureSet(defenderHeroId)
+
 	C.battleArmyCreatures[key] = {
-		attacker = getHeroCreatureSet(attackerHeroId),
-		defender = getHeroCreatureSet(defenderHeroId),
+		attacker = attackerCreatures,
+		defender = defenderCreatures,
 	}
+
+	-- Apply +1 morale to battle stacks that have allied pairs in their army
+	if battleId < 0 then return end
+
+	local stacks = GAME:getBattleStacks(battleId)
+	if not stacks then return end
+
+	local sse = SetStackEffect.new()
+	sse:setBattleId(battleId)
+	local anyBonus = false
+
+	for _, stack in ipairs(stacks) do
+		local side = stack.side       -- 0=attacker, 1=defender
+		local armySet = (side == 0) and attackerCreatures or defenderCreatures
+
+		-- Check if this stack's creature type has an allied pair in the same army
+		local creatureId = stack.creatureId
+		for _, pair in ipairs(ALLIED_PAIRS) do
+			if (pair[1] == creatureId or pair[2] == creatureId) then
+				-- Find the partner
+				local partnerId = (pair[1] == creatureId) and pair[2] or pair[1]
+				if armySet[partnerId] then
+					-- Allied pair present: grant +1 morale to this stack
+					sse:addBonusToStack(stack.unitId, BONUS_MORALE, 1)
+					anyBonus = true
+					break
+				end
+			end
+		end
+	end
+
+	if anyBonus then
+		SERVER:commitPackage(sse)
+	end
 end)
 
 -- At battle end: award synergy XP based on army composition

@@ -39,7 +39,7 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | 194 | **Advanced Witch Huts** | Witch Huts teach at Advanced level; deducts 1000g from player |
 | 39 | **Hero Specialization Boost** | +1 primary skill at milestone levels (5/10/15/20/25/30) |
 | 220 | **Battle Extender** | 1000 gold refund to losing human player; full retreat pending |
-| 47 | **Creature Relationships** | 5% synergy XP bonus post-battle; morale/attack pending |
+| 47 | **Creature Relationships** | Allied pairs: +1 morale (SetStackEffect) + 5% synergy XP; hate pairs: +15% damage |
 | 900 | **Stack Experience (approx.)** | Army XP tracked; +1 primary stat per 5000 XP milestone |
 | 71 | **Enhanced Artifacts** | Conjuring set adds spell damage; Pendant of Death gives undead +5 ATT/DEF |
 | 20 | **Week of Monsters** | +2 ATK/+2 DEF/+1 growth via EntitiesChanged; creature type updateFrom now works (engine fix); announces WOM creature each week |
@@ -83,14 +83,9 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 
 | Option | Feature | Status |
 |--------|---------|--------|
-| 47 | **Creature Relationships** | Allied pair XP done; hate pair +15% damage via ApplyDamage getAttacker/getCreatureId; morale/luck pending (needs bonus API) |
-| 61 | **Enhanced Protection from Elements** | Protection spells (protectFire/Air/Water/Earth) now reduce physical elemental attacks by 35% via ApplyDamage + hasBonusFromSpell() FCMI API |
-| 57 | **Neutral Units** | Wandering monster stacks scaled ×1.5 on day 1 via getMapObjectIds(54)/getMonsterCount/ChangeStackCount FCMI APIs |
-| 50 | **Enhanced Monsters** | Surviving neutral stacks grow +10%/week (capped at 3× day-1 count) via weekly TurnStarted + ChangeStackCount |
-| 231 | **Neutral Stack Experience** | Neutral stacks that defeat a hero grow +20% (stack count proxy for XP) via BattleStarted/BattleEnded + getAttackerArmyId/getDefenderArmyId FCMI APIs |
-| 220 | **Battle Extender** | Gold refund; need retreat intercept for true rejoin mechanic |
-| 900 | **Stack Experience** | Hero-level approximation; need per-stack tracking + creature stat API |
-| 39 | **Hero Specialization Boost** | Milestone primary skill boost; true specialty scaling needs hero type API |
+| 220 | **Battle Extender** | Gold refund done; true retreat-and-rejoin mechanic pending (needs retreat event) |
+| 900 | **Stack Experience** | Hero-level approximation (wog_stack_experience.lua disabled); real engine module active via dependency |
+| 39 | **Hero Specialization Boost** | Milestone primary skill boost done; true specialty scaling needs hero type API |
 
 ---
 
@@ -238,8 +233,8 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 
 | Status | Count |
 |--------|-------|
-| ✅ Done | 73 |
-| 🟡 Partial | 4 |
+| ✅ Done | 74 |
+| 🟡 Partial | 3 |
 | 🔴 Todo (Lua, doable) | ~6 |
 | 🏗️ Hard (needs engine) | 8 |
 | ⚫ Map objects | 14 |
