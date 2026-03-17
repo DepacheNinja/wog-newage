@@ -10,7 +10,10 @@
 	},
 	"depends" : [
 		"wake-of-gods",
-		"wake-of-gods.creatures"
+		"wake-of-gods.creatures",
+		"wake-of-gods.stackExperience",
+		"wake-of-gods.artifacts",
+		"wake-of-gods.level8Units"
 	],
 	"creatures" : [
 		"config/creatures/altUpgradesCreaturePatch.json"

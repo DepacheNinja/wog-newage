@@ -53,6 +53,11 @@ C.learningBonusXP         = {100, 200, 300}  -- XP/day per [basic, advanced, exp
 -- =====================================================================
 C.combinedWarfareEnabled  = true  -- Ballistics/Artillery/FirstAid sync as one
 
+-- Stack Experience: handled by wake-of-gods.stackExperience engine module
+-- (added as dependency in mod.json). The wog_stack_experience.lua approximation
+-- is disabled because the real engine module provides proper per-stack XP.
+C.stackExpEnabled         = false  -- disabled: real engine module active
+
 -- =====================================================================
 -- WEEK OF MONSTERS (option 20)
 -- Each week a random creature type gets a stat bonus
