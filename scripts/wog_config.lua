@@ -165,6 +165,16 @@ C.startingBonusCount     = 8      -- tier-1 creatures to add per hero
 C.startingBonusSlot      = 6      -- army slot to fill (0-6; slot 6 = last slot)
 
 -- =====================================================================
+-- ENHANCED MONSTERS (option 50)
+-- =====================================================================
+-- Wandering monster stacks grow over time if not defeated.
+-- monsterWeeklyGrowthPct: percent growth per week (WOG default: +10%/week)
+-- monsterMaxMultiplier: hard cap as multiple of day-1 stack count (default: 3×)
+C.enhancedMonstersEnabled  = true   -- enable weekly neutral stack growth
+C.monsterWeeklyGrowthPct   = 10     -- % growth per week for surviving stacks
+C.monsterMaxMultiplier     = 3      -- cap: never exceed this multiple of day-1 count
+
+-- =====================================================================
 -- NEUTRAL UNITS (option 57)
 -- =====================================================================
 -- Controls wandering monster stack sizes at game start.

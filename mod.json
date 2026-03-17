@@ -157,6 +157,10 @@
 		"wogNeutralUnits": {
 			"source": "wog_neutral_units.lua",
 			"implements": "ANYTHING"
+		},
+		"wogEnhancedMonsters": {
+			"source": "wog_enhanced_monsters.lua",
+			"implements": "ANYTHING"
 		}
 	}
 }
