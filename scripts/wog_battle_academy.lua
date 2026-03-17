@@ -5,35 +5,28 @@
 -- equal to a percentage of the normal battle XP awarded.
 -- Represents heroes learning from every fight they survive.
 -- Default: 20% bonus XP on top of normal battle rewards.
--- Configurable via DATA.WOG.battleAcademyBonusPct.
+-- Configurable via DATA.WOG.battleAcademyBonusPct in wog_config.lua.
 
-local BattleEnded = require("events.BattleEnded")
+local BattleEnded       = require("events.BattleEnded")
 local SetHeroExperience = require("netpacks.SetHeroExperience")
 
--- Config
 DATA.WOG = DATA.WOG or {}
-DATA.WOG.battleAcademyBonusPct = DATA.WOG.battleAcademyBonusPct or 20  -- 20% bonus XP
+local C = DATA.WOG
 
 wogBattleAcademySub = BattleEnded.subscribeAfter(EVENT_BUS, function(event)
+	if not (C.battleAcademyEnabled ~= false) then return end
+
 	local expAwarded = event:getExpAwarded()
-	if expAwarded <= 0 then
-		return  -- draw or no exp (wiped out attacker)
-	end
+	if expAwarded <= 0 then return end
 
 	local winnerHeroId = event:getWinnerHeroId()
-	if winnerHeroId < 0 then
-		return  -- no hero on winning side
-	end
+	if winnerHeroId < 0 then return end
 
-	local bonusPct = DATA.WOG.battleAcademyBonusPct
-	if bonusPct <= 0 then
-		return
-	end
+	local bonusPct = C.battleAcademyBonusPct or 20
+	if bonusPct <= 0 then return end
 
 	local bonusExp = math.floor(expAwarded * bonusPct / 100)
-	if bonusExp <= 0 then
-		return
-	end
+	if bonusExp <= 0 then return end
 
 	local pack = SetHeroExperience.new()
 	pack:setHeroId(winnerHeroId)

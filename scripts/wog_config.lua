@@ -63,6 +63,11 @@ C.learningBonusXP         = {100, 200, 300}  -- XP/day per [basic, advanced, exp
 -- Expert: 60% chance for level 1-4 spell
 C.scholarEnabled          = true
 
+-- Treasure Chest Enhancement (option 132)
+-- After visiting a chest, hero gets extra 500 gold or XP.
+C.treasureChestsEnabled   = true
+C.chestBonusAmount        = 500   -- gold or XP bonus per chest visit
+
 -- =====================================================================
 -- COMBINED WARFARE SKILLS (option 193)
 -- =====================================================================
