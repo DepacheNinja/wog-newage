@@ -1,10 +1,10 @@
 {
 	"name" : "WOG New Age",
-	"description" : "Full WOG experience for FCMI/VCMI. Extends wake-of-gods with missing classic WOG features: alternate creature upgrade paths (Santa Gremlins, Sylvan Centaurs, War Zealots) and weekly gold income bonus. Based on classic WOG 3.58f scripts ported to VCMI Lua.",
+	"description" : "Full WOG 3.58f experience for VCMI/FCMI. Implements classic Wake of Gods features: alternate creature upgrades, enhanced secondary skills, Combat Hardening, First Money, Karmic Battles, Enhanced Mysticism/Estates/Learning, Week of Monsters, and more. Based on WOG 3.58f ERM scripts ported to VCMI Lua.",
 	"modType" : "Expansion",
 	"author" : "Depache",
 	"contact" : "",
-	"version" : "0.4.0",
+	"version" : "0.6.0",
 	"compatibility" : {
 		"min" : "1.7.0"
 	},
@@ -16,7 +16,8 @@
 		"config/creatures/altUpgradesCreaturePatch.json"
 	],
 	"skills" : [
-		"config/skills/warfare_skills.json"
+		"config/skills/warfare_skills.json",
+		"config/skills/enhanced_skills.json"
 	],
 	"filesystem" : {
 		"" : [
@@ -27,8 +28,16 @@
 		]
 	},
 	"scripts" : {
+		"wogConfig" : {
+			"source" : "wog_config.lua",
+			"implements" : "ANYTHING"
+		},
 		"wogWeeklyIncome" : {
 			"source" : "wog_weekly_income.lua",
+			"implements" : "ANYTHING"
+		},
+		"wogFirstMoney" : {
+			"source" : "wog_first_money.lua",
 			"implements" : "ANYTHING"
 		},
 		"wogCombinedWarfareSkills" : {
@@ -37,6 +46,30 @@
 		},
 		"wogBattleAcademy" : {
 			"source" : "wog_battle_academy.lua",
+			"implements" : "ANYTHING"
+		},
+		"wogKarmicBattles" : {
+			"source" : "wog_karmic_battles.lua",
+			"implements" : "ANYTHING"
+		},
+		"wogMysticism" : {
+			"source" : "wog_mysticism.lua",
+			"implements" : "ANYTHING"
+		},
+		"wogEstates" : {
+			"source" : "wog_estates.lua",
+			"implements" : "ANYTHING"
+		},
+		"wogLearning" : {
+			"source" : "wog_learning.lua",
+			"implements" : "ANYTHING"
+		},
+		"wogWeekOfMonsters" : {
+			"source" : "wog_week_of_monsters.lua",
+			"implements" : "ANYTHING"
+		},
+		"wogLevel7XP" : {
+			"source" : "wog_level7_xp.lua",
 			"implements" : "ANYTHING"
 		}
 	}

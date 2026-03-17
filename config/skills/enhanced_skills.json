@@ -1,0 +1,157 @@
+{
+	"core:mysticism" : {
+		"basic" : {
+			"description" : "{Mysticism — Basic [WOG Enhanced]}\n\nRegenerates 1 + 2 bonus = 3 spell points per day (plus natural daily recovery).\n\nWOG Enhancement: +2 additional spell points regenerated per day at Basic level."
+		},
+		"advanced" : {
+			"description" : "{Mysticism — Advanced [WOG Enhanced]}\n\nRegenerates 2 + 3 bonus = 5 spell points per day (plus natural daily recovery).\n\nWOG Enhancement: +3 additional spell points regenerated per day at Advanced level."
+		},
+		"expert" : {
+			"description" : "{Mysticism — Expert [WOG Enhanced]}\n\nRegenerates 3 + 5 bonus = 8 spell points per day (plus natural daily recovery).\n\nWOG Enhancement: +5 additional spell points regenerated per day at Expert level."
+		}
+	},
+
+	"core:estates" : {
+		"basic" : {
+			"description" : "{Estates — Basic [WOG Enhanced]}\n\nGenerates 125 gold per day.\n\nWOG Enhancement: Also generates hero_level × 5 additional gold per day (scales with hero level)."
+		},
+		"advanced" : {
+			"description" : "{Estates — Advanced [WOG Enhanced]}\n\nGenerates 250 gold per day.\n\nWOG Enhancement: Also generates hero_level × 8 additional gold per day (scales with hero level)."
+		},
+		"expert" : {
+			"description" : "{Estates — Expert [WOG Enhanced]}\n\nGenerates 500 gold per day.\n\nWOG Enhancement: Also generates hero_level × 12 additional gold per day (scales with hero level)."
+		}
+	},
+
+	"core:learning" : {
+		"basic" : {
+			"description" : "{Learning — Basic [WOG Enhanced]}\n\nHero gains 5% more experience from all sources.\n\nWOG Enhancement: Also passively gains 100 experience per day."
+		},
+		"advanced" : {
+			"description" : "{Learning — Advanced [WOG Enhanced]}\n\nHero gains 10% more experience from all sources.\n\nWOG Enhancement: Also passively gains 200 experience per day."
+		},
+		"expert" : {
+			"description" : "{Learning — Expert [WOG Enhanced]}\n\nHero gains 15% more experience from all sources.\n\nWOG Enhancement: Also passively gains 300 experience per day."
+		}
+	},
+
+	"core:navigation" : {
+		"basic" : {
+			"description" : "{Navigation — Basic [WOG Enhanced]}\n\nMovement over water increased by 30% (base 25% + WOG bonus).\n\nWOG Enhancement: Navigation skill is more effective over water routes."
+		},
+		"advanced" : {
+			"description" : "{Navigation — Advanced [WOG Enhanced]}\n\nMovement over water increased by 55% (base 50% + WOG bonus).\n\nWOG Enhancement: Navigation skill is more effective over water routes."
+		},
+		"expert" : {
+			"description" : "{Navigation — Expert [WOG Enhanced]}\n\nMovement over water increased by 80% (base 75% + WOG bonus).\n\nWOG Enhancement: Navigation skill is more effective over water routes."
+		}
+	},
+
+	"core:sorcery" : {
+		"basic" : {
+			"description" : "{Sorcery — Basic [WOG Enhanced]}\n\nSpell damage increased by 10%.\n\nWOG Enhancement: Spell damage bonus increased to 15% at Basic level."
+		},
+		"advanced" : {
+			"description" : "{Sorcery — Advanced [WOG Enhanced]}\n\nSpell damage increased by 20%.\n\nWOG Enhancement: Spell damage bonus increased to 25% at Advanced level."
+		},
+		"expert" : {
+			"description" : "{Sorcery — Expert [WOG Enhanced]}\n\nSpell damage increased by 30%.\n\nWOG Enhancement: Spell damage bonus increased to 40% at Expert level."
+		}
+	},
+
+	"core:armorer" : {
+		"basic" : {
+			"description" : "{Armorer — Basic [WOG Enhanced]}\n\nDamage received reduced by 5%.\n\nWOG Enhancement: Physical damage reduction increased to 8% at Basic level."
+		},
+		"advanced" : {
+			"description" : "{Armorer — Advanced [WOG Enhanced]}\n\nDamage received reduced by 10%.\n\nWOG Enhancement: Physical damage reduction increased to 13% at Advanced level."
+		},
+		"expert" : {
+			"description" : "{Armorer — Expert [WOG Enhanced]}\n\nDamage received reduced by 15%.\n\nWOG Enhancement: Physical damage reduction increased to 20% at Expert level."
+		}
+	},
+
+	"core:resistance" : {
+		"basic" : {
+			"description" : "{Resistance — Basic [WOG Enhanced]}\n\n5% chance to resist enemy spells.\n\nWOG Enhancement: Resistance chance increased to 10% at Basic level."
+		},
+		"advanced" : {
+			"description" : "{Resistance — Advanced [WOG Enhanced]}\n\n10% chance to resist enemy spells.\n\nWOG Enhancement: Resistance chance increased to 15% at Advanced level."
+		},
+		"expert" : {
+			"description" : "{Resistance — Expert [WOG Enhanced]}\n\n20% chance to resist enemy spells.\n\nWOG Enhancement: Resistance chance increased to 30% at Expert level."
+		}
+	},
+
+	"core:eagleEye" : {
+		"basic" : {
+			"description" : "{Eagle Eye — Basic [WOG Enhanced]}\n\n40% chance to learn enemy spells (level 1-2).\n\nWOG Enhancement: Can now learn level 3 spells at Basic level. Chance increased to 50%."
+		},
+		"advanced" : {
+			"description" : "{Eagle Eye — Advanced [WOG Enhanced]}\n\n50% chance to learn enemy spells (level 1-3).\n\nWOG Enhancement: Can now learn level 4 spells at Advanced level. Chance increased to 65%."
+		},
+		"expert" : {
+			"description" : "{Eagle Eye — Expert [WOG Enhanced]}\n\n60% chance to learn enemy spells (level 1-4).\n\nWOG Enhancement: Can now learn level 5 spells at Expert level. Chance increased to 80%."
+		}
+	},
+
+	"core:tactics" : {
+		"basic" : {
+			"description" : "{Tactics — Basic [WOG Enhanced]}\n\nHero can rearrange troops in a 2-hex-deep zone before battle.\n\nWOG Enhancement: Zone extended to 3 hexes deep at Basic level."
+		},
+		"advanced" : {
+			"description" : "{Tactics — Advanced [WOG Enhanced]}\n\nHero can rearrange troops in a 3-hex-deep zone before battle.\n\nWOG Enhancement: Zone extended to 4 hexes deep at Advanced level."
+		},
+		"expert" : {
+			"description" : "{Tactics — Expert [WOG Enhanced]}\n\nHero can rearrange troops in a 5-hex-deep zone before battle.\n\nWOG Enhancement: Full tactical repositioning. Zone extended to 6 hexes deep."
+		}
+	},
+
+	"core:scholar" : {
+		"basic" : {
+			"description" : "{Scholar — Basic [WOG Enhanced]}\n\nHero can share level 1-2 spells when visiting or being visited by another hero.\n\nWOG Enhancement: Can share level 3 spells at Basic level."
+		},
+		"advanced" : {
+			"description" : "{Scholar — Advanced [WOG Enhanced]}\n\nHero can share level 1-3 spells with allies.\n\nWOG Enhancement: Can share level 4 spells at Advanced level."
+		},
+		"expert" : {
+			"description" : "{Scholar — Expert [WOG Enhanced]}\n\nHero can share level 1-4 spells with allies.\n\nWOG Enhancement: Can share any spell at Expert level, including level 5."
+		}
+	},
+
+	"core:scouting" : {
+		"basic" : {
+			"description" : "{Scouting — Basic [WOG Enhanced]}\n\nHero's sight radius increased by 1.\n\nWOG Enhancement: Sight radius increased by 2 at Basic level."
+		},
+		"advanced" : {
+			"description" : "{Scouting — Advanced [WOG Enhanced]}\n\nHero's sight radius increased by 2.\n\nWOG Enhancement: Sight radius increased by 3 at Advanced level."
+		},
+		"expert" : {
+			"description" : "{Scouting — Expert [WOG Enhanced]}\n\nHero's sight radius increased by 3.\n\nWOG Enhancement: Sight radius increased by 5 at Expert level."
+		}
+	},
+
+	"core:pathfinding" : {
+		"basic" : {
+			"description" : "{Pathfinding — Basic [WOG Enhanced]}\n\nReduces movement penalty on rough terrain by 25%.\n\nWOG Enhancement: Penalty reduced by 35% at Basic level."
+		},
+		"advanced" : {
+			"description" : "{Pathfinding — Advanced [WOG Enhanced]}\n\nReduces movement penalty on rough terrain by 50%.\n\nWOG Enhancement: Penalty reduced by 60% at Advanced level."
+		},
+		"expert" : {
+			"description" : "{Pathfinding — Expert [WOG Enhanced]}\n\nEliminates all terrain movement penalties.\n\nWOG Enhancement: Also grants +100 movement points on all terrain types."
+		}
+	},
+
+	"core:luck" : {
+		"basic" : {
+			"description" : "{Luck — Basic [WOG Enhanced]}\n\n+1 Luck to all troops. Lucky strike deals double damage.\n\nWOG Enhancement: Lucky strikes deal 2.2× damage instead of 2× at Basic level."
+		},
+		"advanced" : {
+			"description" : "{Luck — Advanced [WOG Enhanced]}\n\n+2 Luck to all troops. Lucky strike deals double damage.\n\nWOG Enhancement: Lucky strikes deal 2.4× damage instead of 2× at Advanced level."
+		},
+		"expert" : {
+			"description" : "{Luck — Expert [WOG Enhanced]}\n\n+3 Luck to all troops. Lucky strike deals double damage.\n\nWOG Enhancement: Lucky strikes deal 2.6× damage instead of 2× at Expert level."
+		}
+	}
+}
