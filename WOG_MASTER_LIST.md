@@ -35,12 +35,35 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | 212 | **Scouting Enhancement** | Sight radius 2/3/5 (was 1/2/3) via JSON |
 | 218 | **Tactics Enhancement** | Deployment zone +1 row per level via JSON |
 | 206 | **Luck I Enhancement** | Lucky strikes deal +50% initial damage extra (total ~3× normal) via ApplyDamage |
+| 201 | **Artillery I Enhanced** | Ballista double-damage hits: +25/50/75% extra per skill level via ApplyDamage |
 | 194 | **Advanced Witch Huts** | Witch Huts teach at Advanced level; deducts 1000g from player |
 | 39 | **Hero Specialization Boost** | +1 primary skill at milestone levels (5/10/15/20/25/30) |
 | 220 | **Battle Extender** | 1000 gold refund to losing human player; full retreat pending |
 | 47 | **Creature Relationships** | 5% synergy XP bonus post-battle; morale/attack pending |
 | 900 | **Stack Experience (approx.)** | Army XP tracked; +1 primary stat per 5000 XP milestone |
 | 71 | **Enhanced Artifacts** | Conjuring set adds spell damage; Pendant of Death gives undead +5 ATT/DEF |
+| 20 | **Week of Monsters** | +2 ATK/+2 DEF/+1 growth via EntitiesChanged; creature type updateFrom now works (engine fix); announces WOM creature each week |
+| 245 | **Level 7+ Creatures XP Reduction** | BattleStarted tracks tier 7 presence; BattleEnded deducts 50% XP if loser had tier 7 |
+| 45 | **Castle Town Income** | +250g/day per town with City Hall, +500g/day with Capitol (approx. Gold Reserve feature) |
+| 248 | **Display WoGification Messages** | Shows list of active WOG features to human players on day 1 |
+| 39 | **Hero Specialization Boost** | +1 primary skill at milestone levels (5/10/15/20/25/30) — now enabled |
+| 132 | **Upgrading Treasure Chests** | Extra 500 gold or XP per chest visit via ObjectVisitStarted |
+| 198 | **Rebalanced Hero Abilities** | Newly hired heroes get Wisdom/Offense/Armorer if their stat profile warrants it (via HeroHired engine event) |
+| 196 | **Power Stones** | 4 collectible gem objects on map (+1 Attack/Defense/SpellPower/Knowledge each); uses ZCBON sprites from WOG Commanders |
+| 199 | **Rebalanced Starting Armies** | Each hero gets +8 tier-1 faction creatures in slot 6 on day 1 (via InsertNewStack netpack + getFactionId) |
+| Custom | **Building Construction Bonuses** | Gold + rare resources rewarded when building Mage Guild 5, Castle, Capitol |
+| 230 | **Display Map Rules** | Shows active map-level rules (starting armies, income, buildings, chests) to human players on day 1 |
+| 211 | **Scholar I — Enhanced Sharing** | JSON effects raise max spell-sharing level: Basic→3, Advanced→4, Expert→5 (was 2/3/4) |
+| 143 | **New Artifacts** | 17 new WOG artifacts (Dragonheart, Crimson Shield, etc.) via wake-of-gods.artifacts dependency |
+| 178 | **Combination Artifacts** | Assembled relic sets (Barbarian Lord's Axe = 4 components) via wake-of-gods.artifacts |
+| 237 | **Barbarian Lord's Axe** | Extra strike for non-shooters; relic combo of 4 artifacts via wake-of-gods.artifacts |
+| 227 | **Monster's Power** | Prayer cast on creatures by terrain/alignment via wake-of-gods.artifacts |
+| 243 | **Gate Key** | Gate Key map object via wake-of-gods.artifacts |
+| 51 | **Enhanced Commanders** | Full Commander system (6 types, leveling, abilities) via wake-of-gods.Commanders |
+| 186 | **Choose Commanders** | Select commander type from 6 options via wake-of-gods.Commanders |
+| 66 | **Commander Witch Huts** | Commanders learn skills from Witch Huts via wake-of-gods.Commanders |
+| 76 | **Commander Sanctuary** | Commander recovery/rest location via wake-of-gods.Commanders |
+| 219 | **Commander Artifacts** | Full commander artifact equip system via wake-of-gods.Commanders |
 
 ---
 
@@ -48,10 +71,9 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 
 | Option | Feature | Status |
 |--------|---------|--------|
-| 47 | **Creature Relationships** | Synergy XP; need BattleStart for morale/attack/hate effects |
+| 47 | **Creature Relationships** | BattleStarted used to scan armies; synergy XP per allied pair; morale/attack effects pending |
 | 220 | **Battle Extender** | Gold refund; need retreat intercept for true rejoin mechanic |
 | 900 | **Stack Experience** | Hero-level approximation; need per-stack tracking + creature stat API |
-| 20 | **Week of Monsters** | Picks creature each week; need EntitiesChanged for stat boost |
 | 39 | **Hero Specialization Boost** | Milestone primary skill boost; true specialty scaling needs hero type API |
 
 ---
@@ -62,7 +84,9 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 
 | Option | Feature | Description |
 |--------|---------|-------------|
-| 45 | **Castle Upgrading / Town Income** | Build Gold Reserve upgrades for +1000 gold/day each |
+| ~~45~~ | ~~**Castle Upgrading / Town Income**~~ | Done — moved to ✅ |
+| ~~132~~ | ~~**Upgrading Treasure Chests**~~ | Done — moved to ✅ |
+| ~~Custom~~ | ~~**Building Construction Bonuses**~~ | Done — moved to ✅ |
 | 228 | **Build Twice a Day** | Towns can build two buildings per day |
 
 ### Combat & Battle
@@ -70,15 +94,15 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | Option | Feature | Description |
 |--------|---------|-------------|
 | 61 | **Enhanced Protection from Elements** | Protection spells vs. elementals have stronger effects |
-| 245 | **Level 7+ Creatures Gain 50% XP** | Tier 7 creatures earn half experience; needs army composition API |
 
 ### Hero & Skills
 
 | Option | Feature | Description |
 |--------|---------|-------------|
-| 211 | **Scholar I** | Share better spells (partially done via Scholar weekly research) |
-| 201 | **Artillery I (Enhanced)** | Stronger Ballista bonuses |
-| 198 | **Rebalanced Hero Abilities** | Starting skills rebalanced |
+| ~~211~~ | ~~**Scholar I**~~ | Done — JSON effects added (Basic→level 3, Advanced→level 4, Expert→level 5 sharing) |
+| ~~201~~ | ~~**Artillery I (Enhanced)**~~ | Done — moved to ✅ |
+| ~~39~~ | ~~**Hero Specialization Boost**~~ | Done — moved to ✅ |
+| ~~198~~ | ~~**Rebalanced Hero Abilities**~~ | Done — moved to ✅ |
 
 ### Creatures & Monsters
 
@@ -95,14 +119,14 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 
 | Option | Feature | Description |
 |--------|---------|-------------|
-| 26 | **Artificer** | Combine or upgrade artifacts |
-| 143 | **New Artifacts** | New WOG-specific artifacts |
+| 26 | **Artificer** | Combine or upgrade artifacts (complex UI mechanic, not yet impl.) |
+| ~~143~~ | ~~**New Artifacts**~~ | Done via dependency — moved to ✅ |
 | 176 | **Magic Wand** | New artifact that extends spell effects |
-| 178 | **Combination Artifacts** | Assembled artifact sets |
-| 196 | **Power Stones** | Collectible stones boosting primary skills |
-| 237 | **Barbarian Lord's Axe** | New weapon artifact |
-| 227 | **Monster's Power** | Artifact scaling with army strength |
-| 243 | **Gate Key** | New artifact for controlling passage |
+| ~~178~~ | ~~**Combination Artifacts**~~ | Done via dependency — moved to ✅ |
+| ~~196~~ | ~~**Power Stones**~~ | Done — moved to ✅ |
+| ~~237~~ | ~~**Barbarian Lord's Axe**~~ | Done via dependency — moved to ✅ |
+| ~~227~~ | ~~**Monster's Power**~~ | Done via dependency — moved to ✅ |
+| ~~243~~ | ~~**Gate Key**~~ | Done via dependency — moved to ✅ |
 
 ### Map Rules
 
@@ -114,7 +138,7 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | 171 | **Mithril in Windmills/Gardens** | 1 in 10 windmills have Mithril |
 | 134 | **Resource Piles** | Resource piles work normally |
 | 174 | **Universal Upgrading** | All creatures upgradeable |
-| 199 | **Rebalanced Starting Armies** | Fairer starting armies |
+| ~~199~~ | ~~**Rebalanced Starting Armies**~~ | Done — moved to ✅ |
 | 195 | **Replace Objects** | WOG alternative map objects |
 | 200 | **Refugee Camp Sync** | Consistent creature types across players |
 | 132 | **Upgrading Treasure Chests** | Better chest rewards |
@@ -124,11 +148,11 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 
 | Option | Feature | Description |
 |--------|---------|-------------|
-| 51 | **Enhanced Commanders** | Expanded abilities and leveling |
-| 186 | **Choose Commanders** | Choose commander type |
-| 66 | **Commander Witch Huts** | Learn skills from Witch Huts |
-| 76 | **Commander Sanctuary** | Recovery location |
-| 219 | **Commander Artifacts** | Equip artifacts |
+| ~~51~~ | ~~**Enhanced Commanders**~~ | Done via dependency — moved to ✅ |
+| ~~186~~ | ~~**Choose Commanders**~~ | Done via dependency — moved to ✅ |
+| ~~66~~ | ~~**Commander Witch Huts**~~ | Done via dependency — moved to ✅ |
+| ~~76~~ | ~~**Commander Sanctuary**~~ | Done via dependency — moved to ✅ |
+| ~~219~~ | ~~**Commander Artifacts**~~ | Done via dependency — moved to ✅ |
 
 ### Quality of Life
 
@@ -137,8 +161,8 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | 22 | **Monster Mutterings** | Hovering shows creature thoughts |
 | 24 | **Enhanced Hint Text** | Better hover descriptions |
 | 75 | **Abbreviated Skill Descriptions** | Shorter skill tooltips |
-| 248 | **Display WoGification Messages** | Shows active WOG features |
-| 230 | **Display Map Rules** | Shows active map rules |
+| ~~248~~ | ~~**Display WoGification Messages**~~ | Done — moved to ✅ |
+| ~~230~~ | ~~**Display Map Rules**~~ | Done — moved to ✅ |
 
 ---
 
@@ -199,9 +223,9 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 
 | Status | Count |
 |--------|-------|
-| ✅ Done | 25 |
-| 🟡 Partial | 5 |
-| 🔴 Todo (Lua, doable) | ~40 |
+| ✅ Done | 55 |
+| 🟡 Partial | 4 |
+| 🔴 Todo (Lua, doable) | ~20 |
 | 🏗️ Hard (needs engine) | 8 |
 | ⚫ Map objects | 14 |
 | ❓ Resolved unknowns | 10 |

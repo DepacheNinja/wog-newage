@@ -1,0 +1,175 @@
+{
+	/// WOG New Age — Power Stones (option 196)
+	/// Collectible map objects that permanently increase a hero's primary skill by 1.
+	/// Disappear after the first hero picks them up (removable pickup style).
+	///
+	/// Visual: reuse ZCBON gem sprites from wake-of-gods.Commanders (dependency).
+	/// ZCBON001 = ruby (red)    → Attack
+	/// ZCBON002 = sapphire (blue) → Defense
+	/// ZCBON000 = opal (purple) → Spell Power
+	/// ZCBON003 = emerald (green) → Knowledge
+
+	"wogPowerStoneAttack" : {
+		"handler" : "configurable",
+		"base" : {
+			"blockedVisitable" : true,
+			"removable" : true,
+			"sounds" : {
+				"ambient" : ["LOOPCAMP"],
+				"visit"   : ["EXPERNCE"],
+				"removal" : ["PICKUP01", "PICKUP02", "PICKUP03", "PICKUP04", "PICKUP05", "PICKUP06", "PICKUP07"]
+			}
+		},
+		"types" : {
+			"wogPowerStoneAttack" : {
+				"aiValue" : 1500,
+				"rmg" : {
+					"zoneLimit" : 2,
+					"value"     : 1500,
+					"rarity"    : 60
+				},
+				"templates" : {
+					"zcbon001" : {
+						"animation" : "objects/zcbon001.def",
+						"mask" : ["VV", "VA"],
+						"visitableFrom" : ["+++", "+++", "+++"]
+					}
+				},
+				"visitMode"  : "unlimited",
+				"selectMode" : "selectFirst",
+				"onEmptyMessage" : "The ruby stone's power has already been claimed.",
+				"rewards" : [
+					{
+						"appearChance"  : { "min" : 0, "max" : 100 },
+						"message"       : "You find a blood-red stone glowing with fierce energy. As you touch it, your muscles surge with new strength! Your Attack increases by 1.",
+						"removeObject"  : true,
+						"primary"       : { "attack" : 1 }
+					}
+				]
+			}
+		}
+	},
+
+	"wogPowerStoneDefense" : {
+		"handler" : "configurable",
+		"base" : {
+			"blockedVisitable" : true,
+			"removable" : true,
+			"sounds" : {
+				"ambient" : ["LOOPCAMP"],
+				"visit"   : ["EXPERNCE"],
+				"removal" : ["PICKUP01", "PICKUP02", "PICKUP03", "PICKUP04", "PICKUP05", "PICKUP06", "PICKUP07"]
+			}
+		},
+		"types" : {
+			"wogPowerStoneDefense" : {
+				"aiValue" : 1500,
+				"rmg" : {
+					"zoneLimit" : 2,
+					"value"     : 1500,
+					"rarity"    : 60
+				},
+				"templates" : {
+					"zcbon002" : {
+						"animation" : "objects/zcbon002.def",
+						"mask" : ["VV", "VA"],
+						"visitableFrom" : ["+++", "+++", "+++"]
+					}
+				},
+				"visitMode"  : "unlimited",
+				"selectMode" : "selectFirst",
+				"onEmptyMessage" : "The sapphire stone's power has already been claimed.",
+				"rewards" : [
+					{
+						"appearChance"  : { "min" : 0, "max" : 100 },
+						"message"       : "You discover a deep blue stone radiating protective energy. It dissolves into your armor, strengthening your resolve! Your Defense increases by 1.",
+						"removeObject"  : true,
+						"primary"       : { "defence" : 1 }
+					}
+				]
+			}
+		}
+	},
+
+	"wogPowerStoneSpellPower" : {
+		"handler" : "configurable",
+		"base" : {
+			"blockedVisitable" : true,
+			"removable" : true,
+			"sounds" : {
+				"ambient" : ["LOOPCAMP"],
+				"visit"   : ["EXPERNCE"],
+				"removal" : ["PICKUP01", "PICKUP02", "PICKUP03", "PICKUP04", "PICKUP05", "PICKUP06", "PICKUP07"]
+			}
+		},
+		"types" : {
+			"wogPowerStoneSpellPower" : {
+				"aiValue" : 1500,
+				"rmg" : {
+					"zoneLimit" : 2,
+					"value"     : 1500,
+					"rarity"    : 60
+				},
+				"templates" : {
+					"zcbon000" : {
+						"animation" : "objects/zcbon000.def",
+						"mask" : ["VV", "VA"],
+						"visitableFrom" : ["+++", "+++", "+++"]
+					}
+				},
+				"visitMode"  : "unlimited",
+				"selectMode" : "selectFirst",
+				"onEmptyMessage" : "The opal stone's power has already been claimed.",
+				"rewards" : [
+					{
+						"appearChance"  : { "min" : 0, "max" : 100 },
+						"message"       : "A shimmering opal stone pulses with arcane light. As you grasp it, magical energy floods through you! Your Spell Power increases by 1.",
+						"removeObject"  : true,
+						"primary"       : { "spellpower" : 1 }
+					}
+				]
+			}
+		}
+	},
+
+	"wogPowerStoneKnowledge" : {
+		"handler" : "configurable",
+		"base" : {
+			"blockedVisitable" : true,
+			"removable" : true,
+			"sounds" : {
+				"ambient" : ["LOOPCAMP"],
+				"visit"   : ["EXPERNCE"],
+				"removal" : ["PICKUP01", "PICKUP02", "PICKUP03", "PICKUP04", "PICKUP05", "PICKUP06", "PICKUP07"]
+			}
+		},
+		"types" : {
+			"wogPowerStoneKnowledge" : {
+				"aiValue" : 1500,
+				"rmg" : {
+					"zoneLimit" : 2,
+					"value"     : 1500,
+					"rarity"    : 60
+				},
+				"templates" : {
+					"zcbon003" : {
+						"animation" : "objects/zcbon003.def",
+						"mask" : ["VV", "VA"],
+						"visitableFrom" : ["+++", "+++", "+++"]
+					}
+				},
+				"visitMode"  : "unlimited",
+				"selectMode" : "selectFirst",
+				"onEmptyMessage" : "The emerald stone's wisdom has already been claimed.",
+				"rewards" : [
+					{
+						"appearChance"  : { "min" : 0, "max" : 100 },
+						"message"       : "You find a brilliant green stone inscribed with ancient runes. Its wisdom flows into your mind as you touch it! Your Knowledge increases by 1.",
+						"removeObject"  : true,
+						"primary"       : { "knowledge" : 1 }
+					}
+				]
+			}
+		}
+	}
+}

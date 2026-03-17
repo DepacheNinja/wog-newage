@@ -4,7 +4,7 @@
 	"modType": "Expansion",
 	"author": "Depache",
 	"contact": "",
-	"version": "0.9.4",
+	"version": "1.0.0",
 	"compatibility": {
 		"min": "1.7.0"
 	},
@@ -25,6 +25,9 @@
 	],
 	"artifacts": [
 		"config/artifacts/wog_enhanced_artifacts.json"
+	],
+	"objects": [
+		"config/objects/wog_power_stones.json"
 	],
 	"skills": [
 		"config/skills/warfare_skills.json",
@@ -113,6 +116,34 @@
 		},
 		"wogWitchHuts": {
 			"source": "wog_witch_huts.lua",
+			"implements": "ANYTHING"
+		},
+		"wogArtillery": {
+			"source": "wog_artillery.lua",
+			"implements": "ANYTHING"
+		},
+		"wogCastleIncome": {
+			"source": "wog_castle_income.lua",
+			"implements": "ANYTHING"
+		},
+		"wogDisplayFeatures": {
+			"source": "wog_display_features.lua",
+			"implements": "ANYTHING"
+		},
+		"wogHeroHired": {
+			"source": "wog_hero_hired.lua",
+			"implements": "ANYTHING"
+		},
+		"wogBuildingBonuses": {
+			"source": "wog_building_bonuses.lua",
+			"implements": "ANYTHING"
+		},
+		"wogStartingArmies": {
+			"source": "wog_starting_armies.lua",
+			"implements": "ANYTHING"
+		},
+		"wogDisplayMapRules": {
+			"source": "wog_display_map_rules.lua",
 			"implements": "ANYTHING"
 		}
 	}

@@ -184,13 +184,22 @@
 	},
 	"core:scholar": {
 		"basic": {
-			"description": "{Scholar — Basic [WOG Enhanced]}\n\nShare level 1-2 spells with other heroes on the same tile.\n\nWOG Enhancement: Scholar I allows sharing level 3 spells."
+			"effects": {
+				"main": { "val": 3 }
+			},
+			"description": "{Scholar — Basic [WOG Enhanced]}\n\nShare level 1-3 spells with other heroes on the same tile.\n\nWOG Enhancement: Scholar I allows sharing one additional spell level (was 1-2)."
 		},
 		"advanced": {
-			"description": "{Scholar — Advanced [WOG Enhanced]}\n\nShare level 1-3 spells with other heroes.\n\nWOG Enhancement: Scholar I allows sharing level 4 spells."
+			"effects": {
+				"main": { "val": 4 }
+			},
+			"description": "{Scholar — Advanced [WOG Enhanced]}\n\nShare level 1-4 spells with other heroes.\n\nWOG Enhancement: Scholar I allows sharing one additional spell level (was 1-3)."
 		},
 		"expert": {
-			"description": "{Scholar — Expert [WOG Enhanced]}\n\nShare level 1-4 spells with other heroes.\n\nWOG Enhancement: Scholar I allows sharing level 5 spells — any spell can be taught."
+			"effects": {
+				"main": { "val": 5 }
+			},
+			"description": "{Scholar — Expert [WOG Enhanced]}\n\nShare level 1-5 spells with other heroes — any spell can be taught.\n\nWOG Enhancement: Expert Scholar shares all spell levels (was 1-4)."
 		}
 	},
 	"core:scouting": {

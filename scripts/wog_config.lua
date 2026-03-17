@@ -11,6 +11,14 @@ local C = DATA.WOG
 -- =====================================================================
 -- ECONOMY & RESOURCES
 -- =====================================================================
+
+-- Castle Upgrading / Town Income (option 45)
+-- Bonus gold per day per town, scaling with hall tier:
+--   City Hall: +250g/day, Capitol: +500g/day
+C.castleIncomeEnabled    = true   -- enable town income scaling bonus
+C.castleIncomeCityHall   = 250    -- gold/day per town with City Hall
+C.castleIncomeCapitol    = 500    -- gold/day per town with Capitol
+
 C.firstMoneyEnabled       = true   -- option 40: Starting gold bonus
 C.firstMoneyAmount        = 5000   -- gold given to each player on day 1 (WoG default: 12000)
 C.firstMoneyResources     = false  -- set true to also give classic WoG starting resources
@@ -34,7 +42,8 @@ C.battleAcademyBonusPct   = 20     -- percent bonus XP after each won battle
 -- Close battle threshold (XP below this = close fight)
 -- Winner gets +5%, loser gets consolation 10% of winner XP
 C.karmicEnabled           = true
-C.karmicCloseXP           = 2000   -- XP threshold for "close" battle
+C.karmicCloseXP           = 2000   -- fallback XP threshold (when army data unavailable)
+C.karmicCloseRatio        = 0.5    -- armies within 50% strength ratio = close battle
 C.karmicWinnerPct         = 5      -- bonus % for winner in close battle
 C.karmicLoserPct          = 10     -- consolation % for loser in close battle
 
@@ -75,6 +84,12 @@ C.scholarEnabled          = true
 C.luckEnabled             = true
 C.luckExtraPct            = 50   -- extra % of initial damage added to lucky hits
 
+-- Artillery I Enhanced (option 201)
+-- Ballista double-damage hits get extra bonus scaling with Artillery skill.
+-- Basic: +25%, Advanced: +50%, Expert: +75% of initial damage.
+C.artilleryEnabled        = true
+C.artilleryExtraPct       = {25, 50, 75}  -- [basic, advanced, expert]
+
 -- Advanced Witch Huts (option 194)
 -- Witch Huts teach skills at Advanced level automatically (costs gold).
 -- witchHutAutoLevel: 1=Basic (vanilla), 2=Advanced (WOG default), 3=Expert
@@ -98,17 +113,52 @@ C.combinedWarfareEnabled  = true  -- Ballistics/Artillery/FirstAid sync as one
 -- is disabled because the real engine module provides proper per-stack XP.
 C.stackExpEnabled         = false  -- disabled: real engine module active
 
+-- Level 7+ Creatures XP Reduction (option 245)
+-- Defeating armies with tier 7 creatures gives 50% less XP to balance late-game.
+C.level7XPEnabled         = true
+C.level7XPReductionPct    = 50     -- percent XP reduction when fighting tier-7 army
+
 -- =====================================================================
 -- WEEK OF MONSTERS (option 20)
 -- Each week a random creature type gets a stat bonus
 -- =====================================================================
-C.weekOfMonstersEnabled   = false  -- disabled until EntitiesChanged API is confirmed
+C.weekOfMonstersEnabled      = true   -- uses EntitiesChanged to boost creature stats each week
+C.weekOfMonstersAtkBonus     = 2      -- attack bonus for week's creature (+2 = WOG classic)
+C.weekOfMonstersDefBonus     = 2      -- defense bonus for week's creature (+2 = WOG classic)
+C.weekOfMonstersGrowthBonus  = 1      -- extra weekly dwelling growth for the chosen creature
 
 -- =====================================================================
 -- HERO SPECIALIZATION BOOST (option 39)
 -- Specialty bonuses scale better with hero level
 -- =====================================================================
-C.heroSpecBoostEnabled    = false  -- planned, needs specialty API
+C.heroSpecBoostEnabled    = true   -- milestone primary skill boost at levels 5/10/15/20/25/30
+
+-- =====================================================================
+-- HERO HIRED ENHANCEMENTS (option 198 approximation)
+-- =====================================================================
+C.heroHiredEnabled        = true   -- give newly hired heroes a fitting secondary skill if missing
+
+-- =====================================================================
+-- BUILDING CONSTRUCTION BONUSES
+-- =====================================================================
+C.buildingBonusesEnabled  = true   -- reward players for constructing key buildings (Mage Guild 5, Castle, Capitol)
+
+-- =====================================================================
+-- DISPLAY MAP RULES (option 230)
+-- =====================================================================
+C.displayMapRulesEnabled  = true   -- show active map rules to human players on day 1
+
+-- =====================================================================
+-- REBALANCED STARTING ARMIES (option 199)
+-- =====================================================================
+C.startingArmiesEnabled  = true   -- give starting heroes a small troop bonus on day 1
+C.startingBonusCount     = 8      -- tier-1 creatures to add per hero
+C.startingBonusSlot      = 6      -- army slot to fill (0-6; slot 6 = last slot)
+
+-- =====================================================================
+-- DISPLAY WOGIFICATION MESSAGES (option 248)
+-- =====================================================================
+C.displayFeaturesEnabled  = true   -- show active WOG features to human players on day 1
 
 -- =====================================================================
 -- SKILL IDs (SecondarySkill enum values from VCMI engine)
