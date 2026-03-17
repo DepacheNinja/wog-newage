@@ -75,6 +75,14 @@ C.scholarEnabled          = true
 C.luckEnabled             = true
 C.luckExtraPct            = 50   -- extra % of initial damage added to lucky hits
 
+-- Advanced Witch Huts (option 194)
+-- Witch Huts teach skills at Advanced level automatically (costs gold).
+-- witchHutAutoLevel: 1=Basic (vanilla), 2=Advanced (WOG default), 3=Expert
+-- witchHutUpgradeCost: {cost_for_adv, cost_for_exp} in gold
+C.witchHutsEnabled        = true
+C.witchHutAutoLevel       = 2      -- teach at Advanced (level 2) instead of Basic
+C.witchHutUpgradeCost     = {1000, 2000}  -- [to_advanced, to_expert]
+
 -- Treasure Chest Enhancement (option 132)
 -- After visiting a chest, hero gets extra 500 gold or XP.
 C.treasureChestsEnabled   = true

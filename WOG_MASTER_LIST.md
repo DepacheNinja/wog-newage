@@ -35,6 +35,7 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | 212 | **Scouting Enhancement** | Sight radius 2/3/5 (was 1/2/3) via JSON |
 | 218 | **Tactics Enhancement** | Deployment zone +1 row per level via JSON |
 | 206 | **Luck I Enhancement** | Lucky strikes deal +50% initial damage extra (total ~3× normal) via ApplyDamage |
+| 194 | **Advanced Witch Huts** | Witch Huts teach at Advanced level; deducts 1000g from player |
 | 39 | **Hero Specialization Boost** | +1 primary skill at milestone levels (5/10/15/20/25/30) |
 | 220 | **Battle Extender** | 1000 gold refund to losing human player; full retreat pending |
 | 47 | **Creature Relationships** | 5% synergy XP bonus post-battle; morale/attack pending |
@@ -78,7 +79,6 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | 211 | **Scholar I** | Share better spells (partially done via Scholar weekly research) |
 | 201 | **Artillery I (Enhanced)** | Stronger Ballista bonuses |
 | 198 | **Rebalanced Hero Abilities** | Starting skills rebalanced |
-| 194 | **Advanced Witch Huts** | Can learn higher skills; pay to upgrade |
 
 ### Creatures & Monsters
 
@@ -199,9 +199,9 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 
 | Status | Count |
 |--------|-------|
-| ✅ Done | 24 |
+| ✅ Done | 25 |
 | 🟡 Partial | 5 |
-| 🔴 Todo (Lua, doable) | ~41 |
+| 🔴 Todo (Lua, doable) | ~40 |
 | 🏗️ Hard (needs engine) | 8 |
 | ⚫ Map objects | 14 |
 | ❓ Resolved unknowns | 10 |
