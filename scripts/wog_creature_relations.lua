@@ -178,6 +178,9 @@ end)
 wogCreatureRelationsSub = BattleEnded.subscribeAfter(EVENT_BUS, function(event)
 	if not C.creatureRelationsEnabled then return end
 
+	-- Synergy XP only for real concluded battles (NORMAL=0)
+	if event:getBattleResult() ~= 0 then return end
+
 	local exp = event:getExpAwarded()
 	if exp <= 0 then return end
 
