@@ -1,14 +1,14 @@
 {
-	"name" : "WOG New Age",
-	"description" : "Full WOG 3.58f experience for VCMI/FCMI. Implements classic Wake of Gods features: alternate creature upgrades, enhanced secondary skills, Combat Hardening, First Money, Karmic Battles, Enhanced Mysticism/Estates/Learning, Week of Monsters, and more. Based on WOG 3.58f ERM scripts ported to VCMI Lua.",
-	"modType" : "Expansion",
-	"author" : "Depache",
-	"contact" : "",
-	"version" : "0.6.0",
-	"compatibility" : {
-		"min" : "1.7.0"
+	"name": "WOG New Age",
+	"description": "Full WOG 3.58f experience for VCMI/FCMI. Implements classic Wake of Gods features: alternate creature upgrades, enhanced secondary skills, Combat Hardening, First Money, Karmic Battles, Enhanced Mysticism/Estates/Learning, Week of Monsters, and more. Based on WOG 3.58f ERM scripts ported to VCMI Lua.",
+	"modType": "Expansion",
+	"author": "Depache",
+	"contact": "",
+	"version": "0.8.0",
+	"compatibility": {
+		"min": "1.7.0"
 	},
-	"depends" : [
+	"depends": [
 		"wake-of-gods",
 		"wake-of-gods.creatures",
 		"wake-of-gods.stackExperience",
@@ -20,84 +20,88 @@
 		"wake-of-gods.mapObjects",
 		"wake-of-gods.creatureBanks"
 	],
-	"creatures" : [
+	"creatures": [
 		"config/creatures/altUpgradesCreaturePatch.json"
 	],
-	"artifacts" : [
+	"artifacts": [
 		"config/artifacts/wog_enhanced_artifacts.json"
 	],
-	"skills" : [
+	"skills": [
 		"config/skills/warfare_skills.json",
 		"config/skills/enhanced_skills.json"
 	],
-	"filesystem" : {
-		"" : [
+	"filesystem": {
+		"": [
 			{
-				"type" : "dir",
-				"path" : ""
+				"type": "dir",
+				"path": ""
 			}
 		]
 	},
-	"scripts" : {
-		"wogConfig" : {
-			"source" : "wog_config.lua",
-			"implements" : "ANYTHING"
+	"scripts": {
+		"wogConfig": {
+			"source": "wog_config.lua",
+			"implements": "ANYTHING"
 		},
-		"wogWeeklyIncome" : {
-			"source" : "wog_weekly_income.lua",
-			"implements" : "ANYTHING"
+		"wogWeeklyIncome": {
+			"source": "wog_weekly_income.lua",
+			"implements": "ANYTHING"
 		},
-		"wogFirstMoney" : {
-			"source" : "wog_first_money.lua",
-			"implements" : "ANYTHING"
+		"wogFirstMoney": {
+			"source": "wog_first_money.lua",
+			"implements": "ANYTHING"
 		},
-		"wogCombinedWarfareSkills" : {
-			"source" : "wog_combined_warfare_skills.lua",
-			"implements" : "ANYTHING"
+		"wogCombinedWarfareSkills": {
+			"source": "wog_combined_warfare_skills.lua",
+			"implements": "ANYTHING"
 		},
-		"wogBattleAcademy" : {
-			"source" : "wog_battle_academy.lua",
-			"implements" : "ANYTHING"
+		"wogBattleAcademy": {
+			"source": "wog_battle_academy.lua",
+			"implements": "ANYTHING"
 		},
-		"wogKarmicBattles" : {
-			"source" : "wog_karmic_battles.lua",
-			"implements" : "ANYTHING"
+		"wogKarmicBattles": {
+			"source": "wog_karmic_battles.lua",
+			"implements": "ANYTHING"
 		},
-		"wogMysticism" : {
-			"source" : "wog_mysticism.lua",
-			"implements" : "ANYTHING"
+		"wogMysticism": {
+			"source": "wog_mysticism.lua",
+			"implements": "ANYTHING"
 		},
-		"wogEstates" : {
-			"source" : "wog_estates.lua",
-			"implements" : "ANYTHING"
+		"wogEstates": {
+			"source": "wog_estates.lua",
+			"implements": "ANYTHING"
 		},
-		"wogLearning" : {
-			"source" : "wog_learning.lua",
-			"implements" : "ANYTHING"
+		"wogLearning": {
+			"source": "wog_learning.lua",
+			"implements": "ANYTHING"
 		},
-		"wogWeekOfMonsters" : {
-			"source" : "wog_week_of_monsters.lua",
-			"implements" : "ANYTHING"
+		"wogWeekOfMonsters": {
+			"source": "wog_week_of_monsters.lua",
+			"implements": "ANYTHING"
 		},
-		"wogLevel7XP" : {
-			"source" : "wog_level7_xp.lua",
-			"implements" : "ANYTHING"
+		"wogLevel7XP": {
+			"source": "wog_level7_xp.lua",
+			"implements": "ANYTHING"
 		},
-		"wogCreatureRelations" : {
-			"source" : "wog_creature_relations.lua",
-			"implements" : "ANYTHING"
+		"wogCreatureRelations": {
+			"source": "wog_creature_relations.lua",
+			"implements": "ANYTHING"
 		},
-		"wogHeroSpecBoost" : {
-			"source" : "wog_hero_spec_boost.lua",
-			"implements" : "ANYTHING"
+		"wogHeroSpecBoost": {
+			"source": "wog_hero_spec_boost.lua",
+			"implements": "ANYTHING"
 		},
-		"wogBattleExtender" : {
-			"source" : "wog_battle_extender.lua",
-			"implements" : "ANYTHING"
+		"wogBattleExtender": {
+			"source": "wog_battle_extender.lua",
+			"implements": "ANYTHING"
 		},
-		"wogStackExperience" : {
-			"source" : "wog_stack_experience.lua",
-			"implements" : "ANYTHING"
+		"wogStackExperience": {
+			"source": "wog_stack_experience.lua",
+			"implements": "ANYTHING"
+		},
+		"wogScholar": {
+			"source": "wog_scholar.lua",
+			"implements": "ANYTHING"
 		}
 	}
 }

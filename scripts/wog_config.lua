@@ -48,6 +48,13 @@ C.estatesLevelMultiplier  = {5, 8, 12}  -- gold × heroLevel per [basic, adv, ex
 C.learningEnabled         = true
 C.learningBonusXP         = {100, 200, 300}  -- XP/day per [basic, advanced, expert]
 
+-- Scholar enhancement (option 211)
+-- Weekly chance to research and learn a new spell.
+-- Basic: 40% chance for level 1-2 spell
+-- Advanced: 50% chance for level 1-3 spell
+-- Expert: 60% chance for level 1-4 spell
+C.scholarEnabled          = true
+
 -- =====================================================================
 -- COMBINED WARFARE SKILLS (option 193)
 -- =====================================================================
