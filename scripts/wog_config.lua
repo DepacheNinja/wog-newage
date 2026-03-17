@@ -165,6 +165,15 @@ C.startingBonusCount     = 8      -- tier-1 creatures to add per hero
 C.startingBonusSlot      = 6      -- army slot to fill (0-6; slot 6 = last slot)
 
 -- =====================================================================
+-- NEUTRAL STACK EXPERIENCE (option 231)
+-- =====================================================================
+-- Wandering neutral stacks gain "experience" when they defeat a hero.
+-- Approximated as a stack count growth bonus (true stat boost not possible without
+-- engine-level bonus support for map creature objects).
+C.neutralStackExpEnabled   = true   -- enable neutral victory growth
+C.neutralVictoryGrowthPct  = 20     -- % stack size bonus when neutral defeats a hero
+
+-- =====================================================================
 -- ENHANCED MONSTERS (option 50)
 -- =====================================================================
 -- Wandering monster stacks grow over time if not defeated.

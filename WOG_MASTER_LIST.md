@@ -76,6 +76,7 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | 61 | **Enhanced Protection from Elements** | Protection spells (protectFire/Air/Water/Earth) now reduce physical elemental attacks by 35% via ApplyDamage + hasBonusFromSpell() FCMI API |
 | 57 | **Neutral Units** | Wandering monster stacks scaled ×1.5 on day 1 via getMapObjectIds(54)/getMonsterCount/ChangeStackCount FCMI APIs |
 | 50 | **Enhanced Monsters** | Surviving neutral stacks grow +10%/week (capped at 3× day-1 count) via weekly TurnStarted + ChangeStackCount |
+| 231 | **Neutral Stack Experience** | Neutral stacks that defeat a hero grow +20% (stack count proxy for XP) via BattleStarted/BattleEnded + getAttackerArmyId/getDefenderArmyId FCMI APIs |
 | 220 | **Battle Extender** | Gold refund; need retreat intercept for true rejoin mechanic |
 | 900 | **Stack Experience** | Hero-level approximation; need per-stack tracking + creature stat API |
 | 39 | **Hero Specialization Boost** | Milestone primary skill boost; true specialty scaling needs hero type API |
@@ -114,7 +115,7 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 |--------|---------|-------------|
 | ~~50~~ | ~~**Enhanced Monsters**~~ | Done — moved to ✅ |
 | ~~57~~ | ~~**Neutral Units**~~ | Done — moved to ✅ |
-| 231 | **Neutral Stack Experience** | Non-hero creature stacks also gain experience |
+| ~~231~~ | ~~**Neutral Stack Experience**~~ | Done — moved to ✅ |
 | 165 | **Replace Dragon Fly** | Dragon Flies replaced |
 | 242 | **Some Level 3s → Ghosts** | Some level 3 spawns replaced by Ghosts |
 | 229 | **AI Stack Experience Level** | AI difficulty level 7 |
@@ -227,7 +228,7 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 
 | Status | Count |
 |--------|-------|
-| ✅ Done | 59 |
+| ✅ Done | 60 |
 | 🟡 Partial | 4 |
 | 🔴 Todo (Lua, doable) | ~20 |
 | 🏗️ Hard (needs engine) | 8 |

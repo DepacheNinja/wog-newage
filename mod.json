@@ -161,6 +161,10 @@
 		"wogEnhancedMonsters": {
 			"source": "wog_enhanced_monsters.lua",
 			"implements": "ANYTHING"
+		},
+		"wogNeutralStackExp": {
+			"source": "wog_neutral_stack_exp.lua",
+			"implements": "ANYTHING"
 		}
 	}
 }
