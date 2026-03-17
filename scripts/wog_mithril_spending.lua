@@ -16,14 +16,19 @@
 --     owner in C.upgradedMines; bonus resource given on TurnStarted each day.
 --   - Windmill / water wheel upgrade (double this week's production) applies
 --     a double-resource bonus on the next visit within the same week.
---   - Shrine spell reroll and Witch Hut skill reroll: deferred until
---     getShrineSpell / setWitchHutSkill FCMI APIs are added.
+--   - Shrine spell reroll (Phase 2): visit shrine → pay Mithril → reroll to
+--     random spell of same level for future heroes. Cost: 1/2/3 Mithril by level.
+--     Uses SetObjectProperty:setShrineSpell FCMI API.
+--   - Witch Hut skill reroll (Phase 2): visit witch hut → pay 2 Mithril →
+--     reroll to random skill for future heroes. Uses SetObjectProperty:setWitchHutSkill.
 --   - Dwelling upgrade: deferred until setDwellingCreature FCMI API is added.
 --   - Castle terrain placement, Shipyard lighthouse, Monolith reveal: deferred.
 --
 -- Mithril costs (from ERM script36 FU8172/FU8181/FU8182):
 --   Mine upgrade: 4 Mithril (7 for gold mine)
 --   Windmill / water wheel upgrade: 5 Mithril
+--   Shrine reroll: 1 / 2 / 3 Mithril (level 1/2/3 shrine)
+--   Witch Hut reroll: 2 Mithril
 --
 -- Display
 --   Shows current Mithril count in spending dialogs.
@@ -34,6 +39,7 @@ local QueryReplied       = require("events.QueryReplied")
 local TurnStarted        = require("events.TurnStarted")
 local BlockingDialog     = require("netpacks.BlockingDialog")
 local SetResources       = require("netpacks.SetResources")
+local SetObjectProperty  = require("netpacks.SetObjectProperty")
 local InfoWindow         = require("netpacks.InfoWindow")
 
 DATA.WOG = DATA.WOG or {}
@@ -57,6 +63,13 @@ C.pendingMithrilDialogs = C.pendingMithrilDialogs or {}
 local OBJ_MINE       = 53
 local OBJ_WINDMILL   = 112
 local OBJ_WATERWHEEL = 109
+-- Shrine object types by level (from EntityIdentifiers.h Obj enum)
+local OBJ_SHRINE_L1  = 88   -- Shrine of Magic Incantation (level 1 spells)
+local OBJ_SHRINE_L2  = 89   -- Shrine of Magic Gesture     (level 2 spells)
+local OBJ_SHRINE_L3  = 90   -- Shrine of Magic Thought     (level 3 spells)
+local OBJ_WITCH_HUT  = 113  -- Witch Hut (secondary skill)
+-- Skill count for random reroll (0-27, matching C.SKILL table in wog_config.lua)
+local MAX_SKILL_ID   = 27
 
 -- Resource type names for dialog text
 local RES_NAMES = {
@@ -166,6 +179,49 @@ local function onWindmillVisit(event, objId, objNum, playerIdx)
 end
 
 -- ---------------------------------------------------------------------------
+-- SHRINE VISIT: offer spell reroll (Phase 2)
+-- ---------------------------------------------------------------------------
+
+local function onShrineVisit(event, objId, objNum, playerIdx, spellLevel, cost)
+    local mithril = getMithril(playerIdx)
+
+    if mithril < cost then
+        showInfo(playerIdx, string.format(
+            "{Mithril — Shrine}\\n\\nThis shrine teaches a level %d spell.\\nRerolling its spell costs %d Mithril.\\nYou have %d Mithril — not enough.",
+            spellLevel, cost, mithril))
+        return
+    end
+
+    askYesNo(playerIdx,
+        string.format(
+            "{Mithril — Shrine}\\n\\nThis shrine teaches a level %d spell.\\nSpend %d Mithril to reroll it to a different spell (for future visitors)?\\nYou have %d Mithril.",
+            spellLevel, cost, mithril),
+        {type = "shrine", playerIdx = playerIdx, objNum = objNum, cost = cost, spellLevel = spellLevel})
+end
+
+-- ---------------------------------------------------------------------------
+-- WITCH HUT VISIT: offer skill reroll (Phase 2)
+-- ---------------------------------------------------------------------------
+
+local function onWitchHutVisit(event, objId, objNum, playerIdx)
+    local cost    = 2   -- ERM: 2 Mithril to reroll witch hut skill
+    local mithril = getMithril(playerIdx)
+
+    if mithril < cost then
+        showInfo(playerIdx, string.format(
+            "{Mithril — Witch Hut}\\n\\nRerolling this witch hut's skill costs %d Mithril.\\nYou have %d Mithril — not enough.",
+            cost, mithril))
+        return
+    end
+
+    askYesNo(playerIdx,
+        string.format(
+            "{Mithril — Witch Hut}\\n\\nSpend %d Mithril to change what skill this witch hut teaches (for future visitors)?\\nYou have %d Mithril.",
+            cost, mithril),
+        {type = "witchHut", playerIdx = playerIdx, objNum = objNum, cost = cost})
+end
+
+-- ---------------------------------------------------------------------------
 -- OBJECT VISIT STARTED
 -- ---------------------------------------------------------------------------
 
@@ -185,6 +241,14 @@ wogMithrilSpendVisitSub = ObjectVisitStarted.subscribeAfter(EVENT_BUS, function(
         onMineVisit(event, objId, objNum, playerIdx)
     elseif objType == OBJ_WINDMILL or objType == OBJ_WATERWHEEL then
         onWindmillVisit(event, objId, objNum, playerIdx)
+    elseif objType == OBJ_SHRINE_L1 then
+        onShrineVisit(event, objId, objNum, playerIdx, 1, 1)
+    elseif objType == OBJ_SHRINE_L2 then
+        onShrineVisit(event, objId, objNum, playerIdx, 2, 2)
+    elseif objType == OBJ_SHRINE_L3 then
+        onShrineVisit(event, objId, objNum, playerIdx, 3, 3)
+    elseif objType == OBJ_WITCH_HUT then
+        onWitchHutVisit(event, objId, objNum, playerIdx)
     end
 end)
 
@@ -234,6 +298,35 @@ wogMithrilQuerySub = QueryReplied.subscribeAfter(EVENT_BUS, function(event)
         }
         showInfo(playerIdx, string.format(
             "{Mithril — Windmill Enhanced}\\n\\nThis windmill will produce double resources this week.\\nMithril remaining: %d.",
+            getMithril(playerIdx)))
+
+    elseif data.type == "shrine" then
+        -- Pick a random spell of the correct level and reroll the shrine
+        local spells = GAME:getSpellsByLevel(data.spellLevel)
+        if spells and #spells > 0 then
+            local newSpellId = spells[math.random(#spells)]
+            local pack = SetObjectProperty.new()
+            pack:setId(data.objNum)
+            pack:setShrineSpell(newSpellId)
+            SERVER:commitPackage(pack)
+            showInfo(playerIdx, string.format(
+                "{Mithril — Shrine Rerolled}\\n\\nThe shrine now teaches a different level %d spell for future visitors.\\nMithril remaining: %d.",
+                data.spellLevel, getMithril(playerIdx)))
+        else
+            showInfo(playerIdx, "{Mithril — Shrine}\\n\\nNo spells of that level found; Mithril refunded.")
+            -- refund
+            C.playerMithril[playerIdx] = (C.playerMithril[playerIdx] or 0) + data.cost
+        end
+
+    elseif data.type == "witchHut" then
+        -- Pick a random secondary skill (0-27) and reroll the hut
+        local newSkillId = math.random(0, MAX_SKILL_ID)
+        local pack = SetObjectProperty.new()
+        pack:setId(data.objNum)
+        pack:setWitchHutSkill(newSkillId)
+        SERVER:commitPackage(pack)
+        showInfo(playerIdx, string.format(
+            "{Mithril — Witch Hut Rerolled}\\n\\nThe witch hut now teaches a different skill for future visitors.\\nMithril remaining: %d.",
             getMithril(playerIdx)))
     end
 end)

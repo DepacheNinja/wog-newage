@@ -3,6 +3,70 @@
 --
 -- All WOG feature flags and tunable values are here.
 -- Set any value to false to disable that feature.
+--
+-- =====================================================================
+-- QUICK REFERENCE — ALL TOGGLES
+-- =====================================================================
+-- To enable/disable any feature, set its flag to true or false below.
+--
+-- ECONOMY
+--   C.castleIncomeEnabled    = true   Capitol/City Hall extra gold per day
+--   C.firstMoneyEnabled      = true   Day-1 gold + resource bonus for all players
+--   C.weeklyIncomeEnabled    = true   Daily gold stipend for human players
+--   C.mithrilAccumEnabled    = true   Resource piles & windmills yield Mithril
+--   C.mithrilEnabled         = true   Spend Mithril at mines/windmills for bonuses
+--
+-- COMBAT
+--   C.battleAcademyEnabled   = true   Post-battle stack XP bonus (Combat Hardening)
+--   C.karmicEnabled          = true   Close-battle bonus XP for winner & loser
+--   C.battleExtenderEnabled  = true   Gold refund when hero retreats/surrenders
+--   C.level7XPEnabled        = true   50% less XP from tier-7 creature armies
+--
+-- HERO SKILLS (ENHANCED SECONDARIES)
+--   C.mysticismEnabled       = true   Mysticism: % of max mana/day (10/20/30%)
+--   C.estatesEnabled         = true   Estates: gold × hero-level bonus/day
+--   C.learningEnabled        = true   Learning: flat XP/day bonus
+--   C.scholarEnabled         = true   Scholar: weekly chance to learn a spell
+--   C.luckEnabled            = true   Luck: extra +50% damage on lucky strikes
+--   C.artilleryEnabled       = true   Artillery: hero-level damage scaling
+--   C.witchHutsEnabled       = true   Witch Huts teach Advanced skill (for gold)
+--   C.treasureChestsEnabled  = true   Treasure Chests give extra 500 gold/XP
+--   C.combinedWarfareEnabled = true   Ballistics/Artillery/FirstAid linked
+--
+-- CREATURES
+--   C.creatureRelationsEnabled = true Allied pair morale/XP; hate pair conflicts
+--   C.stackExpEnabled        = false  Lua stack XP (disabled; engine module active)
+--   C.heroSpecBoostEnabled   = true   Hero specialties scale with level milestones
+--   C.neutralUnitsEnabled    = true   Neutral stacks 150% of vanilla size at start
+--   C.neutralStackExpEnabled = true   Neutral stacks grow after defeating a hero
+--   C.enhancedMonstersEnabled= true   Wandering stacks grow 10%/week (cap 3×)
+--   C.wanderingMonstersEnabled=true   Stacks move 1-2 tiles randomly each week
+--
+-- MAP & ADVENTURE
+--   C.weekOfMonstersEnabled  = true   Random creature gets stat boost each week
+--   C.specialTerrainEnabled  = true   Magic Plains/Evil Fog/etc. daily effects
+--   C.espionageEnabled       = true   Scouting heroes produce weekly intel reports
+--   C.refugeeCampSyncEnabled = true   All Refugee Camps offer same creature weekly
+--   C.upgradedDwellingsEnabled=true   Starting towns get upgraded dwellings day 1
+--   C.replaceDragonFlyEnabled= true   Dragon Fly dwellings → Wyvern on day 1
+--   C.ghostSpawnsEnabled     = true   ~1/3 of tier-3 dwellings → Ghosts on day 1
+--   C.protectionElementsEnabled=true  Protection spells reduce elemental damage
+--
+-- GAME START
+--   C.startingArmiesEnabled  = true   Heroes start with 8 extra tier-1 troops
+--   C.heroHiredEnabled       = true   Newly hired heroes get a matching skill
+--
+-- BUILDINGS & OBJECTS
+--   C.buildingBonusesEnabled = true   Rewards for building Mage Guild 5/Castle/Capitol
+--   C.artificerEnabled       = true   Artificer object upgrades equipped artifacts
+--   C.deathChamberEnabled    = true   Death Chamber creature bank (map object)
+--   C.warMachinesEnabled     = true   Enhanced War Machines (via JSON; flag is display-only)
+--
+-- DISPLAY
+--   C.displayFeaturesEnabled = true   Show active WOG features to players on day 1
+--   C.displayMapRulesEnabled = true   Show active map rules to players on day 1
+--
+-- =====================================================================
 
 DATA.WOG = DATA.WOG or {}
 
