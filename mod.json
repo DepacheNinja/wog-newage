@@ -4,7 +4,7 @@
 	"modType": "Expansion",
 	"author": "Depache",
 	"contact": "",
-	"version": "1.0.8",
+	"version": "1.0.9",
 	"compatibility": {
 		"min": "1.7.0"
 	},
@@ -29,7 +29,8 @@
 	"objects": [
 		"config/objects/wog_power_stones.json",
 		"config/objects/wog_death_chamber.json",
-		"config/objects/wog_artificer.json"
+		"config/objects/wog_artificer.json",
+		"config/objects/wog_treasure_chest2.json"
 	],
 	"skills": [
 		"config/skills/warfare_skills.json",
@@ -210,6 +211,10 @@
 		},
 		"wogSpellbook": {
 			"source": "wog_spellbook.lua",
+			"implements": "ANYTHING"
+		},
+		"wogTreasureChest2": {
+			"source": "wog_treasure_chest2.lua",
 			"implements": "ANYTHING"
 		}
 	},

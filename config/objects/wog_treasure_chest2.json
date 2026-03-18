@@ -1,0 +1,54 @@
+{
+	/// WOG New Age — Special Treasure Chest (option 31 / ERM script31)
+	/// Classic WOG: a 5th chest type placed by map makers ("right-most chest on
+	/// second row of Treasure objects" in the WOG editor). Three possible rewards:
+	///   1/5 chance: Deed to a randomly chosen unowned mine (flagged immediately)
+	///   2/5 chance: Tome of Knowledge (raises one non-Expert skill to Expert)
+	///   2/5 chance: Gold (300-900) + a random spell taught to the hero
+	/// Fallback chain: no mines → Tome; fewer than 2 raisable skills → Gold+Spell.
+	/// All logic handled by scripts/wog_treasure_chest2.lua via ObjectVisitStarted.
+	///
+	/// Sprite: objects/sgtwmrk4 — 5th H3 treasure chest variant (matching ERM chest).
+	/// This is a ⚫ map-object feature: a mapmaker must place the Special Treasure
+	/// Chest on the map. The chest disappears after the first visit.
+
+	"wogTreasureChest2" : {
+		"name"    : "Special Treasure Chest",
+		"handler" : "configurable",
+		"base" : {
+			"removable" : true,
+			"sounds" : {
+				"visit"   : ["CHEST"],
+				"removal" : ["PICKUP01", "PICKUP02", "PICKUP03", "PICKUP04", "PICKUP05", "PICKUP06", "PICKUP07"]
+			}
+		},
+		"types" : {
+			"wogTreasureChest2" : {
+				"name"             : "Special Treasure Chest",
+				"description"      : "A mysterious chest containing one of three special rewards: a deed to an unowned mine, a Tome of Knowledge, or gold and a scroll.",
+				"aiValue"          : 3000,
+				"rmg" : {
+					"value"     : 3000,
+					"rarity"    : 20,
+					"zoneLimit" : 1
+				},
+				"templates" : {
+					"sgtwmrk4" : {
+						"animation"     : "objects/sgtwmrk4",
+						"mask"          : ["VV", "VA"],
+						"visitableFrom" : ["+++", "+++", "+++"]
+					}
+				},
+				"visitMode"        : "once",
+				"selectMode"       : "selectFirst",
+				"onVisitedMessage" : "{Special Treasure Chest}\n\nThis chest has already been claimed.",
+				"rewards"          : [
+					{
+						"appearChance" : { "min" : 0, "max" : 100 },
+						"removeObject" : true
+					}
+				]
+			}
+		}
+	}
+}

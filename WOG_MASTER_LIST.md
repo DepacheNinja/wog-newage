@@ -82,6 +82,7 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | 58 | **Espionage** | Adv. Scouting: weekly enemy hero count; Expert Scouting: enemy x,y positions (via InfoWindow) |
 | 54 | **Enhanced War Machines I** | Ballista attacks twice at Basic (3× at Expert); First Aid heals 100/150/200 HP (was 50/75/100); Ammo Cart already unlimited in VCMI — all via JSON skill overrides in enhanced_skills.json |
 | 70 | **Death Chamber** | Map object (wogDeathChamber) — hero visits to gain exactly 1 level; uses zobj007 sprite from wake-of-gods.mapObjects; configurable JSON object with heroLevel reward |
+| 31 | **Treasure Chest 2** | Map object (wogTreasureChest2) — special 5th chest type; 3 outcomes: mine deed / Tome of Knowledge / gold+spell; ERM fallback chain; sprite objects/sgtwmrk4 |
 
 ---
 
@@ -185,8 +186,8 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | Option | Feature | Why It's Hard |
 |--------|---------|--------------:|
 | ~~54~~ | ~~**Enhanced War Machines I**~~ | Done — JSON skill overrides; ballista attacks 2× (Basic) or 3× (Expert); first aid heals doubled |
-| 36 | **Mithril Enhancements** | Needs 8th resource type in engine |
-| 149 | **Mithril Display** | Depends on Mithril resource |
+| ~~36~~ | ~~**Mithril Enhancements**~~ | Removed — stale 8th-resource engine entry (user confirmed old/done) |
+| ~~149~~ | ~~**Mithril Display**~~ | Removed — stale entry dependent on 8th resource (user confirmed old/done) |
 | ~~52~~ | ~~**Mirror of the Home-Way**~~ | Done via dependency — wake-of-gods.mapObjects implements it via configurable handler + townPortal spell cast |
 | ~~58~~ | ~~**Espionage**~~ | Done — Adv. Scouting: weekly enemy hero count; Expert: x,y positions (wog_espionage.lua) |
 | ~~70~~ | ~~**Death Chamber**~~ | Done — configurable map object (wogDeathChamber) gives exactly 1 level on visit; uses zobj007 sprite |
@@ -243,8 +244,8 @@ Cross-referenced all ERM scripts with user screenshots (March 17). From reading 
 |--------|--------|---------|-----------------|--------|
 | ~~script19~~ | ~~19~~ | ~~**Masters of Life**~~ | ~~Daily: upgrades peasants + tier-1 creatures in hero armies to their upgraded form. Skips Necromancers.~~ | ✅ Done — wog_masters_of_life.lua: SetStackType per faction FACTION_TIER1 map; Peasant(139) → faction's upgraded tier-1 |
 | ~~script27~~ | ~~27~~ | ~~**Spellbook (Enhanced)**~~ | ~~Spellbooks picked up from map come pre-loaded with spells. Level/quantity depends on hero's Wisdom + Luck.~~ | ✅ Done — wog_spellbook.lua: ObjectVisitStarted (OBJ_GROUP_ARTIFACT=5, subtype=0); ERM formula roll=rand(0-9)+luck+2×wisdom-6; gives 3×lvl1+3×lvl2 always, +2×lvl3 at roll≥4, +2×lvl4 at roll≥7, +1×lvl5 at roll=9 |
-| script31 | 31 | **Treasure Chest 2** | Special 5th chest type: gold+scroll, Tomes of Knowledge, or deed to an unowned mine. Tomes raise a skill to Expert after 1 week. | ⚫ Map object — requires the specific chest type placed by map maker |
-| script33 | 33 | **Living Scrolls** | Equipped spell scrolls have 20% chance each combat round to auto-cast their spell (Basic level). Excludes adventure/elemental/clone/armageddon spells. | 🏗️ Hard — requires BattleRoundStarted event + spell casting API |
+| ~~script31~~ | ~~31~~ | ~~**Treasure Chest 2**~~ | ~~Special 5th chest type: gold+scroll, Tomes of Knowledge, or deed to an unowned mine. Tomes raise a skill to Expert after 1 week.~~ | ✅ Done — wog_treasure_chest2.lua: ObjectVisitStarted (subtype "wogTreasureChest2"); roll 1=mine deed (SetObjectProperty:setOwner on random unowned Obj::MINE), roll 2-3=tome (SetSecSkill to Expert, requires ≥2 raisable skills), roll 4-5=gold(300-900)+spell(ChangeSpells); ERM fallback chain preserved; immediate (no 1-week delay); object removed via JSON reward removeObject:true |
+| script33 | 33 | **Living Scrolls** | Equipped spell scrolls have 20% chance each combat round to auto-cast their spell (Basic level). Excludes adventure/elemental/clone/armageddon spells. | 🏗️ Hard — BattleRoundStarted available; blocked by missing castSpellInBattle server API (BattleSpellCast is client notification only; actual spell effect requires engine BattleProcessor integration) |
 | ~~script25 opt17~~ | ~~—~~ | ~~**Extension Heroes (9th-10th Skills)**~~ | ~~Heroes can gain more than 8 secondary skills (9 or 10 slots).~~ | ✅ Done — mod.json settings: heroes.skillPerHero = 10 |
 | ~~script02~~ | ~~02~~ | ~~**Artifact Boost**~~ | ~~Once/week timer: specific "weak" artifacts gain special per-hero effects (e.g., Bird of Perception gives 6 Royal Griffins).~~ | ✅ Done — wog_artifact_boost.lua: 11 artifact effects implemented (creature giving, XP, gold, knowledge, shooter upgrades, golem chain, free will, surcoat doubling); 7 effects skipped (dialog/API unavailable) |
 
@@ -265,10 +266,10 @@ Already implemented in wog_week_of_monsters.lua (10% weekly chance of resource w
 
 | Status | Count |
 |--------|-------|
-| ✅ Done | 82 |
+| ✅ Done | 84 |
 | 🟡 Partial | 1 |
 | ⛔ Blocked (client-side only) | 2 |
-| 🏗️ Hard (needs engine) | 4 |
+| 🏗️ Hard (needs engine) | 1 |
 | ⚫ Map objects | 14 |
 | ❓ Resolved unknowns | 10 |
 | **Total enabled** | **~130** |
