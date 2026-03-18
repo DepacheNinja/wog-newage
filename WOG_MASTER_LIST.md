@@ -152,6 +152,11 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | ~~135~~ | ~~**Wandering Monsters**~~ | Done — ChangeObjPos: monsters move 1-2 tiles/week; moved to ✅ |
 | ~~170~~ | ~~**Mithril in Resource Stacks**~~ | Done — wog_mithril_accumulation.lua marks 1 in 15 piles on day 1; visiting gives bonus Mithril |
 | ~~171~~ | ~~**Mithril in Windmills/Gardens**~~ | Done — wog_mithril_accumulation.lua marks 1 in 10 windmills/water wheels weekly; visiting gives bonus Mithril |
+| ~~172~~ | ~~**Mithril Spending — Mine/Windmill/Shrine/Witch Hut**~~ | Done — wog_mithril_spending.lua: mine 4/7M (double prod 1 week), windmill/wheel 5M (double this week), shrine 1/2/3M (reroll spell), witch hut 2M (reroll skill); BlockingDialog yes/no flow |
+| ~~172a~~ | ~~**Mithril Spending — Dwelling Upgrade (item 5)**~~ | Done — 2 Mithril: CREATURE_GENERATOR1 visit → SetAvailableCreatures(creatureId+1); permanent; upgradedDwellings table prevents double-upgrade |
+| ~~172b~~ | ~~**Mithril Spending — University (item 12)**~~ | Done — 4 Mithril: University visit → SetPrimarySkill +1 random primary skill (Attack/Defense/Power/Knowledge); relative mode |
+| 172c | **Mithril Spending — Shipyard** | Under development (item 7) — shows "under development" message if player has Mithril |
+| 172d | **Mithril Spending — Monolith** | Under development (item 10) — shows "under development" message if player has Mithril |
 | ~~134~~ | ~~**Resource Piles**~~ | Done — vanilla VCMI already implements H3 resource piles correctly |
 | ~~174~~ | ~~**Universal Upgrading**~~ | Done — hellSteed/Nightmare (Inferno alt) + Dracolich (Necropolis alt) added via creature patch |
 | ~~199~~ | ~~**Rebalanced Starting Armies**~~ | Done — moved to ✅ |
@@ -266,7 +271,7 @@ Already implemented in wog_week_of_monsters.lua (10% weekly chance of resource w
 
 | Status | Count |
 |--------|-------|
-| ✅ Done | 84 |
+| ✅ Done | 86 |
 | 🟡 Partial | 1 |
 | ⛔ Blocked (client-side only) | 2 |
 | 🏗️ Hard (needs engine) | 1 |
