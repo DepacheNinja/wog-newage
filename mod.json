@@ -199,6 +199,10 @@
 		"wogMithrilSpend": {
 			"source": "wog_mithril_spending.lua",
 			"implements": "ANYTHING"
+		},
+		"wogMastersOfLife": {
+			"source": "wog_masters_of_life.lua",
+			"implements": "ANYTHING"
 		}
 	},
 	"settings": {
