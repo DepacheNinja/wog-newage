@@ -241,12 +241,12 @@ Cross-referenced all ERM scripts with user screenshots (March 17). From reading 
 
 | Script | Option | Feature | ERM Description | Status |
 |--------|--------|---------|-----------------|--------|
-| script19 | 19 | **Masters of Life** | Daily: upgrades peasants + tier-1 creatures in hero armies to their upgraded form. Skips Necromancers. Uses HE:C (ChangeCreatureType). | 🔴 Todo — implementable with SetStackType FCMI API |
-| script27 | 27 | **Spellbook (Enhanced)** | Spellbooks picked up from map come pre-loaded with spells. Level/quantity depends on hero's Wisdom + Luck. ERM: OB5/0 trigger (artifact pickup). | 🔴 Todo — needs ObjectVisitStarted + giveSpell API |
+| ~~script19~~ | ~~19~~ | ~~**Masters of Life**~~ | ~~Daily: upgrades peasants + tier-1 creatures in hero armies to their upgraded form. Skips Necromancers.~~ | ✅ Done — wog_masters_of_life.lua: SetStackType per faction FACTION_TIER1 map; Peasant(139) → faction's upgraded tier-1 |
+| ~~script27~~ | ~~27~~ | ~~**Spellbook (Enhanced)**~~ | ~~Spellbooks picked up from map come pre-loaded with spells. Level/quantity depends on hero's Wisdom + Luck.~~ | ✅ Done — wog_spellbook.lua: ObjectVisitStarted (OBJ_GROUP_ARTIFACT=5, subtype=0); ERM formula roll=rand(0-9)+luck+2×wisdom-6; gives 3×lvl1+3×lvl2 always, +2×lvl3 at roll≥4, +2×lvl4 at roll≥7, +1×lvl5 at roll=9 |
 | script31 | 31 | **Treasure Chest 2** | Special 5th chest type: gold+scroll, Tomes of Knowledge, or deed to an unowned mine. Tomes raise a skill to Expert after 1 week. | ⚫ Map object — requires the specific chest type placed by map maker |
 | script33 | 33 | **Living Scrolls** | Equipped spell scrolls have 20% chance each combat round to auto-cast their spell (Basic level). Excludes adventure/elemental/clone/armageddon spells. | 🏗️ Hard — requires BattleRoundStarted event + spell casting API |
-| script25 opt17 | — | **Extension Heroes (9th-10th Skills)** | Heroes can gain more than 8 secondary skills (9 or 10 slots). Needs game setting override. | 🏗️ Hard — requires engine investigation (hero.maxSkills setting?) |
-| script02 | 02 | **Artifact Boost** | Once/week timer: specific "weak" artifacts gain special per-hero effects (e.g., Bird of Perception gives 6 Royal Griffins). Complex per-artifact logic. | 🔴 Todo — implementable but extensive (14+ artifact cases) |
+| ~~script25 opt17~~ | ~~—~~ | ~~**Extension Heroes (9th-10th Skills)**~~ | ~~Heroes can gain more than 8 secondary skills (9 or 10 slots).~~ | ✅ Done — mod.json settings: heroes.skillPerHero = 10 |
+| ~~script02~~ | ~~02~~ | ~~**Artifact Boost**~~ | ~~Once/week timer: specific "weak" artifacts gain special per-hero effects (e.g., Bird of Perception gives 6 Royal Griffins).~~ | ✅ Done — wog_artifact_boost.lua: 11 artifact effects implemented (creature giving, XP, gold, knowledge, shooter upgrades, golem chain, free will, surcoat doubling); 7 effects skipped (dialog/API unavailable) |
 
 ### Confirmed "Mines change resources once per week" = script20 resource weeks ✅
 Already implemented in wog_week_of_monsters.lua (10% weekly chance of resource week → double mine output for that resource).

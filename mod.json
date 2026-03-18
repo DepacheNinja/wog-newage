@@ -203,6 +203,14 @@
 		"wogMastersOfLife": {
 			"source": "wog_masters_of_life.lua",
 			"implements": "ANYTHING"
+		},
+		"wogArtifactBoost": {
+			"source": "wog_artifact_boost.lua",
+			"implements": "ANYTHING"
+		},
+		"wogSpellbook": {
+			"source": "wog_spellbook.lua",
+			"implements": "ANYTHING"
 		}
 	},
 	"settings": {
