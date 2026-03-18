@@ -4,7 +4,7 @@
 	"modType": "Expansion",
 	"author": "Depache",
 	"contact": "",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"compatibility": {
 		"min": "1.7.0"
 	},
@@ -45,6 +45,10 @@
 		]
 	},
 	"scripts": {
+		"wogSetup": {
+			"source": "wog_setup.lua",
+			"implements": "ANYTHING"
+		},
 		"wogConfig": {
 			"source": "wog_config.lua",
 			"implements": "ANYTHING"
@@ -215,6 +219,14 @@
 		},
 		"wogTreasureChest2": {
 			"source": "wog_treasure_chest2.lua",
+			"implements": "ANYTHING"
+		},
+		"wogMonolithToll": {
+			"source": "wog_monolith_toll.lua",
+			"implements": "ANYTHING"
+		},
+		"wogAutoWogify": {
+			"source": "wog_auto_wogify.lua",
 			"implements": "ANYTHING"
 		}
 	},

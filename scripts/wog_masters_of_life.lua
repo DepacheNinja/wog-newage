@@ -38,7 +38,7 @@ local SetStackType  = require("netpacks.SetStackType")
 DATA.WOG = DATA.WOG or {}
 local C = DATA.WOG
 
-C.mastersOfLifeEnabled = C.mastersOfLifeEnabled ~= false
+C.mastersOfLifeEnabled = C.mastersOfLifeEnabled == true
 
 -- Necropolis faction ID (skipped per ERM script19)
 local NECROPOLIS = 4
