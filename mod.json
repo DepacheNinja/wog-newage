@@ -204,6 +204,9 @@
 	"settings": {
 		"towns": {
 			"buildingsPerTurnCap": 2
+		},
+		"heroes": {
+			"skillPerHero": 10
 		}
 	}
 }
