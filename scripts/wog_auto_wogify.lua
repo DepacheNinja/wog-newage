@@ -1,23 +1,16 @@
 -- wog_auto_wogify.lua
 -- WOG New Age — Auto-WoGification (option 1 / "Replace Objects During WoGification")
 --
--- On Day 1 of a new game (after the setup screen), if C.autoWogifyEnabled is true
--- and the map has no existing WOG adventure objects, automatically scatter WOG objects
--- at random locations scaled to map size.
+-- On Day 1 of a new game (after the setup screen), if C.autoWogifyEnabled is true,
+-- scatter WOG/WOG-mapObjects across the map scaled to map size.
 --
--- Objects placed (from wog-newage mod):
---   Artificers        : upgrade equipped artifacts for gold
---   Death Chambers    : grant exactly 1 hero level
---   Power Stones      : +1 primary stat collectibles
---   Special Chests    : mine deeds / Tomes of Knowledge / gold+spell
---
--- Object counts (scaled to map area):
---   Small  (< 72×72)   : 1 Artificer, 2 Death Chambers, 3 Power Stones, 4 Chests
---   Medium (< 144×144) : 2 Artificers, 4 Death Chambers, 6 Power Stones, 8 Chests
---   Large  (≥ 144×144) : 4 Artificers, 8 Death Chambers, 12 Power Stones, 16 Chests
+-- Placement list: {scope, type, subtype, small_count, medium_count, large_count}
+--   small  = map area < 72×72
+--   medium = map area < 144×144
+--   large  = map area ≥ 144×144
 --
 -- SERVER:spawnObject(scope, type, subtype, x, y, z [, initiatorPlayer])
--- is now implemented in FCMI. Objects are placed at random surface tiles,
+-- is implemented in FCMI. Objects are placed at random surface tiles,
 -- avoiding a 10-tile border around the edges.
 
 local TurnStarted = require("events.TurnStarted")
@@ -28,34 +21,41 @@ local C = DATA.WOG
 C.autoWogifyEnabled = C.autoWogifyEnabled ~= false
 
 -- ---------------------------------------------------------------------------
--- WOG object definitions: {scope, type, subtype}
+-- Object placement list: {scope, type, subtype, small, medium, large}
 -- ---------------------------------------------------------------------------
-local WOG_OBJECTS = {
-	artificer   = {"wog-newage.objects", "wogArtificer",    "wogArtificer"},
-	deathChamber= {"wog-newage.objects", "wogDeathChamber", "wogDeathChamber"},
-	powerStone  = {"wog-newage.objects", "wogPowerStones",  "wogPowerStones"},
-	chest2      = {"wog-newage.objects", "wogTreasureChest2","wogTreasureChest2"},
+local PLACEMENT_LIST = {
+	-- wog-newage custom objects
+	{"wog-newage.objects", "wogArtificer",          "wogArtificer",          1,  2,  4},
+	{"wog-newage.objects", "wogDeathChamber",        "wogDeathChamber",       2,  4,  8},
+	{"wog-newage.objects", "wogPowerStones",         "wogPowerStones",        3,  6, 12},
+	{"wog-newage.objects", "wogTreasureChest2",      "wogTreasureChest2",     4,  8, 16},
+	-- wake-of-gods.mapObjects
+	{"wake-of-gods.mapObjects", "arcaneTower",          "arcaneTower",          0,  1,  2},
+	{"wake-of-gods.mapObjects", "junkMerchant",         "junkMerchant",         1,  2,  3},
+	{"wake-of-gods.mapObjects", "waterMagicMushroom",   "waterMagicMushroom",   1,  2,  3},
+	{"wake-of-gods.mapObjects", "airMagicMushroom",     "airMagicMushroom",     1,  2,  3},
+	{"wake-of-gods.mapObjects", "earthMagicMushroom",   "earthMagicMushroom",   1,  2,  3},
+	{"wake-of-gods.mapObjects", "fireMagicMushroom",    "fireMagicMushroom",    1,  2,  3},
+	{"wake-of-gods.mapObjects", "mirrorOfTheHomeWay",   "mirrorOfTheHomeWay",   0,  1,  1},
+	{"wake-of-gods.mapObjects", "almsHouse",            "almsHouse",            0,  1,  1},
+	{"wake-of-gods.mapObjects", "palaceOfDreams",       "palaceOfDreams",       0,  0,  1},
+	{"wake-of-gods.mapObjects", "zsphnx10",             "zsphnx10",             1,  1,  2},
+	{"wake-of-gods.mapObjects", "zsphnx13",             "zsphnx13",             0,  1,  2},
+	{"wake-of-gods.mapObjects", "corefountainOfFortune","fountainOfFortune",    1,  2,  3},
+	{"wake-of-gods.mapObjects", "valhallasFountain",    "valhallasFountain",    0,  1,  2},
 }
 
--- Obj type groups for our custom objects (used to detect existing WoGification)
--- These correspond to the VCMI object groups our objects register under
-local WOG_DETECT_OBJ_TYPES = {17, 54, 76}  -- creature generators, mines, resources (approx)
-
--- Object counts by map tier
-local COUNTS = {
-	small  = {artificer = 1, deathChamber = 2, powerStone = 3,  chest2 = 4},
-	medium = {artificer = 2, deathChamber = 4, powerStone = 6,  chest2 = 8},
-	large  = {artificer = 4, deathChamber = 8, powerStone = 12, chest2 = 16},
-}
+-- Tier index: small=4, medium=5, large=6 in each PLACEMENT_LIST entry
+local TIER_IDX = {small = 4, medium = 5, large = 6}
 
 local function getMapTier()
 	local w = GAME:getMapWidth()
 	local h = GAME:getMapHeight()
 	if not w or not h then return "medium" end
 	local area = w * h
-	if area < (72 * 72)     then return "small"
+	if area < (72 * 72)   then return "small"
 	elseif area < (144*144) then return "medium"
-	else                         return "large"
+	else                       return "large"
 	end
 end
 
@@ -71,15 +71,12 @@ end
 -- ---------------------------------------------------------------------------
 -- Place N copies of an object at random tiles
 -- ---------------------------------------------------------------------------
-local function placeN(scope, type, subtype, n, w, h, playerIdx)
+local function placeN(scope, typ, subtype, n, w, h, playerIdx)
 	for i = 1, n do
 		local x, y, z = randomTile(w, h)
-		local ok, err = pcall(function()
-			SERVER:spawnObject(scope, type, subtype, x, y, z, playerIdx)
+		pcall(function()
+			SERVER:spawnObject(scope, typ, subtype, x, y, z, playerIdx)
 		end)
-		if not ok then
-			-- Log failure but continue placing others
-		end
 	end
 end
 
@@ -103,36 +100,33 @@ wogAutoWogifySub = TurnStarted.subscribeAfter(EVENT_BUS, function(event)
 
 	C.autoWogifyDone = true
 
-	local w      = GAME:getMapWidth()  or 144
-	local h      = GAME:getMapHeight() or 144
-	local tier   = getMapTier()
-	local counts = COUNTS[tier]
+	local w    = GAME:getMapWidth()  or 144
+	local h    = GAME:getMapHeight() or 144
+	local tier = getMapTier()
+	local tidx = TIER_IDX[tier]
 
 	-- Guard: need at least a 22×22 map for the 10-tile border to work
 	if w < 22 or h < 22 then return end
 
-	-- Place objects
-	local art = WOG_OBJECTS.artificer
-	local dc  = WOG_OBJECTS.deathChamber
-	local ps  = WOG_OBJECTS.powerStone
-	local ch  = WOG_OBJECTS.chest2
-
-	placeN(art[1], art[2], art[3], counts.artificer,    w, h, playerIdx)
-	placeN(dc[1],  dc[2],  dc[3],  counts.deathChamber, w, h, playerIdx)
-	placeN(ps[1],  ps[2],  ps[3],  counts.powerStone,   w, h, playerIdx)
-	placeN(ch[1],  ch[2],  ch[3],  counts.chest2,       w, h, playerIdx)
+	-- Place all objects
+	local total = 0
+	for _, obj in ipairs(PLACEMENT_LIST) do
+		local scope, typ, subtype, cnt = obj[1], obj[2], obj[3], obj[tidx]
+		if cnt and cnt > 0 then
+			placeN(scope, typ, subtype, cnt, w, h, playerIdx)
+			total = total + cnt
+		end
+	end
 
 	-- Notify player
-	local total = counts.artificer + counts.deathChamber + counts.powerStone + counts.chest2
 	local InfoWindow = require("netpacks.InfoWindow")
 	local iw = InfoWindow.new()
 	iw:setPlayer(playerIdx)
 	iw:addText("{WOG New Age — Auto-WoGification}\\n\\n"
 	        .. "This map has been WoGified! " .. tostring(total) .. " WOG objects\\n"
-	        .. "have been scattered across the " .. tier .. " map:\\n"
-	        .. tostring(counts.artificer) .. " Artificer(s), "
-	        .. tostring(counts.deathChamber) .. " Death Chamber(s),\\n"
-	        .. tostring(counts.powerStone) .. " Power Stone(s), "
-	        .. tostring(counts.chest2) .. " Special Chest(s).")
+	        .. "have been scattered across the " .. tier .. " map,\\n"
+	        .. "including Artificers, Death Chambers, Power Stones,\\n"
+	        .. "Special Chests, Arcane Towers, Magic Mushrooms,\\n"
+	        .. "Sphinxes, Fountains, and more.")
 	SERVER:commitPackage(iw)
 end)
