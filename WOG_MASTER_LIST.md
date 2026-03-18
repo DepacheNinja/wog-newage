@@ -83,6 +83,8 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | 54 | **Enhanced War Machines I** | Ballista attacks twice at Basic (3× at Expert); First Aid heals 100/150/200 HP (was 50/75/100); Ammo Cart already unlimited in VCMI — all via JSON skill overrides in enhanced_skills.json |
 | 70 | **Death Chamber** | Map object (wogDeathChamber) — hero visits to gain exactly 1 level; uses zobj007 sprite from wake-of-gods.mapObjects; configurable JSON object with heroLevel reward |
 | 31 | **Treasure Chest 2** | Map object (wogTreasureChest2) — special 5th chest type; 3 outcomes: mine deed / Tome of Knowledge / gold+spell; ERM fallback chain; sprite objects/sgtwmrk4 |
+| Custom | **Pre-Game Setup Screen** | Day-1 BlockingDialog chain (wog_setup.lua): configures 6 WOG feature groups; save-game loads apply defaults silently; Masters of Life defaults OFF |
+| 65 | **Monolith Toll** | Two-way monolith (OBJ=45): gold cost = completeWeeks×100g (human) / ×50g (AI); BlockingDialog yes/no for humans; AI deducted silently; one-way (OBJ=43): info message only |
 
 ---
 
@@ -91,6 +93,7 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | Option | Feature | Status |
 |--------|---------|--------|
 | 900 | **Stack Experience** | Hero-level approximation (wog_stack_experience.lua disabled); real engine module active via dependency |
+| Custom | **Auto-WoGify** | wog_auto_wogify.lua: stub reads map dimensions (getMapWidth/Height/Levels), calculates scaled object counts (small/medium/large); actual placement pending SERVER:spawnObject() engine support |
 
 ---
 
@@ -213,7 +216,7 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | 28 / 185 | **School of Wizardry** | Purchase spells |
 | 43 | **Obelisk Runes** | Obelisks with spell bonuses |
 | 44 | **Emerald Tower** | Tower with special rewards |
-| 65 | **Monolith Toll** | Two-way monoliths cost resources |
+| ~~65~~ | ~~**Monolith Toll**~~ | ~~Two-way monoliths cost resources~~ | Moved to ✅ Done |
 | 69 | **Custom Alliances** | Alliance system via map event |
 | 104 | **Arcane Tower** | Tower with magic bonuses |
 | 105 | **Loan Bank** | Borrow gold |
@@ -271,10 +274,10 @@ Already implemented in wog_week_of_monsters.lua (10% weekly chance of resource w
 
 | Status | Count |
 |--------|-------|
-| ✅ Done | 86 |
-| 🟡 Partial | 1 |
+| ✅ Done | 89 |
+| 🟡 Partial | 2 |
 | ⛔ Blocked (client-side only) | 2 |
 | 🏗️ Hard (needs engine) | 1 |
-| ⚫ Map objects | 14 |
+| ⚫ Map objects | 13 |
 | ❓ Resolved unknowns | 10 |
 | **Total enabled** | **~130** |
