@@ -85,6 +85,8 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | 31 | **Treasure Chest 2** | Map object (wogTreasureChest2) — special 5th chest type; 3 outcomes: mine deed / Tome of Knowledge / gold+spell; ERM fallback chain; sprite objects/sgtwmrk4 |
 | Custom | **Pre-Game Setup Screen** | Day-1 BlockingDialog chain (wog_setup.lua): configures 6 WOG feature groups; save-game loads apply defaults silently; Masters of Life defaults OFF |
 | 65 | **Monolith Toll** | Two-way monolith (OBJ=45): gold cost = completeWeeks×100g (human) / ×50g (AI); BlockingDialog yes/no for humans; AI deducted silently; one-way (OBJ=43): info message only |
+| Custom | **Auto-WoGify** | wog_auto_wogify.lua: places Artificers/Death Chambers/Power Stones/Special Chests scaled by map tier (small/medium/large) using SERVER:spawnObject(); 10-tile edge buffer; InfoWindow summary |
+| 43 | **Obelisk Runes** | wog_obelisk_runes.lua: assigns random spell (levels 1-5) to each obelisk on day 1; human heroes learn spell on visit; AI gets +10 mana; per-hero-per-obelisk visit tracking; works on all maps |
 
 ---
 
@@ -93,7 +95,7 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | Option | Feature | Status |
 |--------|---------|--------|
 | 900 | **Stack Experience** | Hero-level approximation (wog_stack_experience.lua disabled); real engine module active via dependency |
-| Custom | **Auto-WoGify** | wog_auto_wogify.lua: stub reads map dimensions (getMapWidth/Height/Levels), calculates scaled object counts (small/medium/large); actual placement pending SERVER:spawnObject() engine support |
+| ~~Custom~~ | ~~**Auto-WoGify stub**~~ | Activated — moved to ✅ Done |
 
 ---
 
@@ -216,7 +218,8 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | 28 / 185 | **School of Wizardry** | Purchase spells |
 | 43 | **Obelisk Runes** | Obelisks with spell bonuses |
 | 44 | **Emerald Tower** | Tower with special rewards |
-| ~~65~~ | ~~**Monolith Toll**~~ | ~~Two-way monoliths cost resources~~ | Moved to ✅ Done |
+| ~~65~~ | ~~**Monolith Toll**~~ | ~~Two-way monoliths cost resources~~ | ✅ Moved to Done |
+| ~~43~~ | ~~**Obelisk Runes**~~ | ~~Obelisks with spell bonuses~~ | ✅ Moved to Done |
 | 69 | **Custom Alliances** | Alliance system via map event |
 | 104 | **Arcane Tower** | Tower with magic bonuses |
 | 105 | **Loan Bank** | Borrow gold |
@@ -274,10 +277,10 @@ Already implemented in wog_week_of_monsters.lua (10% weekly chance of resource w
 
 | Status | Count |
 |--------|-------|
-| ✅ Done | 89 |
-| 🟡 Partial | 2 |
+| ✅ Done | 93 |
+| 🟡 Partial | 1 |
 | ⛔ Blocked (client-side only) | 2 |
 | 🏗️ Hard (needs engine) | 1 |
-| ⚫ Map objects | 13 |
+| ⚫ Map objects | 11 |
 | ❓ Resolved unknowns | 10 |
 | **Total enabled** | **~130** |
