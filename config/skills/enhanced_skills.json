@@ -84,32 +84,6 @@
 			"description": "{Armorer — Expert [WOG]}\n\nDamage taken -20% (was -15%)."
 		}
 	},
-	"core:resistance": {
-		"basic": {
-			"effects": {
-				"main": {
-					"val": 10
-				}
-			},
-			"description": "{Resistance — Basic [WOG]}\n\n10% spell resist chance (was 5%)."
-		},
-		"advanced": {
-			"effects": {
-				"main": {
-					"val": 20
-				}
-			},
-			"description": "{Resistance — Advanced [WOG]}\n\n20% spell resist chance (was 10%)."
-		},
-		"expert": {
-			"effects": {
-				"main": {
-					"val": 30
-				}
-			},
-			"description": "{Resistance — Expert [WOG]}\n\n30% spell resist chance (was 20%)."
-		}
-	},
 	"core:navigation": {
 		"basic": {
 			"effects": {
@@ -200,26 +174,6 @@
 				"main": { "val": 5 }
 			},
 			"description": "{Scholar — Expert [WOG]}\n\nShare spells up to level 5 — any spell can be taught."
-		}
-	},
-	"core:scouting": {
-		"basic": {
-			"effects": {
-				"main": { "val": 2 }
-			},
-			"description": "{Scouting — Basic [WOG]}\n\nSight radius +2 (was +1)."
-		},
-		"advanced": {
-			"effects": {
-				"main": { "val": 3 }
-			},
-			"description": "{Scouting — Advanced [WOG]}\n\nSight radius +3 (was +2)."
-		},
-		"expert": {
-			"effects": {
-				"main": { "val": 5 }
-			},
-			"description": "{Scouting — Expert [WOG]}\n\nSight radius +5 (was +3)."
 		}
 	},
 	"core:pathfinding": {

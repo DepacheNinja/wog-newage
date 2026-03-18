@@ -96,10 +96,6 @@
 			"source": "wog_hero_spec_boost.lua",
 			"implements": "ANYTHING"
 		},
-		"wogBattleExtender": {
-			"source": "wog_battle_extender.lua",
-			"implements": "ANYTHING"
-		},
 		"wogStackExperience": {
 			"source": "wog_stack_experience.lua",
 			"implements": "ANYTHING"

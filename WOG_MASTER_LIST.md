@@ -28,17 +28,17 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | 211 | **Scholar Enhancement** | Weekly 40%/50%/60% chance to research new spell (level 1-4) |
 | 23/213 | **Sorcery Enhancement** | Spell damage: 10/20/30% (was 5/10/15%) via JSON |
 | 214 | **Armorer Enhancement** | Damage reduction: 10/15/20% (was 5/10/15%) via JSON |
-| 210 | **Resistance Enhancement** | Magic resist: 10/20/30% (was 5/10/20%) via JSON |
+| ~~210~~ | ~~**Resistance Enhancement**~~ | User disabled (✗ in options) — JSON overrides removed from enhanced_skills.json. Vanilla H3 values restored. |
 | 208 | **Navigation Enhancement** | Water movement: 60/110/165% (was 50/100/150%) via JSON |
 | 209 | **Pathfinding Enhancement** | Terrain penalty: 35/60/75% reduction via JSON |
 | 103/202 | **Eagle Eye Enhancement** | Chance 50/65/80% (was 40/50/60%), learns up to level 3/4/5 (was 2/3/4) via JSON |
-| 212 | **Scouting Enhancement** | Sight radius 2/3/5 (was 1/2/3) via JSON |
+| ~~212~~ | ~~**Scouting Enhancement**~~ | User disabled (✗ in options) — JSON overrides removed from enhanced_skills.json. Vanilla H3 values restored. |
 | 218 | **Tactics Enhancement** | Deployment zone +1 row per level via JSON |
 | 206 | **Luck I Enhancement** | Lucky strikes deal +50% initial damage extra (total ~3× normal) via ApplyDamage |
 | 201/54 | **Artillery I Enhanced** | ERM formula: (artilleryLevel + heroLevel) × 20 − 20 % extra on ballista double-hit; falls back to +25/50/75% if hero:getLevel() unavailable |
 | 194 | **Advanced Witch Huts** | Witch Huts teach at Advanced level; deducts 1000g from player |
 | 39 | **Hero Specialization Boost** | +1 primary skill at milestone levels (5/10/15/20/25/30); getHeroTypeId() API now available for further enhancement |
-| 220 | **Battle Extender** | Escape/surrender: 1000g refund (getBattleResult() correctly distinguishes from normal defeat) |
+| ~~220~~ | ~~**Battle Extender**~~ | User disabled (✗ in options) — removed from mod.json scripts. wog_battle_extender.lua kept on disk but not loaded. |
 | 135 | **Wandering Monsters** | Surviving neutral stacks move 1-2 tiles/week (ChangeObjPos netpack; 33% chance per stack/week) |
 | 47 | **Creature Relationships** | Hate pairs: daily intra-army conflict (ERM formula: (14−2×Dip)×moraleMult%, 10−luck% HP loss); Allied pairs: +1 morale + 5% synergy XP (upgrade mechanic requires ChangeCreatureType API not yet in FCMI) |
 | 900 | **Stack Experience (approx.)** | Army XP tracked; +1 primary stat per 5000 XP milestone |
@@ -58,15 +58,15 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | 142 | **Special Terrain Effects** | Magic Plains/Lucid Pools: +10% max mana/day; Evil Fog: -10% current mana/day; Holy Ground: mana bonus/drain based on faction; Rock Land: +50 XP/day |
 | 143 | **New Artifacts** | 17 new WOG artifacts (Dragonheart, Crimson Shield, etc.) via wake-of-gods.artifacts dependency |
 | 178 | **Combination Artifacts** | Assembled relic sets (Barbarian Lord's Axe = 4 components) via wake-of-gods.artifacts |
-| 237 | **Barbarian Lord's Axe** | Extra strike for non-shooters; relic combo of 4 artifacts via wake-of-gods.artifacts |
-| 227 | **Monster's Power** | Prayer cast on creatures by terrain/alignment via wake-of-gods.artifacts |
+| ~~237~~ | ~~**Barbarian Lord's Axe**~~ | BANNED by user — artifact still exists in wake-of-gods.artifacts (cannot selectively remove without forking dependency). Will not appear on maps unless placed by map maker. |
+| ~~227~~ | ~~**Monster's Power**~~ | BANNED by user — same limitation: exists in wake-of-gods.artifacts dependency but will not spawn randomly. |
 | 243 | **Gate Key** | Gate Key map object via wake-of-gods.artifacts |
 | 51 | **Enhanced Commanders** | Full Commander system (6 types, leveling, abilities) via wake-of-gods.Commanders |
 | 186 | **Choose Commanders** | Select commander type from 6 options via wake-of-gods.Commanders |
 | 66 | **Commander Witch Huts** | Commanders learn skills from Witch Huts via wake-of-gods.Commanders |
 | 76 | **Commander Sanctuary** | Commander recovery/rest location via wake-of-gods.Commanders |
 | 219 | **Commander Artifacts** | Full commander artifact equip system via wake-of-gods.Commanders |
-| 176 | **Magic Wand** | Upgrades tier-7 creatures to level-8 (supremeArchangel, diamondDragon, etc.) via wake-of-gods.level8Units dependency |
+| ~~176~~ | ~~**Magic Wand**~~ | BANNED by user — artifact exists in wake-of-gods.artifacts but will not spawn (not placed on maps). Level-8 creatures still load via level8Units dependency (user wants the creatures, just not the wand). |
 | 173/174 | **Extended/Universal Creature Upgrades** | Alt paths: Santa Gremlin, Sylvan Centaur, War Zealot, hellSteed→Nightmare (Inferno), Dracolich (Necropolis) |
 | 228 | **Build Twice a Day** | Towns can construct 2 buildings per day via game settings override in mod.json |
 | 229 | **AI Stack Experience Level** | Stack experience enabled via wake-of-gods.stackExperience dependency (modules.stackExperience = true) |
@@ -149,8 +149,8 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 |--------|---------|-------------|
 | ~~133~~ | ~~**Upgraded Dwellings**~~ | Done — NewStructures netpack adds upgraded dwellings to starting towns on day 1 |
 | ~~135~~ | ~~**Wandering Monsters**~~ | Done — ChangeObjPos: monsters move 1-2 tiles/week; moved to ✅ |
-| 170 | **Mithril in Resource Stacks** | 1 in 15 piles contains Mithril |
-| 171 | **Mithril in Windmills/Gardens** | 1 in 10 windmills have Mithril |
+| ~~170~~ | ~~**Mithril in Resource Stacks**~~ | Done — wog_mithril_accumulation.lua marks 1 in 15 piles on day 1; visiting gives bonus Mithril |
+| ~~171~~ | ~~**Mithril in Windmills/Gardens**~~ | Done — wog_mithril_accumulation.lua marks 1 in 10 windmills/water wheels weekly; visiting gives bonus Mithril |
 | ~~134~~ | ~~**Resource Piles**~~ | Done — vanilla VCMI already implements H3 resource piles correctly |
 | ~~174~~ | ~~**Universal Upgrading**~~ | Done — hellSteed/Nightmare (Inferno alt) + Dracolich (Necropolis alt) added via creature patch |
 | ~~199~~ | ~~**Rebalanced Starting Armies**~~ | Done — moved to ✅ |
@@ -230,6 +230,34 @@ Decoded from WoGSetupEx04222024.dat. All options you have enabled, organized by 
 | 182 | Cards of Prophecy Script (sub-option of 34) |
 | 239 | Unknown sub-option |
 | 902 | Artifacts may be left by right-clicking (hard-coded WOG feature) |
+
+---
+
+---
+
+## 🔍 ERM Source Audit — New Gaps Found (March 2026)
+
+Cross-referenced all ERM scripts with user screenshots (March 17). From reading the actual .erm files:
+
+| Script | Option | Feature | ERM Description | Status |
+|--------|--------|---------|-----------------|--------|
+| script19 | 19 | **Masters of Life** | Daily: upgrades peasants + tier-1 creatures in hero armies to their upgraded form. Skips Necromancers. Uses HE:C (ChangeCreatureType). | 🔴 Todo — implementable with SetStackType FCMI API |
+| script27 | 27 | **Spellbook (Enhanced)** | Spellbooks picked up from map come pre-loaded with spells. Level/quantity depends on hero's Wisdom + Luck. ERM: OB5/0 trigger (artifact pickup). | 🔴 Todo — needs ObjectVisitStarted + giveSpell API |
+| script31 | 31 | **Treasure Chest 2** | Special 5th chest type: gold+scroll, Tomes of Knowledge, or deed to an unowned mine. Tomes raise a skill to Expert after 1 week. | ⚫ Map object — requires the specific chest type placed by map maker |
+| script33 | 33 | **Living Scrolls** | Equipped spell scrolls have 20% chance each combat round to auto-cast their spell (Basic level). Excludes adventure/elemental/clone/armageddon spells. | 🏗️ Hard — requires BattleRoundStarted event + spell casting API |
+| script25 opt17 | — | **Extension Heroes (9th-10th Skills)** | Heroes can gain more than 8 secondary skills (9 or 10 slots). Needs game setting override. | 🏗️ Hard — requires engine investigation (hero.maxSkills setting?) |
+| script02 | 02 | **Artifact Boost** | Once/week timer: specific "weak" artifacts gain special per-hero effects (e.g., Bird of Perception gives 6 Royal Griffins). Complex per-artifact logic. | 🔴 Todo — implementable but extensive (14+ artifact cases) |
+
+### Confirmed "Mines change resources once per week" = script20 resource weeks ✅
+Already implemented in wog_week_of_monsters.lua (10% weekly chance of resource week → double mine output for that resource).
+
+### Confirmed User-Disabled Options (removed from implementation)
+| Option | Feature | Action Taken |
+|--------|---------|-------------|
+| 220 | Battle Extender | Removed from mod.json scripts |
+| 210 | Resistance I/II Enhancement | Removed core:resistance from enhanced_skills.json |
+| 212 | Scouting I/II Enhancement | Removed core:scouting from enhanced_skills.json |
+| 176 | Magic Wand | Removed wake-of-gods.level8Units dependency |
 
 ---
 
