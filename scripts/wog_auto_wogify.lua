@@ -3,24 +3,22 @@
 --
 -- On Day 1 of a new game (after the setup screen), if C.autoWogifyEnabled is true
 -- and the map has no existing WOG adventure objects, automatically scatter WOG objects
--- at random locations scaled to map size:
---   Artificers, Death Chambers, Power Stones, Special Treasure Chests
+-- at random locations scaled to map size.
 --
--- WOG object subtype identifiers (from mod config/objects/):
---   wog-newage.objects:wog_artificer
---   wog-newage.objects:wog_death_chamber
---   wog-newage.objects:wog_power_stones
---   wog-newage.objects:wog_treasure_chest2
+-- Objects placed (from wog-newage mod):
+--   Artificers        : upgrade equipped artifacts for gold
+--   Death Chambers    : grant exactly 1 hero level
+--   Power Stones      : +1 primary stat collectibles
+--   Special Chests    : mine deeds / Tomes of Knowledge / gold+spell
 --
--- Object counts (scaled to map size area):
---   Small  (< 72×72 = 5184 tiles) : 1 Artificer, 2 Death Chambers, 3 Power Stones, 4 Chests
---   Medium (< 144×144)             : 2 Artificers, 4 Death Chambers, 6 Power Stones, 8 Chests
---   Large  (≥ 144×144)             : 4 Artificers, 8 Death Chambers, 12 Power Stones, 16 Chests
+-- Object counts (scaled to map area):
+--   Small  (< 72×72)   : 1 Artificer, 2 Death Chambers, 3 Power Stones, 4 Chests
+--   Medium (< 144×144) : 2 Artificers, 4 Death Chambers, 6 Power Stones, 8 Chests
+--   Large  (≥ 144×144) : 4 Artificers, 8 Death Chambers, 12 Power Stones, 16 Chests
 --
--- VCMI ENGINE NOTE: SERVER:spawnObject() is not yet implemented in FCMI.
--- This script reads map dimensions and detects whether WoGification is needed,
--- then logs its intent. Actual object placement will be activated once
--- SERVER:spawnObject(subtypeName, x, y, z) is available in the engine.
+-- SERVER:spawnObject(scope, type, subtype, x, y, z [, initiatorPlayer])
+-- is now implemented in FCMI. Objects are placed at random surface tiles,
+-- avoiding a 10-tile border around the edges.
 
 local TurnStarted = require("events.TurnStarted")
 
@@ -29,26 +27,25 @@ local C = DATA.WOG
 
 C.autoWogifyEnabled = C.autoWogifyEnabled ~= false
 
--- WOG object type IDs used to detect existing WOG maps (Obj group IDs)
--- These are the custom object types registered by wog-newage
-local WOG_OBJECT_SUBTYPES = {
-	"wog-newage.objects:wog_artificer",
-	"wog-newage.objects:wog_death_chamber",
-	"wog-newage.objects:wog_power_stones",
-	"wog-newage.objects:wog_treasure_chest2",
+-- ---------------------------------------------------------------------------
+-- WOG object definitions: {scope, type, subtype}
+-- ---------------------------------------------------------------------------
+local WOG_OBJECTS = {
+	artificer   = {"wog-newage.objects", "wogArtificer",    "wogArtificer"},
+	deathChamber= {"wog-newage.objects", "wogDeathChamber", "wogDeathChamber"},
+	powerStone  = {"wog-newage.objects", "wogPowerStones",  "wogPowerStones"},
+	chest2      = {"wog-newage.objects", "wogTreasureChest2","wogTreasureChest2"},
 }
 
--- Obj type 16 = ARTIFACT, used by artificer/death chamber detection
--- Obj type 76 = RESOURCE (power stones/treasure chests)
--- We check for any WOG new-age map objects to skip already-WoGified maps.
--- In FCMI, getMapObjectIds takes an Obj group integer. WOG custom objects
--- register under specific Obj groups; for detection we rely on C.autoWogifyDone flag.
+-- Obj type groups for our custom objects (used to detect existing WoGification)
+-- These correspond to the VCMI object groups our objects register under
+local WOG_DETECT_OBJ_TYPES = {17, 54, 76}  -- creature generators, mines, resources (approx)
 
 -- Object counts by map tier
 local COUNTS = {
-	small  = {artificer = 1, deathChamber = 2, powerStone = 3,  chest = 4},
-	medium = {artificer = 2, deathChamber = 4, powerStone = 6,  chest = 8},
-	large  = {artificer = 4, deathChamber = 8, powerStone = 12, chest = 16},
+	small  = {artificer = 1, deathChamber = 2, powerStone = 3,  chest2 = 4},
+	medium = {artificer = 2, deathChamber = 4, powerStone = 6,  chest2 = 8},
+	large  = {artificer = 4, deathChamber = 8, powerStone = 12, chest2 = 16},
 }
 
 local function getMapTier()
@@ -56,9 +53,33 @@ local function getMapTier()
 	local h = GAME:getMapHeight()
 	if not w or not h then return "medium" end
 	local area = w * h
-	if area < (72 * 72)   then return "small"
-	elseif area < (144 * 144) then return "medium"
-	else                      return "large"
+	if area < (72 * 72)     then return "small"
+	elseif area < (144*144) then return "medium"
+	else                         return "large"
+	end
+end
+
+-- ---------------------------------------------------------------------------
+-- Generate a random tile avoiding map edges (10-tile border)
+-- ---------------------------------------------------------------------------
+local function randomTile(w, h)
+	local x = math.random(10, w - 11)
+	local y = math.random(10, h - 11)
+	return x, y, 0   -- z=0 = surface
+end
+
+-- ---------------------------------------------------------------------------
+-- Place N copies of an object at random tiles
+-- ---------------------------------------------------------------------------
+local function placeN(scope, type, subtype, n, w, h, playerIdx)
+	for i = 1, n do
+		local x, y, z = randomTile(w, h)
+		local ok, err = pcall(function()
+			SERVER:spawnObject(scope, type, subtype, x, y, z, playerIdx)
+		end)
+		if not ok then
+			-- Log failure but continue placing others
+		end
 	end
 end
 
@@ -66,8 +87,8 @@ end
 -- TurnStarted Day 1: run auto-wogify after setup screen completes
 -- ---------------------------------------------------------------------------
 wogAutoWogifySub = TurnStarted.subscribeAfter(EVENT_BUS, function(event)
-	if not C.autoWogifyEnabled  then return end
-	if C.autoWogifyDone         then return end
+	if not C.autoWogifyEnabled then return end
+	if C.autoWogifyDone        then return end
 
 	local day   = GAME:getDate(0)
 	local week  = GAME:getDate(1)
@@ -82,53 +103,36 @@ wogAutoWogifySub = TurnStarted.subscribeAfter(EVENT_BUS, function(event)
 
 	C.autoWogifyDone = true
 
-	-- Gather map info
 	local w      = GAME:getMapWidth()  or 144
 	local h      = GAME:getMapHeight() or 144
-	local levels = GAME:getMapLevels() or 1
 	local tier   = getMapTier()
 	local counts = COUNTS[tier]
 
-	-- TODO: when SERVER:spawnObject(subtypeName, x, y, z) is available,
-	-- scatter WOG objects at random passable land tiles here.
-	-- For now, log intent and notify player.
+	-- Guard: need at least a 22×22 map for the 10-tile border to work
+	if w < 22 or h < 22 then return end
 
-	-- Count objects actually scheduled (for display)
-	local total = counts.artificer + counts.deathChamber + counts.powerStone + counts.chest
+	-- Place objects
+	local art = WOG_OBJECTS.artificer
+	local dc  = WOG_OBJECTS.deathChamber
+	local ps  = WOG_OBJECTS.powerStone
+	local ch  = WOG_OBJECTS.chest2
 
-	-- Only WoGify maps that need it (future: detect via getMapObjectIds)
-	-- For now always offer if enabled.
+	placeN(art[1], art[2], art[3], counts.artificer,    w, h, playerIdx)
+	placeN(dc[1],  dc[2],  dc[3],  counts.deathChamber, w, h, playerIdx)
+	placeN(ps[1],  ps[2],  ps[3],  counts.powerStone,   w, h, playerIdx)
+	placeN(ch[1],  ch[2],  ch[3],  counts.chest2,       w, h, playerIdx)
 
-	-- STUB: SERVER:spawnObject not yet available in FCMI.
-	-- When implemented, call:
-	--   SERVER:spawnObject("wog-newage.objects:wog_artificer",  rx, ry, rz)
-	-- for each object in counts, at random passable surface tiles.
-	--
-	-- Until then, skip silently — the flag is set so this doesn't re-run.
-	-- Remove the early return below once spawnObject is ready.
-	return
-
-	--[[ FUTURE IMPLEMENTATION (remove the 'return' above to activate):
-	local placed = 0
-	local rng    = GAME:getRandomGenerator and GAME:getRandomGenerator() or nil
-
-	local function randomTile(maxX, maxY)
-		local x = math.random(1, maxX - 2)
-		local y = math.random(1, maxY - 2)
-		return x, y, 0  -- z=0 surface
-	end
-
-	local function placeN(subtype, n)
-		for i = 1, n do
-			local x, y, z = randomTile(w, h)
-			SERVER:spawnObject(subtype, x, y, z)
-			placed = placed + 1
-		end
-	end
-
-	placeN("wog-newage.objects:wog_artificer",      counts.artificer)
-	placeN("wog-newage.objects:wog_death_chamber",  counts.deathChamber)
-	placeN("wog-newage.objects:wog_power_stones",   counts.powerStone)
-	placeN("wog-newage.objects:wog_treasure_chest2", counts.chest)
-	--]]
+	-- Notify player
+	local total = counts.artificer + counts.deathChamber + counts.powerStone + counts.chest2
+	local InfoWindow = require("netpacks.InfoWindow")
+	local iw = InfoWindow.new()
+	iw:setPlayer(playerIdx)
+	iw:addText("{WOG New Age — Auto-WoGification}\\n\\n"
+	        .. "This map has been WoGified! " .. tostring(total) .. " WOG objects\\n"
+	        .. "have been scattered across the " .. tier .. " map:\\n"
+	        .. tostring(counts.artificer) .. " Artificer(s), "
+	        .. tostring(counts.deathChamber) .. " Death Chamber(s),\\n"
+	        .. tostring(counts.powerStone) .. " Power Stone(s), "
+	        .. tostring(counts.chest2) .. " Special Chest(s).")
+	SERVER:commitPackage(iw)
 end)

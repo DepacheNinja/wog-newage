@@ -4,7 +4,7 @@
 	"modType": "Expansion",
 	"author": "Depache",
 	"contact": "",
-	"version": "1.1.1",
+	"version": "1.1.2",
 	"compatibility": {
 		"min": "1.7.0"
 	},
@@ -227,6 +227,10 @@
 		},
 		"wogAutoWogify": {
 			"source": "wog_auto_wogify.lua",
+			"implements": "ANYTHING"
+		},
+		"wogObeliskRunes": {
+			"source": "wog_obelisk_runes.lua",
 			"implements": "ANYTHING"
 		}
 	},
